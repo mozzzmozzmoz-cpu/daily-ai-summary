@@ -1,12 +1,12 @@
 import feedparser
+import json
+import os
 from datetime import datetime, timezone, timedelta
 from urllib.parse import quote
 
 def _gnews(query: str) -> str:
-    """Google News RSS — キーワード検索"""
     return f"https://news.google.com/rss/search?q={quote(query)}&hl=en&gl=US&ceid=US:en"
 
-# ── カテゴリ別フィード ──────────────────────────────
 FEED_GROUPS = {
     "🔴 3大AI": [
         "https://openai.com/news/rss.xml",
@@ -53,14 +53,28 @@ FEED_GROUPS = {
     ],
 }
 
+SEEN_CACHE = "docs/seen_urls.json"
+
+def load_seen_urls() -> set:
+    if os.path.exists(SEEN_CACHE):
+        with open(SEEN_CACHE) as f:
+            return set(json.load(f))
+    return set()
+
+def save_seen_urls(urls: set):
+    # 直近500件だけ保持
+    url_list = list(urls)[-500:]
+    os.makedirs("docs", exist_ok=True)
+    with open(SEEN_CACHE, "w") as f:
+        json.dump(url_list, f)
+
 def fetch_recent(max_per_group: int = 6) -> list[dict]:
     articles = []
-    seen_urls = set()
+    seen_urls = load_seen_urls()
     cutoff = datetime.now(timezone.utc) - timedelta(hours=30)
 
     for group, feeds in FEED_GROUPS.items():
         group_hits = []
-
         for url in feeds:
             try:
                 feed = feedparser.parse(url)
@@ -83,10 +97,9 @@ def fetch_recent(max_per_group: int = 6) -> list[dict]:
                     })
             except Exception as e:
                 print(f"  ⚠ Feed error ({url}): {e}")
-
-        # カテゴリごとに最大 max_per_group 件を確保
         taken = group_hits[:max_per_group]
         articles.extend(taken)
         print(f"{group}: {len(taken)} 件")
 
+    save_seen_urls(seen_urls)
     return articles[:30]
