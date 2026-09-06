@@ -29,6 +29,6 @@ jobs:
         run: |
           git config user.name "AI Digest Bot"
           git config user.email "bot@users.noreply.github.com"
-          git add docs/index.html
+          git add docs/          # ← docs/index.html から docs/ 全体に変更
           git diff --cached --quiet || git commit -m "digest: $(date '+%Y-%m-%d')"
           git push
