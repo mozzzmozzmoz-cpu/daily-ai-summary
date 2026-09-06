@@ -68,10 +68,11 @@ def save_seen_urls(urls: set):
     with open(SEEN_CACHE, "w") as f:
         json.dump(url_list, f)
 
-def fetch_recent(max_per_group: int = 6) -> list[dict]:
-    articles = []
-    seen_urls = load_seen_urls()
+def fetch_recent(max_per_group: int = 3) -> list[dict]:
+    published_seen = load_seen_urls()   # 過去に掲載済みのURL
+    run_seen = set(published_seen)      # 今回実行内の重複除去用
     cutoff = datetime.now(timezone.utc) - timedelta(hours=30)
+    articles = []
 
     for group, feeds in FEED_GROUPS.items():
         group_hits = []
@@ -80,20 +81,21 @@ def fetch_recent(max_per_group: int = 6) -> list[dict]:
                 feed = feedparser.parse(url)
                 for entry in feed.entries[:4]:
                     link = entry.get("link", "")
-                    if not link or link in seen_urls:
+                    if not link or link in run_seen:
                         continue
                     parsed = entry.get("published_parsed")
                     if parsed:
                         dt = datetime(*parsed[:6], tzinfo=timezone.utc)
                         if dt < cutoff:
                             continue
-                    seen_urls.add(link)
+                    run_seen.add(link)
                     group_hits.append({
                         "title":    entry.get("title", ""),
                         "url":      link,
                         "source":   feed.feed.get("title", url),
                         "body":     entry.get("summary", "")[:500],
                         "category": group,
+                        "image":    _extract_image(entry),
                     })
             except Exception as e:
                 print(f"  ⚠ Feed error ({url}): {e}")
@@ -101,5 +103,7 @@ def fetch_recent(max_per_group: int = 6) -> list[dict]:
         articles.extend(taken)
         print(f"{group}: {len(taken)} 件")
 
-    save_seen_urls(seen_urls)
-    return articles[:30]
+    result = articles[:20]
+    # 掲載したURLだけを記録（未掲載分は次回も候補になれる）
+    save_seen_urls(published_seen | {a["url"] for a in result})
+    return result
