@@ -1,8 +1,11 @@
 import os
 import re
+import time
 from google import genai
+from google.genai import errors
 
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+
 
 PROMPT = """
 あなたはAIテクノロジーの専門ジャーナリストです。
@@ -36,11 +39,19 @@ def summarize(articles: list[dict]) -> str:
         f"URL: {a['url']}\nSource: {a['source']}\n{a['body']}"
         for i, a in enumerate(articles)
     )
-    response = client.models.generate_content(
-        model="gemini-3.6-flash",
-        contents=PROMPT.format(articles=text),
-    )
-    html = response.text
-    # Gemini が <details open> を出力することがあるので除去
-    html = re.sub(r'<details\s+open[^>]*>', '<details>', html)
-    return html
+    for attempt in range(3):
+        try:
+            response = client.models.generate_content(
+                model="gemini-3.6-flash",
+                contents=PROMPT.format(articles=text),
+            )
+            html = response.text
+            html = re.sub(r'<details\s+open[^>]*>', '<details>', html)
+            return html
+        except errors.ServerError as e:
+            if attempt < 2:
+                wait = 30 * (attempt + 1)
+                print(f"  ⚠ Gemini 503, {wait}秒後にリトライ ({attempt+1}/3)...")
+                time.sleep(wait)
+            else:
+                raise
