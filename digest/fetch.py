@@ -53,7 +53,7 @@ FEED_GROUPS = {
     ],
 }
 
-def fetch_recent(max_per_group: int = 3) -> list[dict]:
+def fetch_recent(max_per_group: int = 6) -> list[dict]:
     articles = []
     seen_urls = set()
     cutoff = datetime.now(timezone.utc) - timedelta(hours=30)
