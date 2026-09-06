@@ -1,0 +1,34 @@
+name: AI Daily Digest
+
+on:
+  schedule:
+    - cron: '0 22 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write          # ← 追加（git push に必要）
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - run: pip install -r requirements.txt
+
+      - name: Generate digest
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}   # ← Gemini に変更・Slack削除
+        run: python main.py
+
+      - name: Commit & push
+        run: |
+          git config user.name "AI Digest Bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add docs/index.html
+          git diff --cached --quiet || git commit -m "digest: $(date '+%Y-%m-%d')"
+          git push
