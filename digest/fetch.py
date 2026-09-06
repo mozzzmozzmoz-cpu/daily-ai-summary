@@ -89,4 +89,4 @@ def fetch_recent(max_per_group: int = 3) -> list[dict]:
         articles.extend(taken)
         print(f"{group}: {len(taken)} 件")
 
-    return articles[:15]
+    return articles[:30]
