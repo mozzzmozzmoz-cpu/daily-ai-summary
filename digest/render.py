@@ -3,41 +3,26 @@ from datetime import datetime, timezone, timedelta
 
 JST = timezone(timedelta(hours=9))
 
-HTML = """<!DOCTYPE html>
+DAILY_HTML = """<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AI Digest — {date}</title>
   <style>
-    body {{
-      font-family: 'Noto Sans JP', sans-serif;
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 20px;
-      background: #F4F7FF;
-      color: #0B1120;
-    }}
-    details {{
-      background: #fff;
-      border: 1px solid #D8E0F3;
-      border-radius: 8px;
-      padding: 14px 16px;
-      margin-bottom: 10px;
-    }}
+    body {{ font-family: sans-serif; max-width: 720px; margin: 0 auto;
+            padding: 20px; background: #F4F7FF; color: #0B1120; }}
+    details {{ background: #fff; border: 1px solid #D8E0F3; border-radius: 8px;
+               padding: 14px 16px; margin-bottom: 10px; }}
     details[open] {{ border-color: #2457D9; }}
-    summary {{
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 15px;
-      list-style: none;
-    }}
+    summary {{ font-weight: 700; cursor: pointer; list-style: none; font-size: 15px; }}
     summary::-webkit-details-marker {{ display: none; }}
     ul {{ padding-left: 20px; margin-top: 10px; }}
     li {{ margin-bottom: 6px; line-height: 1.65; font-size: 14px; }}
     a {{ color: #2457D9; }}
-    h1 {{ font-size: 22px; margin-bottom: 4px; }}
-    .meta {{ color: #667299; font-size: 13px; margin-bottom: 24px; }}
+    .back {{ display: inline-block; margin-bottom: 20px; font-size: 13px;
+             color: #2457D9; text-decoration: none; }}
+    .back:hover {{ text-decoration: underline; }}
     @media (prefers-color-scheme: dark) {{
       body {{ background: #070C1A; color: #E2EAFF; }}
       details {{ background: #0F1828; border-color: #1B2B48; }}
@@ -47,16 +32,70 @@ HTML = """<!DOCTYPE html>
   </style>
 </head>
 <body>
-  <h1>🤖 AI Digest</h1>
-  <p class="meta">{date} JST</p>
+  <a class="back" href="index.html">← 一覧へ戻る</a>
+  <h2>🤖 AI Digest — {date}</h2>
   {body}
-  <p style="font-size:12px;color:#999;margin-top:32px">
-    自動生成 by Gemini + GitHub Actions
-  </p>
+  <p style="font-size:12px;color:#999;margin-top:32px">自動生成 by Gemini + GitHub Actions</p>
 </body>
 </html>"""
 
-def save_html(body: str, path: str = "docs/index.html") -> None:
-    date = datetime.now(JST).strftime("%Y-%m-%d %H:%M")
-    Path(path).parent.mkdir(exist_ok=True)
-    Path(path).write_text(HTML.format(date=date, body=body), encoding="utf-8")
+INDEX_HTML = """<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Digest — アーカイブ</title>
+  <style>
+    body {{ font-family: sans-serif; max-width: 480px; margin: 0 auto;
+            padding: 24px 20px; background: #F4F7FF; color: #0B1120; }}
+    h2 {{ font-size: 20px; margin-bottom: 4px; }}
+    .sub {{ color: #667299; font-size: 13px; margin-bottom: 24px; }}
+    .list {{ list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }}
+    .list li a {{
+      display: flex; align-items: center; justify-content: space-between;
+      background: #fff; border: 1px solid #D8E0F3; border-radius: 8px;
+      padding: 12px 16px; text-decoration: none; color: #0B1120;
+      font-weight: 600; font-size: 15px; transition: border-color .15s;
+    }}
+    .list li a:hover {{ border-color: #2457D9; color: #2457D9; }}
+    .list li a span {{ font-size: 18px; }}
+    @media (prefers-color-scheme: dark) {{
+      body {{ background: #070C1A; color: #E2EAFF; }}
+      .list li a {{ background: #0F1828; border-color: #1B2B48; color: #E2EAFF; }}
+      .list li a:hover {{ border-color: #4D84FF; color: #4D84FF; }}
+    }}
+  </style>
+</head>
+<body>
+  <h2>🤖 AI Digest</h2>
+  <p class="sub">毎朝自動更新 — 全 {count} 件</p>
+  <ul class="list">
+    {items}
+  </ul>
+</body>
+</html>"""
+
+def save_html(body: str) -> None:
+    Path("docs").mkdir(exist_ok=True)
+    date_str = datetime.now(JST).strftime("%Y-%m-%d")
+
+    # 1. 今日分のHTMLを保存
+    daily_path = Path(f"docs/{date_str}.html")
+    daily_path.write_text(
+        DAILY_HTML.format(date=date_str, body=body),
+        encoding="utf-8"
+    )
+    print(f"保存: {daily_path}")
+
+    # 2. docs/ 内の日付ファイルを全スキャンしてindex再生成
+    dated_files = sorted(Path("docs").glob("????-??-??.html"), reverse=True)
+    items = "\n    ".join(
+        f'<li><a href="{f.name}">{f.stem} <span>→</span></a></li>'
+        for f in dated_files
+    )
+    index_path = Path("docs/index.html")
+    index_path.write_text(
+        INDEX_HTML.format(count=len(dated_files), items=items),
+        encoding="utf-8"
+    )
+    print(f"インデックス更新: {len(dated_files)} 件")
