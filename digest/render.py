@@ -1,101 +1,348 @@
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
-
+import re
+ 
 JST = timezone(timedelta(hours=9))
-
-DAILY_HTML = """<!DOCTYPE html>
+ 
+# ── Category config ─────────────────────────────────────────────────────────
+_CATS = [
+    ("🔴", "3dai",  "🔴 3大AI"),
+    ("🎨", "image", "🎨 画像・動画生成"),
+    ("💼", "biz",   "💼 実務・副業・トレンド"),
+    ("🇯🇵", "japan", "🇯🇵 日本のAI"),
+    ("🧠", "llm",   "🧠 LLM・モデル技術"),
+    ("📰", "news",  "📰 一般AIニュース"),
+]
+ 
+def _detect_cat(text: str) -> tuple[str, str]:
+    for emoji, cat_id, label in _CATS:
+        if emoji in text:
+            return cat_id, label
+    return "news", "📰 一般AIニュース"
+ 
+def _clean_title(text: str, label: str) -> str:
+    text = text.strip()
+    if text.startswith(label):
+        return text[len(label):].strip()
+    parts = text.split(" ", 2)
+    return parts[2] if len(parts) >= 3 else text
+ 
+def _split_details(html: str) -> list[str]:
+    return re.findall(r"<details[\s\S]*?</details>", html, re.IGNORECASE)
+ 
+def _parse_block(block: str) -> dict:
+    sm = re.search(r"<summary>([\s\S]*?)</summary>", block, re.IGNORECASE)
+    bm = re.search(r"</summary>([\s\S]*?)</details>",  block, re.IGNORECASE)
+    summary_html = sm.group(1) if sm else ""
+    body_html    = bm.group(1).strip() if bm else block
+    full_title   = re.sub(r"<[^>]+>", "", summary_html).strip()
+    cat_id, cat_label = _detect_cat(full_title)
+    return {
+        "cat_id":    cat_id,
+        "cat_label": cat_label,
+        "title":     _clean_title(full_title, cat_label),
+        "body_html": body_html,
+    }
+ 
+# 0=large(2×2), 3=wide(2×1), 5=wide(2×1), others=small
+_SIZE_MAP = {0: "large", 3: "wide", 5: "wide"}
+ 
+def _build_card(parsed: dict, idx: int, image_url: str = "") -> str:
+    size = _SIZE_MAP.get(idx, "small")
+    img  = (f'<img class="card-real-img" src="{image_url}" alt="" loading="lazy">'
+            if image_url else "")
+    return (
+        f'<article class="card" data-cat="{parsed["cat_id"]}" data-size="{size}">\n'
+        f'  <details>\n'
+        f'    <summary>\n'
+        f'      <div class="card-img">{img}</div>\n'
+        f'      <div class="card-body">\n'
+        f'        <div class="cat-tag">{parsed["cat_label"]}</div>\n'
+        f'        <div class="card-title">{parsed["title"]}</div>\n'
+        f'        <div class="expand-hint">詳細 <span class="chev">›</span></div>\n'
+        f'      </div>\n'
+        f'    </summary>\n'
+        f'    <div class="expand-body">\n'
+        f'      {parsed["body_html"]}\n'
+        f'    </div>\n'
+        f'  </details>\n'
+        f'</article>'
+    )
+ 
+# ── HTML template ────────────────────────────────────────────────────────────
+_CSS = """
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg:#0c0c0c; --sur:#141414; --rule:#232323;
+  --txt:#f0f0f0; --txt2:#888; --txt3:#444;
+  --lime:#ccff00; --lime2:#1a2200;
+  --c-3dai:#ff4444; --c-image:#bf5af2; --c-biz:#ff9f0a;
+  --c-japan:#0a84ff; --c-llm:#30d158; --c-news:#636366;
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme=dark]){
+    --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+    --txt:#111; --txt2:#666; --txt3:#aaa;
+    --lime:#5c7a00; --lime2:#edf5c0;
+  }
+}
+:root[data-theme=light]{
+  --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+  --txt:#111; --txt2:#666; --txt3:#aaa;
+  --lime:#5c7a00; --lime2:#edf5c0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+a{color:var(--lime);text-decoration:none}
+a:hover{text-decoration:underline}
+ 
+/* header */
+header{background:var(--bg);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:100}
+.hdr-top{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:12px 20px;max-width:1200px;margin:0 auto}
+.wordmark{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;letter-spacing:-.01em;text-transform:uppercase;color:var(--txt)}
+.wordmark span{color:var(--lime)}
+.hdr-meta{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase}
+.theme-btn{background:transparent;border:1px solid var(--rule);color:var(--txt2);border-radius:4px;padding:5px 10px;font-size:.72rem;cursor:pointer}
+.theme-btn:hover{border-color:var(--txt2)}
+.filter-row{border-top:1px solid var(--rule);overflow-x:auto;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-inner{display:flex;max-width:1200px;margin:0 auto;padding:0 20px}
+.ftab{flex-shrink:0;padding:9px 14px;font-size:.75rem;font-weight:500;color:var(--txt2);border-bottom:2px solid transparent;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;user-select:none}
+.ftab:hover{color:var(--txt)}
+.ftab.active{color:var(--txt);border-bottom-color:var(--lime)}
+ 
+/* page */
+.page{max-width:1200px;margin:0 auto;padding:0 20px 60px}
+.dateline{padding:28px 0 20px;display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--rule)}
+.dl-main{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.6rem;text-transform:uppercase;letter-spacing:-.01em;line-height:1;color:var(--txt)}
+.dl-sub{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase}
+.back-lnk{margin-left:auto;font-size:.78rem;color:var(--txt2);display:flex;align-items:center;gap:5px;flex-shrink:0}
+.back-lnk:hover{color:var(--lime);text-decoration:none}
+ 
+/* grid */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-top:1px}
+.card{background:var(--bg);transition:background .15s}
+.card:hover{background:var(--sur)}
+.card.filtered{display:none}
+ 
+/* magazine sizing */
+.card[data-size=large]{grid-column:span 2;grid-row:span 2}
+.card[data-size=large] .card-img{aspect-ratio:4/3}
+.card[data-size=wide]{grid-column:span 2}
+.card[data-size=wide] .card-img{aspect-ratio:21/9}
+.card[data-size=small] .card-img{aspect-ratio:16/9}
+ 
+/* details / summary */
+details{height:100%;display:flex;flex-direction:column}
+details summary{list-style:none;cursor:pointer;height:100%;display:flex;flex-direction:column}
+details summary::-webkit-details-marker{display:none}
+ 
+/* card image */
+.card-img{width:100%;overflow:hidden;flex-shrink:0;position:relative}
+.card-real-img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+ 
+/* category gradients (fallback when no real image) */
+.card[data-cat=3dai]  .card-img{background:radial-gradient(ellipse 80% 80% at 30% 40%,#3d0a0a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 60% at 72% 65%,#6b1212 0%,transparent 50%)}
+.card[data-cat=image] .card-img{background:radial-gradient(ellipse 90% 70% at 20% 30%,#2d0d4f 0%,#0c0c0c 55%),radial-gradient(ellipse 50% 80% at 78% 60%,#4a1272 0%,transparent 50%)}
+.card[data-cat=biz]   .card-img{background:radial-gradient(ellipse 80% 80% at 40% 40%,#3d2200 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 50% at 75% 65%,#6b3d00 0%,transparent 50%)}
+.card[data-cat=japan] .card-img{background:radial-gradient(ellipse 80% 70% at 30% 35%,#001a3d 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 70%,#003b7a 0%,transparent 45%)}
+.card[data-cat=llm]   .card-img{background:radial-gradient(ellipse 80% 80% at 25% 35%,#062610 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 65%,#0d4820 0%,transparent 50%)}
+.card[data-cat=news]  .card-img{background:radial-gradient(ellipse 80% 70% at 35% 40%,#1a1a1a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 50% at 70% 65%,#2e2e2e 0%,transparent 50%)}
+.card-img::after{content:'';position:absolute;width:40%;height:40%;top:20%;left:15%;border-radius:50%;filter:blur(28px);opacity:.5}
+.card[data-cat=3dai]  .card-img::after{background:#ff4444}
+.card[data-cat=image] .card-img::after{background:#bf5af2}
+.card[data-cat=biz]   .card-img::after{background:#ff9f0a}
+.card[data-cat=japan] .card-img::after{background:#0a84ff}
+.card[data-cat=llm]   .card-img::after{background:#30d158}
+.card[data-cat=news]  .card-img::after{background:#888}
+ 
+/* light mode gradients */
+:root[data-theme=light] .card[data-cat=3dai]  .card-img,
+:root[data-theme=light] .card[data-cat=image] .card-img,
+:root[data-theme=light] .card[data-cat=biz]   .card-img,
+:root[data-theme=light] .card[data-cat=japan] .card-img,
+:root[data-theme=light] .card[data-cat=llm]   .card-img,
+:root[data-theme=light] .card[data-cat=news]  .card-img{filter:brightness(2.5) saturate(.5)}
+ 
+/* card body (text section) */
+.card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:6px}
+.card[data-size=large] .card-body{padding:18px 20px 20px}
+.cat-tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.card[data-cat=3dai]  .cat-tag{color:var(--c-3dai)}
+.card[data-cat=image] .cat-tag{color:var(--c-image)}
+.card[data-cat=biz]   .cat-tag{color:var(--c-biz)}
+.card[data-cat=japan] .cat-tag{color:var(--c-japan)}
+.card[data-cat=llm]   .cat-tag{color:var(--c-llm)}
+.card[data-cat=news]  .cat-tag{color:var(--c-news)}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.15rem;line-height:1.2;color:var(--txt);text-wrap:balance}
+.card[data-size=large] .card-title{font-size:1.9rem;line-height:1.1}
+.card[data-size=wide]  .card-title{font-size:1.4rem}
+.card:hover .card-title{color:var(--lime)}
+.expand-hint{margin-top:auto;font-size:.72rem;color:var(--txt3);display:flex;align-items:center;gap:3px}
+.chev{transition:transform .2s;display:inline-block}
+details[open] .chev{transform:rotate(90deg)}
+ 
+/* expanded body */
+.expand-body{border-top:1px solid var(--rule);padding:18px 16px 20px;background:var(--sur)}
+.card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{padding:20px 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.expand-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.expand-body li{display:flex;gap:8px;font-size:.85rem;line-height:1.55;color:var(--txt)}
+.expand-body li::before{content:counter(li);counter-increment:li;font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:500;color:var(--lime);flex-shrink:0;margin-top:2px;min-width:14px}
+.expand-body ul{counter-reset:li}
+.expand-body p{font-size:.85rem;line-height:1.65;color:var(--txt2);margin-bottom:12px}
+.expand-body a{color:var(--lime);font-weight:500;font-size:.82rem}
+.expand-body a:hover{text-decoration:underline}
+ 
+/* footer */
+.page-foot{font-size:.72rem;color:var(--txt3);margin-top:32px;text-align:center;font-family:'IBM Plex Mono',monospace}
+ 
+/* responsive */
+@media(max-width:900px){
+  .news-grid{grid-template-columns:repeat(2,1fr)}
+  .card[data-size=large]{grid-column:span 2}
+  .card[data-size=wide]{grid-column:span 2}
+  .card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .news-grid{grid-template-columns:1fr}
+  .card[data-size=large],.card[data-size=wide]{grid-column:span 1;grid-row:span 1}
+  .dl-main{font-size:1.8rem}
+}
+</style>"""
+ 
+_DAILY_TMPL = """\
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AI Digest — {date}</title>
-  <style>
-    body {{ font-family: sans-serif; max-width: 720px; margin: 0 auto;
-            padding: 20px; background: #F4F7FF; color: #0B1120; }}
-    details {{ background: #fff; border: 1px solid #D8E0F3; border-radius: 8px;
-               padding: 14px 16px; margin-bottom: 10px; }}
-    details[open] {{ border-color: #2457D9; }}
-    summary {{ font-weight: 700; cursor: pointer; list-style: none; font-size: 15px; }}
-    summary::-webkit-details-marker {{ display: none; }}
-    ul {{ padding-left: 20px; margin-top: 10px; }}
-    li {{ margin-bottom: 6px; line-height: 1.65; font-size: 14px; }}
-    a {{ color: #2457D9; }}
-    .back {{ display: inline-block; margin-bottom: 20px; font-size: 13px;
-             color: #2457D9; text-decoration: none; }}
-    .back:hover {{ text-decoration: underline; }}
-    @media (prefers-color-scheme: dark) {{
-      body {{ background: #070C1A; color: #E2EAFF; }}
-      details {{ background: #0F1828; border-color: #1B2B48; }}
-      details[open] {{ border-color: #4D84FF; }}
-      a {{ color: #4D84FF; }}
-    }}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Digest — {date}</title>
+{css}
 </head>
 <body>
-  <a class="back" href="index.html">← 一覧へ戻る</a>
-  <h2>🤖 AI Digest — {date}</h2>
-  {body}
-  <p style="font-size:12px;color:#999;margin-top:32px">自動生成 by Gemini + GitHub Actions</p>
+<header>
+  <div class="hdr-top">
+    <div class="wordmark">AI<span>.</span>DIGEST</div>
+    <div class="hdr-meta">毎朝 07:00 JST 自動配信</div>
+    <button class="theme-btn" onclick="(function(){{var r=document.documentElement;r.setAttribute('data-theme',r.getAttribute('data-theme')==='light'?'dark':'light')}})()">☀ / ☾</button>
+  </div>
+  <div class="filter-row">
+    <div class="filter-inner" id="fb">
+      <div class="ftab active" data-f="all">すべて</div>
+      <div class="ftab" data-f="3dai">🔴 3大AI</div>
+      <div class="ftab" data-f="image">🎨 画像・動画</div>
+      <div class="ftab" data-f="biz">💼 実務・副業</div>
+      <div class="ftab" data-f="japan">🇯🇵 日本のAI</div>
+      <div class="ftab" data-f="llm">🧠 LLM技術</div>
+      <div class="ftab" data-f="news">📰 一般ニュース</div>
+    </div>
+  </div>
+</header>
+<div class="page">
+  <div class="dateline">
+    <div><div class="dl-sub">{date}</div><div class="dl-main">今日のAIニュース</div></div>
+    <div class="dl-sub" style="align-self:flex-end;margin-bottom:5px">{count}件</div>
+    <a href="index.html" class="back-lnk">‹ 一覧</a>
+  </div>
+  <div class="news-grid" id="grid">
+{cards}
+  </div>
+  <p class="page-foot">自動生成 by Gemini + GitHub Actions</p>
+</div>
+<script>
+document.getElementById('fb').addEventListener('click',function(e){{
+  var t=e.target.closest('[data-f]');if(!t)return;
+  var f=t.dataset.f;
+  document.querySelectorAll('.ftab').forEach(function(x){{x.classList.remove('active')}});
+  t.classList.add('active');
+  document.querySelectorAll('.card').forEach(function(c){{
+    c.classList.toggle('filtered',f!=='all'&&c.dataset.cat!==f);
+  }});
+}});
+</script>
 </body>
 </html>"""
-
-INDEX_HTML = """<!DOCTYPE html>
+ 
+_INDEX_TMPL = """\
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AI Digest — アーカイブ</title>
-  <style>
-    body {{ font-family: sans-serif; max-width: 480px; margin: 0 auto;
-            padding: 24px 20px; background: #F4F7FF; color: #0B1120; }}
-    h2 {{ font-size: 20px; margin-bottom: 4px; }}
-    .sub {{ color: #667299; font-size: 13px; margin-bottom: 24px; }}
-    .list {{ list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }}
-    .list li a {{
-      display: flex; align-items: center; justify-content: space-between;
-      background: #fff; border: 1px solid #D8E0F3; border-radius: 8px;
-      padding: 12px 16px; text-decoration: none; color: #0B1120;
-      font-weight: 600; font-size: 15px; transition: border-color .15s;
-    }}
-    .list li a:hover {{ border-color: #2457D9; color: #2457D9; }}
-    .list li a span {{ font-size: 18px; }}
-    @media (prefers-color-scheme: dark) {{
-      body {{ background: #070C1A; color: #E2EAFF; }}
-      .list li a {{ background: #0F1828; border-color: #1B2B48; color: #E2EAFF; }}
-      .list li a:hover {{ border-color: #4D84FF; color: #4D84FF; }}
-    }}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Digest</title>
+{css}
+<style>
+.idx-wrap{{max-width:480px;margin:0 auto;padding:40px 20px 60px}}
+.idx-list{{list-style:none;display:flex;flex-direction:column;gap:6px;margin-top:24px}}
+.idx-list li a{{display:flex;align-items:center;justify-content:space-between;
+  background:var(--sur);border:1px solid var(--rule);border-radius:8px;
+  padding:13px 16px;color:var(--txt);font-weight:600;font-size:.95rem;
+  transition:border-color .15s}}
+.idx-list li a:hover{{border-color:var(--lime);color:var(--lime);text-decoration:none}}
+.idx-list li a span{{color:var(--lime)}}
+</style>
 </head>
 <body>
-  <h2>🤖 AI Digest</h2>
-  <p class="sub">毎朝自動更新 — 全 {count} 件</p>
-  <ul class="list">
-    {items}
+<header>
+  <div class="hdr-top">
+    <div class="wordmark">AI<span>.</span>DIGEST</div>
+    <button class="theme-btn" onclick="(function(){{var r=document.documentElement;r.setAttribute('data-theme',r.getAttribute('data-theme')==='light'?'dark':'light')}})()">☀ / ☾</button>
+  </div>
+</header>
+<div class="idx-wrap">
+  <div class="dl-main">アーカイブ</div>
+  <div class="dl-sub" style="margin-top:6px">毎朝自動更新 — 全 {count} 件</div>
+  <ul class="idx-list">
+{items}
   </ul>
+</div>
 </body>
 </html>"""
-
-def save_html(body: str) -> None:
+ 
+ 
+def save_html(body: str, articles: list[dict] | None = None) -> None:
     Path("docs").mkdir(exist_ok=True)
     date_str = datetime.now(JST).strftime("%Y-%m-%d")
-
-    # 1. 今日分のHTMLを保存
+ 
+    # Parse Gemini output into cards
+    blocks = _split_details(body)
+    cards_html = []
+    for i, block in enumerate(blocks):
+        parsed   = _parse_block(block)
+        img_url  = (articles[i]["image"] if articles and i < len(articles)
+                    and articles[i].get("image") else "")
+        cards_html.append(_build_card(parsed, i, img_url))
+ 
+    # Fallback: if parsing failed, wrap raw body
+    if not cards_html:
+        cards_html = [f'<div class="card" data-cat="news" data-size="small">{body}</div>']
+ 
+    cards = "\n".join(cards_html)
+ 
+    # 1. Save daily HTML
     daily_path = Path(f"docs/{date_str}.html")
     daily_path.write_text(
-        DAILY_HTML.format(date=date_str, body=body),
-        encoding="utf-8"
+        _DAILY_TMPL.format(
+            date=date_str,
+            css=_CSS,
+            count=len(blocks),
+            cards=cards,
+        ),
+        encoding="utf-8",
     )
     print(f"保存: {daily_path}")
-
-    # 2. docs/ 内の日付ファイルを全スキャンしてindex再生成
-    dated_files = sorted(Path("docs").glob("????-??-??.html"), reverse=True)
-    items = "\n    ".join(
-        f'<li><a href="{f.name}">{f.stem} <span>→</span></a></li>'
-        for f in dated_files
+ 
+    # 2. Regenerate index
+    dated = sorted(Path("docs").glob("????-??-??.html"), reverse=True)
+    items = "\n".join(
+        f'    <li><a href="{f.name}">{f.stem} <span>›</span></a></li>'
+        for f in dated
     )
-    index_path = Path("docs/index.html")
-    index_path.write_text(
-        INDEX_HTML.format(count=len(dated_files), items=items),
-        encoding="utf-8"
+    Path("docs/index.html").write_text(
+        _INDEX_TMPL.format(css=_CSS, count=len(dated), items=items),
+        encoding="utf-8",
     )
-    print(f"インデックス更新: {len(dated_files)} 件")
+    print(f"インデックス更新: {len(dated)} 件")
