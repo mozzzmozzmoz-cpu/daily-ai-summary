@@ -1,4 +1,5 @@
 import os
+import re
 from google import genai
 
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
@@ -11,7 +12,7 @@ PROMPT = """
 
 出力形式（記事の数だけ繰り返す）:
 <details>
-  <summary><strong>{{category}} タイトル（日本語・35字以内）</strong>
+  <summary><strong>{{category}} タイトル（日本語・35字以内）</strong></summary>
   <ul>
     <li>要点1：具体的な数値・事実を含む</li>
     <li>要点2：意義・業界への影響</li>
@@ -32,7 +33,10 @@ def summarize(articles: list[dict]) -> str:
         for i, a in enumerate(articles)
     )
     response = client.models.generate_content(
-        model="gemini-3.6-flash",
+        model="gemini-2.5-flash",
         contents=PROMPT.format(articles=text),
     )
-    return response.text
+    html = response.text
+    # Gemini が <details open> を出力することがあるので除去
+    html = re.sub(r'<details\s+open[^>]*>', '<details>', html)
+    return html
