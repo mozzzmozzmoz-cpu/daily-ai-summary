@@ -1,8 +1,7 @@
 import os
-import google.generativeai as genai
+from google import genai
 
-genai.configure(api_key=os.environ["GEMINI_API_KEY"])
-model = genai.GenerativeModel("gemini-1.5-flash")
+client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
 PROMPT = """
 あなたはAIテクノロジーの専門ジャーナリストです。
@@ -31,5 +30,8 @@ def summarize(articles: list[dict]) -> str:
         f"[{i+1}] {a['title']}\nURL: {a['url']}\nSource: {a['source']}\n{a['body']}"
         for i, a in enumerate(articles)
     )
-    response = model.generate_content(PROMPT.format(articles=text))
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=PROMPT.format(articles=text),
+    )
     return response.text
