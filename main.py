@@ -14,5 +14,5 @@ if __name__ == "__main__":
     print("Gemini で要約中...")
     body = summarize(articles)
 
-    save_html(body)
+    save_html(body, articles)  # ← articles を追加（画像URL受け渡し用）
     print("✅ docs/index.html 生成完了")
