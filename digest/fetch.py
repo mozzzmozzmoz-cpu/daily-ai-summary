@@ -1,6 +1,7 @@
 import feedparser
 import json
 import os
+import re
 from datetime import datetime, timezone, timedelta
 from urllib.parse import quote
 
@@ -62,15 +63,30 @@ def load_seen_urls() -> set:
     return set()
 
 def save_seen_urls(urls: set):
-    # 直近500件だけ保持
     url_list = list(urls)[-500:]
     os.makedirs("docs", exist_ok=True)
     with open(SEEN_CACHE, "w") as f:
         json.dump(url_list, f)
 
+def _extract_image(entry) -> str:
+    for m in entry.get("media_content", []):
+        if m.get("url") and m.get("medium") == "image":
+            return m["url"]
+    for m in entry.get("media_thumbnail", []):
+        if m.get("url"):
+            return m["url"]
+    for enc in entry.get("enclosures", []):
+        if enc.get("type", "").startswith("image/"):
+            return enc.get("href", "")
+    html = entry.get("summary", "") or (entry.get("content", [{}])[0].get("value", ""))
+    m = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', html)
+    if m:
+        return m.group(1)
+    return ""
+
 def fetch_recent(max_per_group: int = 3) -> list[dict]:
-    published_seen = load_seen_urls()   # 過去に掲載済みのURL
-    run_seen = set(published_seen)      # 今回実行内の重複除去用
+    published_seen = load_seen_urls()
+    run_seen = set(published_seen)
     cutoff = datetime.now(timezone.utc) - timedelta(hours=30)
     articles = []
 
@@ -104,6 +120,5 @@ def fetch_recent(max_per_group: int = 3) -> list[dict]:
         print(f"{group}: {len(taken)} 件")
 
     result = articles[:20]
-    # 掲載したURLだけを記録（未掲載分は次回も候補になれる）
     save_seen_urls(published_seen | {a["url"] for a in result})
     return result
