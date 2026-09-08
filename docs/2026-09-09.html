@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Digest — 2026-09-09</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg:#0c0c0c; --sur:#141414; --rule:#232323;
+  --txt:#f0f0f0; --txt2:#888; --txt3:#444;
+  --lime:#ccff00; --lime2:#1a2200;
+  --c-3dai:#ff4444; --c-image:#bf5af2; --c-biz:#ff9f0a;
+  --c-japan:#0a84ff; --c-llm:#30d158; --c-news:#636366;
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme=dark]){
+    --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+    --txt:#111; --txt2:#666; --txt3:#aaa;
+    --lime:#5c7a00; --lime2:#edf5c0;
+  }
+}
+:root[data-theme=light]{
+  --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+  --txt:#111; --txt2:#666; --txt3:#aaa;
+  --lime:#5c7a00; --lime2:#edf5c0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+a{color:var(--lime);text-decoration:none}
+a:hover{text-decoration:underline}
+ 
+/* header */
+header{background:var(--bg);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:100}
+.hdr-top{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:12px 20px;max-width:1200px;margin:0 auto}
+.wordmark{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;letter-spacing:-.01em;text-transform:uppercase;color:var(--txt)}
+.wordmark span{color:var(--lime)}
+.hdr-meta{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase}
+.theme-btn{background:transparent;border:1px solid var(--rule);color:var(--txt2);border-radius:4px;padding:5px 10px;font-size:.72rem;cursor:pointer}
+.theme-btn:hover{border-color:var(--txt2)}
+.filter-row{border-top:1px solid var(--rule);overflow-x:auto;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-inner{display:flex;max-width:1200px;margin:0 auto;padding:0 20px}
+.ftab{flex-shrink:0;padding:9px 14px;font-size:.75rem;font-weight:500;color:var(--txt2);border-bottom:2px solid transparent;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;user-select:none}
+.ftab:hover{color:var(--txt)}
+.ftab.active{color:var(--txt);border-bottom-color:var(--lime)}
+ 
+/* page */
+.page{max-width:1200px;margin:0 auto;padding:0 20px 60px}
+.dateline{padding:28px 0 20px;display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--rule)}
+.dl-main{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.6rem;text-transform:uppercase;letter-spacing:-.01em;line-height:1;color:var(--txt)}
+.dl-sub{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase}
+.back-lnk{margin-left:auto;font-size:.78rem;color:var(--txt2);display:flex;align-items:center;gap:5px;flex-shrink:0}
+.back-lnk:hover{color:var(--lime);text-decoration:none}
+ 
+/* grid */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-top:1px}
+.card{background:var(--bg);transition:background .15s}
+.card:hover{background:var(--sur)}
+.card.filtered{display:none}
+ 
+/* magazine sizing */
+.card[data-size=large]{grid-column:span 2;grid-row:span 2}
+.card[data-size=large] .card-img{aspect-ratio:4/3}
+.card[data-size=wide]{grid-column:span 2}
+.card[data-size=wide] .card-img{aspect-ratio:21/9}
+.card[data-size=small] .card-img{aspect-ratio:16/9}
+ 
+/* details / summary */
+details{height:100%;display:flex;flex-direction:column}
+details summary{list-style:none;cursor:pointer;height:100%;display:flex;flex-direction:column}
+details summary::-webkit-details-marker{display:none}
+ 
+/* card image */
+.card-img{width:100%;overflow:hidden;flex-shrink:0;position:relative}
+.card-real-img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+ 
+/* category gradients (fallback when no real image) */
+.card[data-cat=3dai]  .card-img{background:radial-gradient(ellipse 80% 80% at 30% 40%,#3d0a0a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 60% at 72% 65%,#6b1212 0%,transparent 50%)}
+.card[data-cat=image] .card-img{background:radial-gradient(ellipse 90% 70% at 20% 30%,#2d0d4f 0%,#0c0c0c 55%),radial-gradient(ellipse 50% 80% at 78% 60%,#4a1272 0%,transparent 50%)}
+.card[data-cat=biz]   .card-img{background:radial-gradient(ellipse 80% 80% at 40% 40%,#3d2200 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 50% at 75% 65%,#6b3d00 0%,transparent 50%)}
+.card[data-cat=japan] .card-img{background:radial-gradient(ellipse 80% 70% at 30% 35%,#001a3d 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 70%,#003b7a 0%,transparent 45%)}
+.card[data-cat=llm]   .card-img{background:radial-gradient(ellipse 80% 80% at 25% 35%,#062610 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 65%,#0d4820 0%,transparent 50%)}
+.card[data-cat=news]  .card-img{background:radial-gradient(ellipse 80% 70% at 35% 40%,#1a1a1a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 50% at 70% 65%,#2e2e2e 0%,transparent 50%)}
+.card-img::after{content:'';position:absolute;width:40%;height:40%;top:20%;left:15%;border-radius:50%;filter:blur(28px);opacity:.5}
+.card[data-cat=3dai]  .card-img::after{background:#ff4444}
+.card[data-cat=image] .card-img::after{background:#bf5af2}
+.card[data-cat=biz]   .card-img::after{background:#ff9f0a}
+.card[data-cat=japan] .card-img::after{background:#0a84ff}
+.card[data-cat=llm]   .card-img::after{background:#30d158}
+.card[data-cat=news]  .card-img::after{background:#888}
+ 
+/* light mode gradients */
+:root[data-theme=light] .card[data-cat=3dai]  .card-img,
+:root[data-theme=light] .card[data-cat=image] .card-img,
+:root[data-theme=light] .card[data-cat=biz]   .card-img,
+:root[data-theme=light] .card[data-cat=japan] .card-img,
+:root[data-theme=light] .card[data-cat=llm]   .card-img,
+:root[data-theme=light] .card[data-cat=news]  .card-img{filter:brightness(2.5) saturate(.5)}
+ 
+/* card body (text section) */
+.card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:6px}
+.card[data-size=large] .card-body{padding:18px 20px 20px}
+.cat-tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.card[data-cat=3dai]  .cat-tag{color:var(--c-3dai)}
+.card[data-cat=image] .cat-tag{color:var(--c-image)}
+.card[data-cat=biz]   .cat-tag{color:var(--c-biz)}
+.card[data-cat=japan] .cat-tag{color:var(--c-japan)}
+.card[data-cat=llm]   .cat-tag{color:var(--c-llm)}
+.card[data-cat=news]  .cat-tag{color:var(--c-news)}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.15rem;line-height:1.2;color:var(--txt);text-wrap:balance}
+.card[data-size=large] .card-title{font-size:1.9rem;line-height:1.1}
+.card[data-size=wide]  .card-title{font-size:1.4rem}
+.card:hover .card-title{color:var(--lime)}
+.expand-hint{margin-top:auto;font-size:.72rem;color:var(--txt3);display:flex;align-items:center;gap:3px}
+.chev{transition:transform .2s;display:inline-block}
+details[open] .chev{transform:rotate(90deg)}
+ 
+/* expanded body */
+.expand-body{border-top:1px solid var(--rule);padding:18px 16px 20px;background:var(--sur)}
+.card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{padding:20px 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.expand-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.expand-body li{display:flex;gap:8px;font-size:.85rem;line-height:1.55;color:var(--txt)}
+.expand-body li::before{content:counter(li);counter-increment:li;font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:500;color:var(--lime);flex-shrink:0;margin-top:2px;min-width:14px}
+.expand-body ul{counter-reset:li}
+.expand-body p{font-size:.85rem;line-height:1.65;color:var(--txt2);margin-bottom:12px}
+.expand-body a{color:var(--lime);font-weight:500;font-size:.82rem}
+.expand-body a:hover{text-decoration:underline}
+ 
+/* footer */
+.page-foot{font-size:.72rem;color:var(--txt3);margin-top:32px;text-align:center;font-family:'IBM Plex Mono',monospace}
+ 
+/* responsive */
+@media(max-width:900px){
+  .news-grid{grid-template-columns:repeat(2,1fr)}
+  .card[data-size=large]{grid-column:span 2}
+  .card[data-size=wide]{grid-column:span 2}
+  .card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .news-grid{grid-template-columns:1fr}
+  .card[data-size=large],.card[data-size=wide]{grid-column:span 1;grid-row:span 1}
+  .dl-main{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr-top">
+    <div class="wordmark">AI<span>.</span>DIGEST</div>
+    <div class="hdr-meta">毎朝 07:00 JST 自動配信</div>
+    <button class="theme-btn" onclick="(function(){var r=document.documentElement;r.setAttribute('data-theme',r.getAttribute('data-theme')==='light'?'dark':'light')})()">☀ / ☾</button>
+  </div>
+  <div class="filter-row">
+    <div class="filter-inner" id="fb">
+      <div class="ftab active" data-f="all">すべて</div>
+      <div class="ftab" data-f="3dai">🔴 3大AI</div>
+      <div class="ftab" data-f="image">🎨 画像・動画</div>
+      <div class="ftab" data-f="biz">💼 実務・副業</div>
+      <div class="ftab" data-f="japan">🇯🇵 日本のAI</div>
+      <div class="ftab" data-f="llm">🧠 LLM技術</div>
+      <div class="ftab" data-f="news">📰 一般ニュース</div>
+    </div>
+  </div>
+</header>
+<div class="page">
+  <div class="dateline">
+    <div><div class="dl-sub">2026-09-09</div><div class="dl-main">今日のAIニュース</div></div>
+    <div class="dl-sub" style="align-self:flex-end;margin-bottom:5px">9件</div>
+    <a href="index.html" class="back-lnk">‹ 一覧</a>
+  </div>
+  <div class="news-grid" id="grid">
+<article class="card" data-cat="news" data-size="large">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">OpenAIが90年来未解決のナビエ・ストークス問題で成果</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：OpenAIが約90年間未解決とされる流体力学の超難問「ナビエ–ストークス問題」の解法を発見したと発表。</li>
+    <li>要点2：AIが理論数学や物理学の未解決問題解決において人間のトップ研究者を凌駕する可能性を示す歴史的節目。</li>
+    <li>要点3：気候予測や航空宇宙工学など流体シミュレーション分野の産業応用やAI創薬・物理投資への波及効果に注目。</li>
+  </ul>
+  <p>【詳細】ニューヨーク・タイムズやWired等の報道を受け、OpenAIは公式ブログで流体の動きを記述する「ナビエ–ストークス方程式」に関する重大な数学的解法を発見したと発表しました。この問題はミレニアム懸賞問題の一つにも数えられる極めて難解な物理・数学上の未解決問題であり、約90年にわたり科学者を悩ませてきました。今回の成果は、AIが単なる言語処理やプログラミング補助にとどまらず、人類の知的フロンティアである純粋数学や理論物理学の解明において主導的な役割を果たし始めたことを象徴しています。議論や検証は現在も続いていますが、この技術が定着すれば気象予測の精度飛躍、航空機や潜水艦の設計最適化、核融合発電の制御など、流体解析が不可欠なあらゆる産業界に不可逆的なイノベーションをもたらすと期待されています。</p>
+  <p><a href="https://www.theverge.com/ai-artificial-intelligence/991710/openai-navier-stokes-solution">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">GPT-5.6 Solが量子計算実験を自律制御・校正</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：MITの研究者がOpenAIの「GPT-5.6 Sol」とCodexを用い、量子コンピューティング実験を完全自律実行。</li>
+    <li>要点2：量子ビットの自動校正やデータ解析を高度AIが担うことで、量子開発のサイクルが劇的に高速化する。</li>
+    <li>要点3：先端科学ディープテック分野におけるAI自律エージェントの組み込みと関連スタートアップへの投資価値が上昇。</li>
+  </ul>
+  <p>【詳細】OpenAIはMITの研究者との協業により、最新モデル「GPT-5.6 Sol」とコード生成AI「Codex」を組み合わせた自律型AIシステムが、量子コンピューティング実験を主導した事例を公開しました。このシステムは単なるコード記述にとどまらず、複雑な実験手順の自動実行、取得データのリアルタイム解析、そして極めて精密な調整が求められる量子ビット（qubit）の校正作業までを人間の介在なしに自律的に実施しました。量子計算機の構築において、量子ビットのデコヒーレンス制御や校正作業は最大のボトルネックの一つでしたが、高度な言語・数理モデルが実験ループに入り込むことで、開発スピードを数倍から数十倍に加速させる可能性が実証されました。科学研究向けAIエージェントの新たな標準となる取り組みです。</p>
+  <p><a href="https://openai.com/index/codex-quantum-computing-experiments">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">Metaが超大型パーソナルAI「Muse」で逆転を狙う</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Metaが数千億円規模の戦略刷新の一環として、個人向けAIアシスタント「Muse」を発表。</li>
+    <li>要点2：遅れをとっていたAIレースにおいて、一般消費者の日常に入り込むパーソナルエージェントで巻き返しを図る。</li>
+    <li>要点3：Metaエコシステム（Instagram/WhatsApp等）との連携による顧客接点の拡大と広告・コマース施策に注目。</li>
+  </ul>
+  <p>【詳細】Metaは競合するOpenAIやGoogleに対するAI分野での遅れを取り戻すため、一般消費者向けのパーソナルAIアシスタント「Muse」を強力に推し進める方針を明らかにしました。これは同社が推進する数千億円（数百億ドル）規模の事業戦略見直しにおける中核事業となります。Museは、高度なコンテキスト理解と自律的タスク遂行能力を備えたAIエージェントであり、Instagram、WhatsApp、Facebookといった既存の強力なSNSプラットフォームと深く統合される見込みです。これにより、特別な知識のない一般ユーザーに対しても直感的なAI体験を提供し、圧倒的なユーザー基盤を一気にAIエージェント市場へと誘導することを目指しています。ビッグテックによるエージェント競争は新局面に突入しました。</p>
+  <p><a href="https://www.theverge.com/ai-artificial-intelligence/991216/meta-bets-on-ai-agent-muse-to-catch-up-in-ai-race">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/kdn-from-rag-to-agentic-ai-building-the-next-generation-of-intelligent-enterprise-systems-feature.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">OpenAIが画像生成モデル「ChatGPT Images 2.5」発表</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：アイデアスケッチや参照画像を元に、高度にパーソナライズされた高品質画像を生成可能にアップデート。</li>
+    <li>要点2：意図を正確に反芻する表現力が向上し、デザイン現場やマーケティングでのプロトタイピングが大幅に効率化。</li>
+    <li>要点3：デザイナーやコンテンツクリエイターの画像制作フローの自動化、副業での素材制作の生産性向上が期待できる。</li>
+  </ul>
+  <p>【詳細】OpenAIは新世代の画像生成・編集機能「ChatGPT Images 2.5」を発表しました。今回のアップデートでは、ユーザーが提示した手書きのスケッチやイメージ画像、参照フォトの意図を正確に捉え、より洗練されたパーソナライズ画像へと仕上げる能力が大幅に向上しました。従来のテキスト指示（プロンプト）だけでは表現が困難だった構図や視覚的ニュアンスの伝達が、画像やスケッチを入力に組み込むことで直感的に行えるようになります。グラフィックデザイン、広告クリエイティブ、EC商品のプロトタイプ作成など、ビジネス実務における画像制作の試行錯誤を劇的に減らし、AIとのコ・クリエーション（共同創造）を新たな次元へと引き上げる重要な進化となっています。</p>
+  <p><a href="https://openai.com/index/introducing-chatgpt-images-2-5">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/kdn-chugani-arrowjs-ui-agentic-era-feature.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">ChatGPT Sketchが登場！手書き落書きから高品質画像生成</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：ChatGPT内に直接描画できる「Sketch」機能が追加され、雑な手書き線画から詳細画像を生成可能。</li>
+    <li>要点2：テキストだけでは困難だった空間・配置指示を直感的描画でAIに伝達するUI革新を達成。</li>
+    <li>要点3：ワイヤーフレーム作成やアイデア出しの実務スピード向上、クリエイティブ案件の受注拡大に活用可能。</li>
+  </ul>
+  <p>【詳細】OpenAIの「ChatGPT Images 2.5」発表に伴い、ChatGPT画面上で直接お絵描きができる新機能「Sketch」が実装されたことが報じられました。ユーザーは画面上のキャンバスに簡単な落書きや構図を描き、それをベースに「どのような画像を生成したいか」を指示するだけで、AIが意図を汲み取った詳細でプロ仕様の画像を生成してくれます。文字プロンプトのみでの微調整（「もう少し左上に配置して」等）のストレスを完全に解消する画期的なインターフェース改善です。これにより、Webデザイナーのラフ案作成、イラストレーターの構図検討、プレゼン資料のグラフィック作成など、現場のクリエイティブ業務におけるプロトタイピング時間が劇的に削減されることになります。</p>
+  <p><a href="https://www.theverge.com/ai-artificial-intelligence/991727/openai-chatgpt-images-2-5-sketch">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/awan_5_ways_access_coding_models_free_1.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">高機能・低価格なAI普及が生み出す経済成長と労働の未来</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：OpenAIがより高性能かつ低価格なモデル提供により、企業や個人の達成可能業務領域の拡大を提示。</li>
+    <li>要点2：コンピューティングコスト低下がAI主導の経済成長を加速させ、組織の労働生産性を根本から塗り替える。</li>
+    <li>要点3：企業における業務コスト削減投資や、少人数スタートアップによる高付加価値事業の立ち上げに直結。</li>
+  </ul>
+  <p>【詳細】OpenAIは公式ブログ記事「The Work Now Within Reach」において、AIモデルの急速な高性能化とAPIコストの低価格化がもたらす経済・産業的な影響について考察を公開しました。AIの利用コストが下がることで、これまで費用対効果の面でAI導入が見送られていた複雑なバックオフィス業務や専門的な分析作業が、一気に自動化・拡張の対象となります。企業はより少ない費用で大きなアウトプットを得られるようになり、一人あたりの生産性が飛躍的に向上します。この変化は単なる業務効率化にとどまらず、新しいビジネスモデルの創出や一人起業家（ソロプレナー）の台頭を後押しし、世界経済全体の成長をより低コストかつ持続可能な形で駆動するエンジンになると示されています。</p>
+  <p><a href="https://openai.com/index/the-work-now-within-reach">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">RAGからエージェンティックAIへ：企業システムの次世代化</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：単なる情報検索（RAG）から、自律的に意思決定しタスクを完遂する「Agentic AI」へのパラダイムシフト。</li>
+    <li>要点2：3世代にわたる検索・情報利用システムの進化を経て、複雑な企業固有プロセスの完全自動化が実現可能に。</li>
+    <li>要点3：社内システム構築支援、エージェント型RAGの受託開発、エンタープライズAI導入コンサルに活用。</li>
+  </ul>
+  <p>【詳細】KDnuggetsの記事では、数年にわたるインテリジェント情報検索システムの進化プロセスが体系化されています。第1世代の単純検索、第2世代のRAG（検索拡張生成）を経て、現在は第3世代である「エージェンティックAI（Agentic AI）」へと移行しています。従来のRAGが「社内文書から答えを探して要約する」受動的なシステムだったのに対し、エージェンティックAIは「目標を理解し、APIを叩き、複数ステップの処理を自律的に判断して業務を完遂する」能動的なシステムです。企業のデジタルトランスフォーメーション（DX）において、単なるFAQ自動化を超えて、財務処理、カスタマーサポートの完全自動対応、SCM最適化などの高度な業務自動化を達成するための必須設計思想となっています。</p>
+  <p><a href="https://www.kdnuggets.com/from-rag-to-agentic-ai-building-the-next-generation-of-intelligent-enterprise-systems">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">エージェント時代を担う新UI「ArrowJS」の実力検証</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：AIエージェントがコードを自動生成する時代に最適化された軽量UIフレームワーク「ArrowJS」を評価。</li>
+    <li>要点2：重厚な従来のフロントエンド構成を見直し、AIが出力・描画しやすい次世代Webインターフェースのあり方を提示。</li>
+    <li>要点3：AI駆動型Webアプリ開発における描画オーバーヘッド削減と開発スピード向上に活用。</li>
+  </ul>
+  <p>【詳細】AIエージェントがプログラムコードの多くを自動生成する「エージェント時代」において、従来の複雑なUIフレームワーク（ReactやVue等）が最適であるか疑問を投げかける検証記事です。AIがコードを生成・描画する際、過度に重厚な仮想DOMや複雑なビルドプロセスは無駄なトークン消費やエラーの原因になり得ます。そこで浮上したのが、極めて軽量かつリアクティブに動作する「ArrowJS」です。本記事では、ArrowJSがAIコード生成と高い相性を持ち、超高速な描画処理を可能にする理由を検証しています。今後、人間ではなく「AIエージェントが記述すること」を前提とした開発ツールやUIライブラリへのシフトが進むことを示唆する先進的な試みです。</p>
+  <p><a href="https://www.kdnuggets.com/is-arrowjs-really-the-ui-for-the-agentic-era">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">高額サブスク不要！コーディングAIを無料利用する5つの方法</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：高価なGPUや月額サブスク契約なしで、商用・オープンウェイトの最新コーディングAIを使う手法を開設。</li>
+    <li>要点2：開発コストを劇的に下げる無料アプローチを整理し、個人エンジニアやスタートアップの参入障壁を低減。</li>
+    <li>要点3：開発費を抑えたWebアプリ副業、オープンソース活用によるプロダクト開発の高速化に直接役立つ。</li>
+  </ul>
+  <p>【詳細】高機能なコーディングアシスタントや自律型AIエージェントの利用には高額なサブスクリプションやGPUサーバー代がかかるのが一般的ですが、本記事では無料でこれらにアクセスする5つの具体的な方法を紹介しています。大手プラットフォームが提供する無料利用枠（APIクレジットやFreeプラン）、オープンウェイトモデル（LLaMAやQwen等）をクラウド環境で動かすテクニック、地域限定やプロモーションを活用したアクセス法などが解説されています。これにより、初期投資を抑えたい個人開発者や副業エンジニア、コスト意識の高いエンジニアリングチームが、最新のAIプログラミング環境をリスクゼロで構築できるようになります。</p>
+  <p><a href="https://www.kdnuggets.com/5-ways-i-access-coding-models-for-free">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+  </div>
+  <p class="page-foot">自動生成 by Gemini + GitHub Actions</p>
+</div>
+<script>
+document.getElementById('fb').addEventListener('click',function(e){
+  var t=e.target.closest('[data-f]');if(!t)return;
+  var f=t.dataset.f;
+  document.querySelectorAll('.ftab').forEach(function(x){x.classList.remove('active')});
+  t.classList.add('active');
+  document.querySelectorAll('.card').forEach(function(c){
+    c.classList.toggle('filtered',f!=='all'&&c.dataset.cat!==f);
+  });
+});
+</script>
+</body>
+</html>
