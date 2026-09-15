@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Digest — 2026-09-16</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg:#0c0c0c; --sur:#141414; --rule:#232323;
+  --txt:#f0f0f0; --txt2:#888; --txt3:#444;
+  --lime:#ccff00; --lime2:#1a2200;
+  --c-3dai:#ff4444; --c-image:#bf5af2; --c-biz:#ff9f0a;
+  --c-japan:#0a84ff; --c-llm:#30d158; --c-news:#636366;
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme=dark]){
+    --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+    --txt:#111; --txt2:#666; --txt3:#aaa;
+    --lime:#5c7a00; --lime2:#edf5c0;
+  }
+}
+:root[data-theme=light]{
+  --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+  --txt:#111; --txt2:#666; --txt3:#aaa;
+  --lime:#5c7a00; --lime2:#edf5c0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+a{color:var(--lime);text-decoration:none}
+a:hover{text-decoration:underline}
+ 
+/* header */
+header{background:var(--bg);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:100}
+.hdr-top{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:12px 20px;max-width:1200px;margin:0 auto}
+.wordmark{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;letter-spacing:-.01em;text-transform:uppercase;color:var(--txt)}
+.wordmark span{color:var(--lime)}
+.hdr-meta{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase}
+.theme-btn{background:transparent;border:1px solid var(--rule);color:var(--txt2);border-radius:4px;padding:5px 10px;font-size:.72rem;cursor:pointer}
+.theme-btn:hover{border-color:var(--txt2)}
+.filter-row{border-top:1px solid var(--rule);overflow-x:auto;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-inner{display:flex;max-width:1200px;margin:0 auto;padding:0 20px}
+.ftab{flex-shrink:0;padding:9px 14px;font-size:.75rem;font-weight:500;color:var(--txt2);border-bottom:2px solid transparent;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;user-select:none}
+.ftab:hover{color:var(--txt)}
+.ftab.active{color:var(--txt);border-bottom-color:var(--lime)}
+ 
+/* page */
+.page{max-width:1200px;margin:0 auto;padding:0 20px 60px}
+.dateline{padding:28px 0 20px;display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--rule)}
+.dl-main{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.6rem;text-transform:uppercase;letter-spacing:-.01em;line-height:1;color:var(--txt)}
+.dl-sub{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase}
+.back-lnk{margin-left:auto;font-size:.78rem;color:var(--txt2);display:flex;align-items:center;gap:5px;flex-shrink:0}
+.back-lnk:hover{color:var(--lime);text-decoration:none}
+ 
+/* grid */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-top:1px}
+.card{background:var(--bg);transition:background .15s}
+.card:hover{background:var(--sur)}
+.card.filtered{display:none}
+ 
+/* magazine sizing */
+.card[data-size=large]{grid-column:span 2;grid-row:span 2}
+.card[data-size=large] .card-img{aspect-ratio:4/3}
+.card[data-size=wide]{grid-column:span 2}
+.card[data-size=wide] .card-img{aspect-ratio:21/9}
+.card[data-size=small] .card-img{aspect-ratio:16/9}
+ 
+/* details / summary */
+details{height:100%;display:flex;flex-direction:column}
+details summary{list-style:none;cursor:pointer;height:100%;display:flex;flex-direction:column}
+details summary::-webkit-details-marker{display:none}
+ 
+/* card image */
+.card-img{width:100%;overflow:hidden;flex-shrink:0;position:relative}
+.card-real-img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+ 
+/* category gradients (fallback when no real image) */
+.card[data-cat=3dai]  .card-img{background:radial-gradient(ellipse 80% 80% at 30% 40%,#3d0a0a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 60% at 72% 65%,#6b1212 0%,transparent 50%)}
+.card[data-cat=image] .card-img{background:radial-gradient(ellipse 90% 70% at 20% 30%,#2d0d4f 0%,#0c0c0c 55%),radial-gradient(ellipse 50% 80% at 78% 60%,#4a1272 0%,transparent 50%)}
+.card[data-cat=biz]   .card-img{background:radial-gradient(ellipse 80% 80% at 40% 40%,#3d2200 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 50% at 75% 65%,#6b3d00 0%,transparent 50%)}
+.card[data-cat=japan] .card-img{background:radial-gradient(ellipse 80% 70% at 30% 35%,#001a3d 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 70%,#003b7a 0%,transparent 45%)}
+.card[data-cat=llm]   .card-img{background:radial-gradient(ellipse 80% 80% at 25% 35%,#062610 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 65%,#0d4820 0%,transparent 50%)}
+.card[data-cat=news]  .card-img{background:radial-gradient(ellipse 80% 70% at 35% 40%,#1a1a1a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 50% at 70% 65%,#2e2e2e 0%,transparent 50%)}
+.card-img::after{content:'';position:absolute;width:40%;height:40%;top:20%;left:15%;border-radius:50%;filter:blur(28px);opacity:.5}
+.card[data-cat=3dai]  .card-img::after{background:#ff4444}
+.card[data-cat=image] .card-img::after{background:#bf5af2}
+.card[data-cat=biz]   .card-img::after{background:#ff9f0a}
+.card[data-cat=japan] .card-img::after{background:#0a84ff}
+.card[data-cat=llm]   .card-img::after{background:#30d158}
+.card[data-cat=news]  .card-img::after{background:#888}
+ 
+/* light mode gradients */
+:root[data-theme=light] .card[data-cat=3dai]  .card-img,
+:root[data-theme=light] .card[data-cat=image] .card-img,
+:root[data-theme=light] .card[data-cat=biz]   .card-img,
+:root[data-theme=light] .card[data-cat=japan] .card-img,
+:root[data-theme=light] .card[data-cat=llm]   .card-img,
+:root[data-theme=light] .card[data-cat=news]  .card-img{filter:brightness(2.5) saturate(.5)}
+ 
+/* card body (text section) */
+.card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:6px}
+.card[data-size=large] .card-body{padding:18px 20px 20px}
+.cat-tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.card[data-cat=3dai]  .cat-tag{color:var(--c-3dai)}
+.card[data-cat=image] .cat-tag{color:var(--c-image)}
+.card[data-cat=biz]   .cat-tag{color:var(--c-biz)}
+.card[data-cat=japan] .cat-tag{color:var(--c-japan)}
+.card[data-cat=llm]   .cat-tag{color:var(--c-llm)}
+.card[data-cat=news]  .cat-tag{color:var(--c-news)}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.15rem;line-height:1.2;color:var(--txt);text-wrap:balance}
+.card[data-size=large] .card-title{font-size:1.9rem;line-height:1.1}
+.card[data-size=wide]  .card-title{font-size:1.4rem}
+.card:hover .card-title{color:var(--lime)}
+.expand-hint{margin-top:auto;font-size:.72rem;color:var(--txt3);display:flex;align-items:center;gap:3px}
+.chev{transition:transform .2s;display:inline-block}
+details[open] .chev{transform:rotate(90deg)}
+ 
+/* expanded body */
+.expand-body{border-top:1px solid var(--rule);padding:18px 16px 20px;background:var(--sur)}
+.card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{padding:20px 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.expand-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.expand-body li{display:flex;gap:8px;font-size:.85rem;line-height:1.55;color:var(--txt)}
+.expand-body li::before{content:counter(li);counter-increment:li;font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:500;color:var(--lime);flex-shrink:0;margin-top:2px;min-width:14px}
+.expand-body ul{counter-reset:li}
+.expand-body p{font-size:.85rem;line-height:1.65;color:var(--txt2);margin-bottom:12px}
+.expand-body a{color:var(--lime);font-weight:500;font-size:.82rem}
+.expand-body a:hover{text-decoration:underline}
+ 
+/* footer */
+.page-foot{font-size:.72rem;color:var(--txt3);margin-top:32px;text-align:center;font-family:'IBM Plex Mono',monospace}
+ 
+/* responsive */
+@media(max-width:900px){
+  .news-grid{grid-template-columns:repeat(2,1fr)}
+  .card[data-size=large]{grid-column:span 2}
+  .card[data-size=wide]{grid-column:span 2}
+  .card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .news-grid{grid-template-columns:1fr}
+  .card[data-size=large],.card[data-size=wide]{grid-column:span 1;grid-row:span 1}
+  .dl-main{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr-top">
+    <div class="wordmark">AI<span>.</span>DIGEST</div>
+    <div class="hdr-meta">毎朝 07:00 JST 自動配信</div>
+    <button class="theme-btn" onclick="(function(){var r=document.documentElement;r.setAttribute('data-theme',r.getAttribute('data-theme')==='light'?'dark':'light')})()">☀ / ☾</button>
+  </div>
+  <div class="filter-row">
+    <div class="filter-inner" id="fb">
+      <div class="ftab active" data-f="all">すべて</div>
+      <div class="ftab" data-f="3dai">🔴 3大AI</div>
+      <div class="ftab" data-f="image">🎨 画像・動画</div>
+      <div class="ftab" data-f="biz">💼 実務・副業</div>
+      <div class="ftab" data-f="japan">🇯🇵 日本のAI</div>
+      <div class="ftab" data-f="llm">🧠 LLM技術</div>
+      <div class="ftab" data-f="news">📰 一般ニュース</div>
+    </div>
+  </div>
+</header>
+<div class="page">
+  <div class="dateline">
+    <div><div class="dl-sub">2026-09-16</div><div class="dl-main">今日のAIニュース</div></div>
+    <div class="dl-sub" style="align-self:flex-end;margin-bottom:5px">9件</div>
+    <a href="index.html" class="back-lnk">‹ 一覧</a>
+  </div>
+  <div class="news-grid" id="grid">
+<article class="card" data-cat="news" data-size="large">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://storage.googleapis.com/gweb-uniblog-publish-prod/original_images/Health_Header.gif" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">Metaが新サブスク「Meta One」開始！AI連携で収益化加速</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：新AIアシスタント「Muse」導入にあわせ、個人・クリエイター・法人向けサブスク「Meta One」を世界展開。</li>
+    <li>要点2：SNS機能と高度なAI利用枠をパッケージ化し、巨大テック企業の新たな収益モデルを確立する重要な転換点。</li>
+    <li>要点3：SNSマーケティングやクリエイター事業において、最新AI機能の活用が今後の競争力を左右する。</li>
+  </ul>
+  <p>【詳細】Metaは最新の万能型AIアシスタント「Muse」の公開に続き、SNSサービスと高度なAI機能を組み合わせた新有料サブスクリプション体系「Meta One」のグローバル展開を開始した。今年前半から一部地域でテストされていた本サービスは、個人ユーザー、コンテンツクリエイター、企業向けに複数の料金階層を用意。基本的な機能に加え、先進的なAI画像・文章生成機能やMuseの優先利用枠などを提供する。これにより、従来の広告依存型ビジネスモデルから、生成AIの計算資源を収益化するハイブリッド型へのシフトが急ピッチで進む。企業やクリエイターにとっては有料枠を活用したコンテンツ制作の効率化が重要となる。</p>
+  <p><a href="https://www.theverge.com/tech/995453/meta-one-subscriptions-ai">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/SocialShare_hD2gcAw.max-600x600.format-webp.webp" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">GoogleのノーコードAI「Opal」で業務自動化アプリ作成</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Google Labsの「Opal」は開発基盤「Breadboard」上で自然言語からAIアプリを生成。</li>
+    <li>要点2：プログラミング不要で実用的なワークフローを構築可能にし、社内システム開発の民主化を推進。</li>
+    <li>要点3：副業や業務効率化において、短時間でプロトタイプ作成や自動化パイプラインを構築する即戦力ツール。</li>
+  </ul>
+  <p>【詳細】Google Labsが手掛ける「Opal」は、プログラミング知識がないユーザーでも自然言語の指示だけで実用的なAIミニアプリケーションを作成できるノーコード開発ツールである。基盤にはGoogle内部のアプリケーション構築フレームワーク「Breadboard」が採用されており、プロンプトの連結や外部APIとの連携、条件分岐といった複雑なAIワークフローをビジュアル化して直感的に設計できる。従来のプロンプトエンジニアリングにとどまらず、反復的なタスクの自動化や特定業務に特化したマイクロツールを迅速に構築できるため、業務改善や副業案件におけるAI実装のハードルを大きく下げるイノベーションとして注目を集めている。</p>
+  <p><a href="https://www.kdnuggets.com/how-im-using-google-opal-for-even-more-ai-automations">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/AI_languages_blog_social.max-600x600.format-webp.webp" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">JONIが提示する高信頼なAIエージェントオーケストレーション</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：永続的な実行環境と複数モデルの動的ルーティングにより、単なる文章生成を超えるエージェント構造を実現。</li>
+    <li>要点2：自律型AIエージェントの安定稼働と信頼性向上を実現し、複雑なエンタープライズ業務の自動化を可能に。</li>
+    <li>要点3：マルチモデル制御のノウハウを応用することで、高精度なAIシステム開発やDX支援の案件獲得に貢献。</li>
+  </ul>
+  <p>【詳細】AIエージェント開発において単なるコンテンツ生成から「実行と統制（オーケストレーション）」への進化が求められる中、JONIのアプローチが脚光を浴びている。JONIは持続的なランタイム（実行環境）の保持と、用途に応じたマルチモデル・ルーティング機能を統合。タスクの実行状態を監視・保持しながら、最適なLLMへ処理を割り振ることで、従来の単発的なプロンプト応答では不可能だった長時間の複雑タスクを途切れず正確に遂行する。システムエラー時のリカバリーや信頼性の担保を強化したことで、企業の基幹システムや自動化パイプラインにおけるAIエージェントの実用化を一気に加速させる技術的突破口となっている。</p>
+  <p><a href="https://www.kdnuggets.com/2026/09/finpr/orchestration-and-execution-how-joni-approaches-the-agent-layer">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/image1-18.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">SimpliSafeがAIと有人監視を融合した新ドアベル発売</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：本体199.99ドル＋月額49.99ドルの監視サービスで、AI解析と生身の警備員による防犯を提供。</li>
+    <li>要点2：AIによるリアルタイム脅威検知と人間の意思決定を組み合わせた、次世代スマートホームセキュリティの標準。</li>
+    <li>要点3：物理セキュリティとAIの融合ビジネスは今後の成長分野であり、IoT防犯市場における投資・参入の好例。</li>
+  </ul>
+  <p>【詳細】家庭用セルフ防犯大手のSimpliSafeは、AI解析と人間の警備オペレーターをハイブリッドで組み合わせた新型ドアベルカメラ「SimpliSafe Video Doorbell Series 2」を199.99ドルで発売した。本製品は月額49.99ドルからの「Active Guard Outdoor Protection」と連携し、AIがカメラ映像から不審者や侵入リスクをリアルタイムで検知。不審行動を検知した際には即座にライブ監視センターの人間警備員へ通知され、警告音声の発話や警察への通報を人間が判断して実行する。誤報を減らしつつ確実な防犯対応を実現するこのモデルは、AIの自動化と人間の判断力を融合させた実用型ハードウェアの成功例として評価されている。</p>
+  <p><a href="https://www.theverge.com/tech/995365/simplisafe-video-doorbell-series-2-virtual-guard-price-specs">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/kdn-how-im-using-google-opal-for-even-more-ai-automations-feature.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">マイクロソフトがGitHubでデータ科学・AIの無料教材5選公開</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：機械学習、GenAI、LLM、RAG、ファインチューニング、AIエージェントまでを網羅した5つの無料講座。</li>
+    <li>要点2：IT大手が自社スタックに対応した最高水準の教育資産を無料提供し、世界的なAI人材不足の解消を図る。</li>
+    <li>要点3：エンジニアや学習者が最新のRAGやエージェント開発技術をゼロコストで習得し、キャリアアップに直結。</li>
+  </ul>
+  <p>【詳細】Microsoftは、GitHub上で完全無料で学べるデータサイエンスおよび人工知能（AI）向けの5つのオープンソースカリキュラムを公開・推奨している。コース内容は基礎的なデータ分析や機械学習から、最新の生成AI、大規模言語モデル（LLM）の活用、検索拡張生成（RAG）、モデルのファインチューニング、そして最先端の自律型AIエージェント構築まで幅広くカバーされている。コードサンプルや実践的な演習リソースが豊富に用意されており、独学で先進的なAIエンジニアリングを学びたい開発者や、最新技術をリスキリングしたい社会人にとって、極めて価値の高い教育リソースとなっている。</p>
+  <p><a href="https://www.kdnuggets.com/5-free-microsoft-github-courses-to-learn-data-science-and-artificial-intelligence">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/awan_5_free_microsoft_github_courses_learn_data_science_artificial_intelligence_1.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">Googleが科学研究の加速と生活向上に向けたAI応用を発表</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：医療現場から学校教育まで多様な環境における最先端AIモデルの適用事例を公開。</li>
+    <li>要点2：AIを単なる対話ツールから科学的発見や社会課題解決のための基盤技術へと引き上げるイニシアチブ。</li>
+    <li>要点3：ヘルスケアや教育テクノロジー（EdTech）領域での新規AI事業開発や投資判断の参考指標となる。</li>
+  </ul>
+  <p>【詳細】Googleは、科学的発見のスピードを飛躍的に高め、人々の生活向上に寄与するAI技術の応用取り組みを公表した。医療現場における医師と患者のコミュニケーション支援、診断精度の向上、さらには教育現場における個別の学習習得度に応じた指導の最適化など、多岐にわたる現場でのAI導入事例を提示。物理学や生物学などの基礎科学領域における複雑なデータ解析やシミュレーションにAIを活用することで、創薬や新材料開発の期間を大幅に短縮する試みが紹介されている。巨大テック企業が主導する「科学のためのAI（AI for Science）」のトレンドを象徴する内容であり、今後の医療・教育分野へのインパクトは極めて大きい。</p>
+  <p><a href="https://blog.google/innovation-and-ai/technology/ai/ai-applications-science-people/">📎 詳細を見る（出典：AI）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">GoogleがAIによる社会的インパクト推進コレクションを公開</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：専門家や地域リーダーと連携し、医療や地域課題の解決にAIブレイクスルーを応用。</li>
+    <li>要点2：テクノロジーの格差を解消し、AIの恩恵を地球上のあらゆる人々へ機会均等に届ける枠組み。</li>
+    <li>要点3：ESG投資や社会課題解決型スタートアップ（Impact Tech）におけるAI活用のケーススタディ。</li>
+  </ul>
+  <p>【詳細】Googleは、世界の多様な地域社会が抱える課題を解決するためにAI技術を活用する「AI for Societal Impact」の事例コレクションを公開した。地域リーダーや各分野の専門家と協力し、公衆衛生の改善、気候変動対策、貧困地域のインフラ支援など、具体的な社会課題にGoogleの先進的なAIモデルを適用。AI技術の成果が一部の先進国や大企業だけに偏ることなく、社会的弱者や途上国を含めた世界全体に行き渡ることを目指している。グローバル企業に求められる責任あるAI（Responsible AI）の推進と、社会的価値創造を両立させる実践的モデルとして注目される。</p>
+  <p><a href="https://blog.google/innovation-and-ai/technology/ai/ai-for-societal-impact/">📎 詳細を見る（出典：AI）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">Googleが地球上の全言語をカバーする多言語AIイニシアチブ</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：世界中の多数の言語やマイナー言語にアクセス可能な多言語対応AIモデルの開発を強化。</li>
+    <li>要点2：言語バリアを撤廃し、グローバルな情報アクセシビリティの飛躍的向上と文化保護に寄与。</li>
+    <li>要点3：多言語展開を目指すグローバルAIサービス開発やローカライズビジネスにおける基盤活用。</li>
+  </ul>
+  <p>【詳細】Googleは、世界中のあらゆる人々が自身の母国語で最先端のAI機能を利用できるようにする「AI for Everyone in Every Language」の取り組みを推進している。英語圏を中心とした従来のAI開発から脱却し、希少言語やローカルな方言を含む多様な言語のテキスト・音声データを学習させた多言語AIモデルを構築。翻訳精度の向上にとどまらず、言語の壁によって生じていた情報格差やデジタルデバイドの解消を目指す。グローバル市場へのアプリケーション展開や、多言語でのカスタマーサポート自動化などを検討する事業者にとっても、標準インフラとしての価値が高まっている。</p>
+  <p><a href="https://blog.google/innovation-and-ai/technology/ai/ai-for-every-language/">📎 詳細を見る（出典：AI）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://media.wired.com/photos/6aa82ac8fdb837b60d8caff1/master/pass/I-Tried-to-Gaslight-AI-Actor-Tilly-Norwood-Culture-Talking-Tilly-launch-1-September-2026.jpg" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">AI俳優Tilly Norwoodの発言が物議、AIアライメントの課題露呈</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：映画PR用の仮想キャラが政治的問答において不適切な応答を行いユーザーと物議。</li>
+    <li>要点2：エンタメ分野でのAIキャラクター運用における倫理・アライメントおよびリスク管理の難しさを提示。</li>
+    <li>要点3：対話型AIキャラ開発におけるガードレール設計やPR・ブランドリスク回避の反面教師。</li>
+  </ul>
+  <p>【詳細】新作映画『Misaligned』のプロモーション用に開発されたAIバーチャルキャラクター「Tilly Norwood」が、ユーザーとの対話の中で政治的に物議を醸す発言（「All Lives Matter」など）を行い、AIの倫理調整の難しさを浮き彫りにした。この仮想キャラクターは、センシティブな政治的質問を回避するためにユーザーの服装について繰り返しコメントするなど不自然な回避挙動を見せた後、問題の発言に至った。エンターテインメント業界でAIアクターや対話型キャラクターを用いたプロモーションが増加する中、AIの不適切な応答がブランドイメージを損なうリスクや、厳密な対話ガードレール構築の重要性を再認識させる事例となった。</p>
+  <p><a href="https://www.wired.com/story/ai-actor-tilly-norwood-told-me-that-all-lives-matter/">📎 詳細を見る（出典：Feed: Artificial Intelligence Latest）</a></p>
+    </div>
+  </details>
+</article>
+  </div>
+  <p class="page-foot">自動生成 by Gemini + GitHub Actions</p>
+</div>
+<script>
+document.getElementById('fb').addEventListener('click',function(e){
+  var t=e.target.closest('[data-f]');if(!t)return;
+  var f=t.dataset.f;
+  document.querySelectorAll('.ftab').forEach(function(x){x.classList.remove('active')});
+  t.classList.add('active');
+  document.querySelectorAll('.card').forEach(function(c){
+    c.classList.toggle('filtered',f!=='all'&&c.dataset.cat!==f);
+  });
+});
+</script>
+</body>
+</html>
