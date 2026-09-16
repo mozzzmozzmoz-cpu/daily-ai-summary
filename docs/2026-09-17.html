@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Digest — 2026-09-17</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg:#0c0c0c; --sur:#141414; --rule:#232323;
+  --txt:#f0f0f0; --txt2:#888; --txt3:#444;
+  --lime:#ccff00; --lime2:#1a2200;
+  --c-3dai:#ff4444; --c-image:#bf5af2; --c-biz:#ff9f0a;
+  --c-japan:#0a84ff; --c-llm:#30d158; --c-news:#636366;
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme=dark]){
+    --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+    --txt:#111; --txt2:#666; --txt3:#aaa;
+    --lime:#5c7a00; --lime2:#edf5c0;
+  }
+}
+:root[data-theme=light]{
+  --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+  --txt:#111; --txt2:#666; --txt3:#aaa;
+  --lime:#5c7a00; --lime2:#edf5c0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+a{color:var(--lime);text-decoration:none}
+a:hover{text-decoration:underline}
+ 
+/* header */
+header{background:var(--bg);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:100}
+.hdr-top{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:12px 20px;max-width:1200px;margin:0 auto}
+.wordmark{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;letter-spacing:-.01em;text-transform:uppercase;color:var(--txt)}
+.wordmark span{color:var(--lime)}
+.hdr-meta{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase}
+.theme-btn{background:transparent;border:1px solid var(--rule);color:var(--txt2);border-radius:4px;padding:5px 10px;font-size:.72rem;cursor:pointer}
+.theme-btn:hover{border-color:var(--txt2)}
+.filter-row{border-top:1px solid var(--rule);overflow-x:auto;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-inner{display:flex;max-width:1200px;margin:0 auto;padding:0 20px}
+.ftab{flex-shrink:0;padding:9px 14px;font-size:.75rem;font-weight:500;color:var(--txt2);border-bottom:2px solid transparent;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;user-select:none}
+.ftab:hover{color:var(--txt)}
+.ftab.active{color:var(--txt);border-bottom-color:var(--lime)}
+ 
+/* page */
+.page{max-width:1200px;margin:0 auto;padding:0 20px 60px}
+.dateline{padding:28px 0 20px;display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--rule)}
+.dl-main{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.6rem;text-transform:uppercase;letter-spacing:-.01em;line-height:1;color:var(--txt)}
+.dl-sub{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase}
+.back-lnk{margin-left:auto;font-size:.78rem;color:var(--txt2);display:flex;align-items:center;gap:5px;flex-shrink:0}
+.back-lnk:hover{color:var(--lime);text-decoration:none}
+ 
+/* grid */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-top:1px}
+.card{background:var(--bg);transition:background .15s}
+.card:hover{background:var(--sur)}
+.card.filtered{display:none}
+ 
+/* magazine sizing */
+.card[data-size=large]{grid-column:span 2;grid-row:span 2}
+.card[data-size=large] .card-img{aspect-ratio:4/3}
+.card[data-size=wide]{grid-column:span 2}
+.card[data-size=wide] .card-img{aspect-ratio:21/9}
+.card[data-size=small] .card-img{aspect-ratio:16/9}
+ 
+/* details / summary */
+details{height:100%;display:flex;flex-direction:column}
+details summary{list-style:none;cursor:pointer;height:100%;display:flex;flex-direction:column}
+details summary::-webkit-details-marker{display:none}
+ 
+/* card image */
+.card-img{width:100%;overflow:hidden;flex-shrink:0;position:relative}
+.card-real-img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+ 
+/* category gradients (fallback when no real image) */
+.card[data-cat=3dai]  .card-img{background:radial-gradient(ellipse 80% 80% at 30% 40%,#3d0a0a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 60% at 72% 65%,#6b1212 0%,transparent 50%)}
+.card[data-cat=image] .card-img{background:radial-gradient(ellipse 90% 70% at 20% 30%,#2d0d4f 0%,#0c0c0c 55%),radial-gradient(ellipse 50% 80% at 78% 60%,#4a1272 0%,transparent 50%)}
+.card[data-cat=biz]   .card-img{background:radial-gradient(ellipse 80% 80% at 40% 40%,#3d2200 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 50% at 75% 65%,#6b3d00 0%,transparent 50%)}
+.card[data-cat=japan] .card-img{background:radial-gradient(ellipse 80% 70% at 30% 35%,#001a3d 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 70%,#003b7a 0%,transparent 45%)}
+.card[data-cat=llm]   .card-img{background:radial-gradient(ellipse 80% 80% at 25% 35%,#062610 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 65%,#0d4820 0%,transparent 50%)}
+.card[data-cat=news]  .card-img{background:radial-gradient(ellipse 80% 70% at 35% 40%,#1a1a1a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 50% at 70% 65%,#2e2e2e 0%,transparent 50%)}
+.card-img::after{content:'';position:absolute;width:40%;height:40%;top:20%;left:15%;border-radius:50%;filter:blur(28px);opacity:.5}
+.card[data-cat=3dai]  .card-img::after{background:#ff4444}
+.card[data-cat=image] .card-img::after{background:#bf5af2}
+.card[data-cat=biz]   .card-img::after{background:#ff9f0a}
+.card[data-cat=japan] .card-img::after{background:#0a84ff}
+.card[data-cat=llm]   .card-img::after{background:#30d158}
+.card[data-cat=news]  .card-img::after{background:#888}
+ 
+/* light mode gradients */
+:root[data-theme=light] .card[data-cat=3dai]  .card-img,
+:root[data-theme=light] .card[data-cat=image] .card-img,
+:root[data-theme=light] .card[data-cat=biz]   .card-img,
+:root[data-theme=light] .card[data-cat=japan] .card-img,
+:root[data-theme=light] .card[data-cat=llm]   .card-img,
+:root[data-theme=light] .card[data-cat=news]  .card-img{filter:brightness(2.5) saturate(.5)}
+ 
+/* card body (text section) */
+.card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:6px}
+.card[data-size=large] .card-body{padding:18px 20px 20px}
+.cat-tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.card[data-cat=3dai]  .cat-tag{color:var(--c-3dai)}
+.card[data-cat=image] .cat-tag{color:var(--c-image)}
+.card[data-cat=biz]   .cat-tag{color:var(--c-biz)}
+.card[data-cat=japan] .cat-tag{color:var(--c-japan)}
+.card[data-cat=llm]   .cat-tag{color:var(--c-llm)}
+.card[data-cat=news]  .cat-tag{color:var(--c-news)}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.15rem;line-height:1.2;color:var(--txt);text-wrap:balance}
+.card[data-size=large] .card-title{font-size:1.9rem;line-height:1.1}
+.card[data-size=wide]  .card-title{font-size:1.4rem}
+.card:hover .card-title{color:var(--lime)}
+.expand-hint{margin-top:auto;font-size:.72rem;color:var(--txt3);display:flex;align-items:center;gap:3px}
+.chev{transition:transform .2s;display:inline-block}
+details[open] .chev{transform:rotate(90deg)}
+ 
+/* expanded body */
+.expand-body{border-top:1px solid var(--rule);padding:18px 16px 20px;background:var(--sur)}
+.card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{padding:20px 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.expand-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.expand-body li{display:flex;gap:8px;font-size:.85rem;line-height:1.55;color:var(--txt)}
+.expand-body li::before{content:counter(li);counter-increment:li;font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:500;color:var(--lime);flex-shrink:0;margin-top:2px;min-width:14px}
+.expand-body ul{counter-reset:li}
+.expand-body p{font-size:.85rem;line-height:1.65;color:var(--txt2);margin-bottom:12px}
+.expand-body a{color:var(--lime);font-weight:500;font-size:.82rem}
+.expand-body a:hover{text-decoration:underline}
+ 
+/* footer */
+.page-foot{font-size:.72rem;color:var(--txt3);margin-top:32px;text-align:center;font-family:'IBM Plex Mono',monospace}
+ 
+/* responsive */
+@media(max-width:900px){
+  .news-grid{grid-template-columns:repeat(2,1fr)}
+  .card[data-size=large]{grid-column:span 2}
+  .card[data-size=wide]{grid-column:span 2}
+  .card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .news-grid{grid-template-columns:1fr}
+  .card[data-size=large],.card[data-size=wide]{grid-column:span 1;grid-row:span 1}
+  .dl-main{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr-top">
+    <div class="wordmark">AI<span>.</span>DIGEST</div>
+    <div class="hdr-meta">毎朝 07:00 JST 自動配信</div>
+    <button class="theme-btn" onclick="(function(){var r=document.documentElement;r.setAttribute('data-theme',r.getAttribute('data-theme')==='light'?'dark':'light')})()">☀ / ☾</button>
+  </div>
+  <div class="filter-row">
+    <div class="filter-inner" id="fb">
+      <div class="ftab active" data-f="all">すべて</div>
+      <div class="ftab" data-f="3dai">🔴 3大AI</div>
+      <div class="ftab" data-f="image">🎨 画像・動画</div>
+      <div class="ftab" data-f="biz">💼 実務・副業</div>
+      <div class="ftab" data-f="japan">🇯🇵 日本のAI</div>
+      <div class="ftab" data-f="llm">🧠 LLM技術</div>
+      <div class="ftab" data-f="news">📰 一般ニュース</div>
+    </div>
+  </div>
+</header>
+<div class="page">
+  <div class="dateline">
+    <div><div class="dl-sub">2026-09-17</div><div class="dl-main">今日のAIニュース</div></div>
+    <div class="dl-sub" style="align-self:flex-end;margin-bottom:5px">9件</div>
+    <a href="index.html" class="back-lnk">‹ 一覧</a>
+  </div>
+  <div class="news-grid" id="grid">
+<article class="card" data-cat="3dai" data-size="large">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">OpenAIが新広告体験を発表！AI広告やShopify連携を導入</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Sponsored AgentsやShopify・HubSpot統合を含むAI広告体験を発表。</li>
+    <li>要点2：会話型AIを通じた新たな収益モデルの確立とEC/マーケティングの変革。</li>
+    <li>要点3：EC事業者やマーケターはAI対話経由のプロモーション機会として注視が必要。</li>
+  </ul>
+  <p>【詳細】OpenAIは、ChatGPTなどの対話型AIプラットフォームにおける新たな広告体験構想を発表した。今回の発表には、特定の企業ブランドやサービスをユーザーとの対話内で推奨する「スポンサード・エージェント（Sponsored Agents）」機能のほか、マーケティング担当者向けの専用ツール群、さらにShopifyやHubSpotといった主要なEC・CRMプラットフォームとの深いシステム統合が含まれる。これまで生成AIサービスは主にサブスクリプション課金やAPI利用料を収益の柱としてきたが、今回の動きは巨大な広告市場への本格参入を意味している。具体的には、ユーザーが購入検討や製品比較を行う際、関連するスポンサー製品の情報を自然な文脈で提示したり、HubSpotやShopifyと連携して直接AI対話画面から商品の購入や顧客情報の管理を行える仕組みを構築する。これにより、企業は従来の検索広告やSNS広告とは異なり、コンテキスト（対話の流れ）に即した高度にパーソナライズされたプロモーションが可能となる。一方で、AIの提示する回答の公正性と広告の透明性をどのように担保するかが今後の議論の焦点となる。</p>
+  <p><a href="https://openai.com/index/reimagining-advertising-with-ai">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">AIデータセンターの廃棄物爆発、2050年までにコンテナ2300万個</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：2050年までにAI由来の電子廃棄物は40フィートコンテナ2300万個分に達する予測。</li>
+    <li>要点2：地球6周分に及ぶ廃棄物量は気候変動対策・データセンター建設規制の議論を呼ぶ。</li>
+    <li>要点3：環境対応（ESG投資）やグリーンデータセンター技術への投資機会が拡大。</li>
+  </ul>
+  <p>【詳細】AIブームに伴うデータセンターの急速な増設とハードウェアの更新頻度の上昇により、発生する電子廃棄物（e-waste）の量が従来予測を大幅に上回っていることが最新の研究レポートで明らかになった。報告書によると、2050年までに発生するAI起因の電子ゴミは、40フィート（約12メートル）の海上コンテナ2,300万個分に達し、これらを一列に並べると地球を6周する規模になるという。これは過去の類似調査の試算を大幅に更新するものであり、GPUをはじめとする高性能半導体の短期間での買い替えや冷却設備の大型化が主因となっている。データセンターの消費電力問題と並び、基板や希少金属、有害物質を含む大量のハードウェア廃棄は深刻な環境破壊を引き起こすリスクがある。各国政府や自治体では、今後のデータセンター建設許可条件として電子廃棄物のリサイクル率や長期使用計画の提示を義務付ける規制強化の動きが強まっている。企業にとってはハードウェアのライフサイクル延長技術や、リサイクル性の高いモジュール型サーバーの採用など、環境配慮型インフラの構築が急務となっている。</p>
+  <p><a href="https://www.theverge.com/ai-artificial-intelligence/996470/ai-data-center-e-waste-ban">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">OpenAIが企業向け新ツール発表、AI投資対効果の可視化へ</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：ChatGPT WorkとCodexアナリティクスでAI利用率と費用対効果を視覚化。</li>
+    <li>要点2：企業におけるAI投資のROI（投資対効果）曖昧さを解消し、継続導入を後押し。</li>
+    <li>要点3：社内のAI活用スキルの偏り解消やトレーニング設計の実務ツールとして有効。</li>
+  </ul>
+  <p>【詳細】OpenAIは、企業顧客が生成AIの導入効果を定量的に測定・分析するための管理機能「ChatGPT Work」および「Codex Analytics」の活用ノウハウと機能を公開した。多くの企業がAIツールを全社導入する一方で、「実際の利用率が低い」「業務効率化や直接的な業績成果に繋がっているかが分からない」といったROI（投資対効果）の可視化に関する課題を抱えている。今回提示されたアナリティクス機能では、部署や組織ごとのChatGPTおよびプログラミング支援AI（Codex）の使用頻度、生成されたコード量、トークン消費量や関連コストをダッシュボード上で統合的に把握できる。さらに単なる利用統計にとどまらず、どの業務プロセスでAIが活発に使われているか、逆に活用が進んでいないチームはどこかを分析し、必要な従業員トレーニングやスキルアップ施策を特定することが可能になる。これにより、企業経営陣やIT管理者はAIライセンス費用の最適化を行えるだけでなく、現場の具体的な成果（業務時間削減や開発スピード向上）とAI利用状況を紐付けたビジネス価値の検証が可能となる。</p>
+  <p><a href="https://openai.com/index/how-to-connect-ai-usage-to-business-value">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/kdn-cheat-sheet-skllm-estimators-feature.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">Snapが「Specs Intelligence」発表、iOS/Macに対応</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Snapが外部アカウント連携可能な先回り型AI「Specs Intelligence」を発表。</li>
+    <li>要点2：iOS/Mac対応で仕事タスクや旅行情報を自動追跡する統合エージェントとして展開。</li>
+    <li>要点3：スマートグラス等のハードウェアと連携した次世代個人用AIエコシステムに注目。</li>
+  </ul>
+  <p>【詳細】Snapは、ユーザーのデジタル生活を自発的にサポートする新たなAIアシスタント機能「Specs Intelligence」を発表した。同機能はiOSおよびMac端末に対応し、ユーザーが利用する外部のデジタルアカウントや各種サービスと連携することで、事前の指示を細かく与えなくても「先回り」してタスクを処理する「アンティシペータリー（予測型）AIサービス」として位置付けられている。具体的には、メールやカレンダーから旅行のスケジュールやフライト情報を自動で抽出・整理したり、日常の業務タスクの進捗状況を追跡・提案したりする機能を提供する。Metaが提供する「Muse」やGoogleの「Gemini Spark」といった個人向けAIエージェントに対抗するものであり、Snapが注力するARスマートグラス「Specs」シリーズとも密接に連携することが想定されている。スマートフォンやPCからスマートグラスへとまたがる統合的なAI体験を提供することで、単なる対話型チャットボットにとどまらない、ユーザーの文脈を常に理解してサポートするウェアラブル・環境型AIエージェントの実現を目指している。</p>
+  <p><a href="https://www.theverge.com/tech/996078/snap-specs-intelligence-ai-agent-ios-mac">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/bala-effective-evals-for-agents.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">AIエージェント信頼性を高める実践的評価（Evals）構築法</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：AIエージェントの信頼性を高める評価系（Evals）の構築フレームワークを提示。</li>
+    <li>要点2：明確なタスク定義・自動評価（Grader）選定・ハーネス構築で実用化を推進。</li>
+    <li>要点3：AIエージェント開発・副業・評価ツール作成の実務に直接活用できる手法。</li>
+  </ul>
+  <p>【詳細】KDnuggetsは、複雑なタスクを自律的に実行する「AIエージェント」の精度と信頼性を保証するための実践的な評価体系（Evals）の構築ガイドを公開した。LLMを組み込んだAIエージェントは、複数ステップの推論や外部ツールの呼び出しを行うため、従来の単発的なテキスト生成モデルよりも評価が極めて困難であるという課題がある。本ガイドでは、実務で機能する評価系を作るための4つの主要ステップを解説している。第一に「明確で測定可能なタスク設計」、第二に「適切な評価モデル（LLM-as-a-Judgeやコード実行検証など）の選定」、第三に「継続的テストを可能にする評価ハーネス（フレームワーク）の構築」、第四に「モデル更新に伴う精度変化の長期トラッキング」である。実務や副業でAIエージェントを用いたプロダクトを開発する際、評価系が不十分だと本番環境で誤動作や予期せぬ無限ループが発生するリスクが高まる。信頼性の高い評価パイプラインを早期に組み込むことで、プロンプトの改善やモデルの入れ替え効果を定量的に検証でき、高品質なAIソリューションを効率的に運用することが可能となる。</p>
+  <p><a href="https://www.kdnuggets.com/how-to-build-effective-evals-for-ai-agents">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">OpenAIが全米10都市でシニア向けChatGPT講習を開始</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：OpenAIとAARPが全米10都市で1000人のシニアに無料ChatGPT講習を提供。</li>
+    <li>要点2：高齢者層のデジタルディバイド解消と安全なAI活用スキルの普及を目指す。</li>
+    <li>要点3：シニア向けIT教育ビジネスや自治体のAI推進施策における先行モデル。</li>
+  </ul>
+  <p>【詳細】OpenAIは、全米規模のシニア支援団体であるAARP（全米退職者協会）と共同で、高齢者を対象とした無料の体験型ChatGPTワークショップを開催すると発表した。このプログラムは全米10都市で展開され、合計1,000名のシニア世代が参加する。講習では、日常のスケジュール管理や趣味の調査、文章作成といった日常生活で役立つAIの具体的な活用方法に加え、プライバシー保護や詐欺・誤情報への対策など、安全にAIを利用するためのリスク管理スキルをハンズオン形式で指導する。生成AIの急速な普及に伴い、若い世代やビジネスパーソンと高齢者層との間で「AI格差（AIディバイド）」が広がりつつあることが懸念されている。OpenAIとAARPの取り組みは、シニア層がAIテクノロジーから取り残されることを防ぎ、生活の質向上や社会的孤立の防止につなげることを目的としている。教育業界や自治体、シニア向けビジネスを展開する事業者にとって、ユーザーインクルージョン（包摂性）を高めるための先駆的な取り組みとして注目されている。</p>
+  <p><a href="https://openai.com/index/helping-older-adults-use-ai-in-everyday-life">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">Scikit-LLM活用法：機械学習パイプラインにLLM統合</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Scikit-LLMを用いて大規模言語モデルをScikit-learn APIにシームレス統合。</li>
+    <li>要点2：既存のPipelineや交差検証ループ内でLLMを直接扱える標準化を実現。</li>
+    <li>要点3：Pythonデータサイエンティストの実務開発効率やコードの再利用性を大幅向上。</li>
+  </ul>
+  <p>【詳細】KDnuggetsは、人気の機械学習ライブラリ「Scikit-learn」のインターフェースで大規模言語モデル（LLM）を操作可能にするPythonライブラリ「Scikit-LLM」の活用チートシートを公開した。従来のLLM活用では、API呼び出しやプロンプト管理のコードが既存の機械学習パイプラインと乖離しやすく、前処理や評価コードの冗長化が課題となっていた。Scikit-LLMは、LLMをScikit-learnの標準的な推定器（Estimator）クラスとしてラッピングすることで、fit()やpredict()といった統一されたメソッドでテキスト分類、要約、ゼロショット学習などを実行できるようにする。これにより、Scikit-learnのPipelineオブジェクトやGridSearchCVなどの交差検証・ハイパーパラメータチューニングのループ内にLLMをそのまま組み込むことが可能になる。データ分析の実務や副業で機械学習モデルを構築するエンジニアにとって、既存のデータ処理フローを大幅に書き換えることなく、高度な自然言語処理機能を簡単に試行・実装できるため、開発速度の向上とメンテナンスコストの削減に直結する。</p>
+  <p><a href="https://www.kdnuggets.com/estimators-in-scikit-llm-a-kdnuggets-cheat-sheet">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">全編AI制作の2.5時間長編映画『オデュッセウス』の酷評と課題</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：全編AIで制作された2.5時間の長編映画『Odysseus: The Fall』が登場。</li>
+    <li>要点2：映像の不自然さや物語の破綻から酷評を受け、長編AI動画制作の課題を露呈。</li>
+    <li>要点3：AI動画生成ツール（Sora等）の実用限界と人間のクリエイティビティの重要性を再認識。</li>
+  </ul>
+  <p>【詳細】クリストファー・ノーラン監督による古代ギリシャ叙事詩『オデュッセイア』の映画化が話題を集める中、全編の映像や音声、シナリオ展開をAI技術のみを用いて制作した2.5時間の長編映画『Odysseus: The Fall』が公開された。しかし、大手メディアのレビューでは「鑑賞に耐えない」「原作の魅力を完全に破壊している」といった非常に厳しい評価が下されている。具体的には、登場人物の顔や手足がフレームごとに不自然に変化する「フリッカー現象」の多発、感情の起伏がないAI音声のナレーション、2時間半という長尺に耐えうる一貫したストーリー構成の欠如などが酷評の要因として挙げられている。短尺のPVやコンセプト映像ではAI生成技術が高い評価を得ている一方で、長編映画として視聴者を惹きつける一貫性や演出能力には依然として大きな隔たりがあることが浮き彫りとなった。AIを用いた映像制作を志すクリエイターや投資家にとっては、単にAIツールに任せるだけでは質の高いコンテンツは作れず、人間の監督・編集者による高度なクリエイティブコントロールが不可欠であることを示す事例となっている。</p>
+  <p><a href="https://www.theverge.com/entertainment/996499/ai-odysseus-movie-review">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">外れ値に強い線形回帰：ロバスト推定手法の理論と実装</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：古典的・現代的なロバスト推定手法を用いて外れ値に強い線形回帰を実装。</li>
+    <li>要点2：データクレンジングの手間を減らし、実データにおける予測モデルの信頼性を向上。</li>
+    <li>要点3：データ分析・機械学習エンジニアの実務におけるデータ前処理ノウハウ。</li>
+  </ul>
+  <p>【詳細】Towards Data Scienceは、データセット内に存在する「外れ値（異常値）」の影響を最小限に抑えて正確な回帰モデルを構築する「ロバスト推定（Robust Estimation）」の手法を解説する記事を公開した。実業務で扱うデータ（センサーログ、売上データ、ユーザー行動ログなど）には、測定エラーや入力ミスによる極端な外れ値が含まれていることが多く、通常の最小二乗法（OLS）に基づく線形回帰では、それらの点に引っぱられてモデル全体の予測精度が著しく低下するという課題がある。本記事では、古典的なロバスト推定法であるHuber損失やRANSAC算法から、現代的な頑健推定手法に至るまで、数学的理論とPythonコード、比較実験を交えて詳しく解説している。これらの手法を適用することで、事前に手作業で厳密なデータクレンジングを行わなくても、ノイズの多いデータから堅牢なモデルを学習させることが可能になる。実務やデータ分析コンペ、副業プロジェクト等において、モデルの信頼性と予測性能を担保するための必須知識・テクニックとして役立つ内容となっている。</p>
+  <p><a href="https://towardsdatascience.com/how-to-make-linear-regression-survive-outliers/">📎 詳細を見る（出典：Towards Data Science）</a></p>
+    </div>
+  </details>
+</article>
+  </div>
+  <p class="page-foot">自動生成 by Gemini + GitHub Actions</p>
+</div>
+<script>
+document.getElementById('fb').addEventListener('click',function(e){
+  var t=e.target.closest('[data-f]');if(!t)return;
+  var f=t.dataset.f;
+  document.querySelectorAll('.ftab').forEach(function(x){x.classList.remove('active')});
+  t.classList.add('active');
+  document.querySelectorAll('.card').forEach(function(c){
+    c.classList.toggle('filtered',f!=='all'&&c.dataset.cat!==f);
+  });
+});
+</script>
+</body>
+</html>
