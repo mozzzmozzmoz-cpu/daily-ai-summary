@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Digest — 2026-09-19</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg:#0c0c0c; --sur:#141414; --rule:#232323;
+  --txt:#f0f0f0; --txt2:#888; --txt3:#444;
+  --lime:#ccff00; --lime2:#1a2200;
+  --c-3dai:#ff4444; --c-image:#bf5af2; --c-biz:#ff9f0a;
+  --c-japan:#0a84ff; --c-llm:#30d158; --c-news:#636366;
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme=dark]){
+    --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+    --txt:#111; --txt2:#666; --txt3:#aaa;
+    --lime:#5c7a00; --lime2:#edf5c0;
+  }
+}
+:root[data-theme=light]{
+  --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+  --txt:#111; --txt2:#666; --txt3:#aaa;
+  --lime:#5c7a00; --lime2:#edf5c0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+a{color:var(--lime);text-decoration:none}
+a:hover{text-decoration:underline}
+ 
+/* header */
+header{background:var(--bg);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:100}
+.hdr-top{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:12px 20px;max-width:1200px;margin:0 auto}
+.wordmark{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;letter-spacing:-.01em;text-transform:uppercase;color:var(--txt)}
+.wordmark span{color:var(--lime)}
+.hdr-meta{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase}
+.theme-btn{background:transparent;border:1px solid var(--rule);color:var(--txt2);border-radius:4px;padding:5px 10px;font-size:.72rem;cursor:pointer}
+.theme-btn:hover{border-color:var(--txt2)}
+.filter-row{border-top:1px solid var(--rule);overflow-x:auto;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-inner{display:flex;max-width:1200px;margin:0 auto;padding:0 20px}
+.ftab{flex-shrink:0;padding:9px 14px;font-size:.75rem;font-weight:500;color:var(--txt2);border-bottom:2px solid transparent;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;user-select:none}
+.ftab:hover{color:var(--txt)}
+.ftab.active{color:var(--txt);border-bottom-color:var(--lime)}
+ 
+/* page */
+.page{max-width:1200px;margin:0 auto;padding:0 20px 60px}
+.dateline{padding:28px 0 20px;display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--rule)}
+.dl-main{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.6rem;text-transform:uppercase;letter-spacing:-.01em;line-height:1;color:var(--txt)}
+.dl-sub{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase}
+.back-lnk{margin-left:auto;font-size:.78rem;color:var(--txt2);display:flex;align-items:center;gap:5px;flex-shrink:0}
+.back-lnk:hover{color:var(--lime);text-decoration:none}
+ 
+/* grid */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-top:1px}
+.card{background:var(--bg);transition:background .15s}
+.card:hover{background:var(--sur)}
+.card.filtered{display:none}
+ 
+/* magazine sizing */
+.card[data-size=large]{grid-column:span 2;grid-row:span 2}
+.card[data-size=large] .card-img{aspect-ratio:4/3}
+.card[data-size=wide]{grid-column:span 2}
+.card[data-size=wide] .card-img{aspect-ratio:21/9}
+.card[data-size=small] .card-img{aspect-ratio:16/9}
+ 
+/* details / summary */
+details{height:100%;display:flex;flex-direction:column}
+details summary{list-style:none;cursor:pointer;height:100%;display:flex;flex-direction:column}
+details summary::-webkit-details-marker{display:none}
+ 
+/* card image */
+.card-img{width:100%;overflow:hidden;flex-shrink:0;position:relative}
+.card-real-img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+ 
+/* category gradients (fallback when no real image) */
+.card[data-cat=3dai]  .card-img{background:radial-gradient(ellipse 80% 80% at 30% 40%,#3d0a0a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 60% at 72% 65%,#6b1212 0%,transparent 50%)}
+.card[data-cat=image] .card-img{background:radial-gradient(ellipse 90% 70% at 20% 30%,#2d0d4f 0%,#0c0c0c 55%),radial-gradient(ellipse 50% 80% at 78% 60%,#4a1272 0%,transparent 50%)}
+.card[data-cat=biz]   .card-img{background:radial-gradient(ellipse 80% 80% at 40% 40%,#3d2200 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 50% at 75% 65%,#6b3d00 0%,transparent 50%)}
+.card[data-cat=japan] .card-img{background:radial-gradient(ellipse 80% 70% at 30% 35%,#001a3d 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 70%,#003b7a 0%,transparent 45%)}
+.card[data-cat=llm]   .card-img{background:radial-gradient(ellipse 80% 80% at 25% 35%,#062610 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 65%,#0d4820 0%,transparent 50%)}
+.card[data-cat=news]  .card-img{background:radial-gradient(ellipse 80% 70% at 35% 40%,#1a1a1a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 50% at 70% 65%,#2e2e2e 0%,transparent 50%)}
+.card-img::after{content:'';position:absolute;width:40%;height:40%;top:20%;left:15%;border-radius:50%;filter:blur(28px);opacity:.5}
+.card[data-cat=3dai]  .card-img::after{background:#ff4444}
+.card[data-cat=image] .card-img::after{background:#bf5af2}
+.card[data-cat=biz]   .card-img::after{background:#ff9f0a}
+.card[data-cat=japan] .card-img::after{background:#0a84ff}
+.card[data-cat=llm]   .card-img::after{background:#30d158}
+.card[data-cat=news]  .card-img::after{background:#888}
+ 
+/* light mode gradients */
+:root[data-theme=light] .card[data-cat=3dai]  .card-img,
+:root[data-theme=light] .card[data-cat=image] .card-img,
+:root[data-theme=light] .card[data-cat=biz]   .card-img,
+:root[data-theme=light] .card[data-cat=japan] .card-img,
+:root[data-theme=light] .card[data-cat=llm]   .card-img,
+:root[data-theme=light] .card[data-cat=news]  .card-img{filter:brightness(2.5) saturate(.5)}
+ 
+/* card body (text section) */
+.card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:6px}
+.card[data-size=large] .card-body{padding:18px 20px 20px}
+.cat-tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.card[data-cat=3dai]  .cat-tag{color:var(--c-3dai)}
+.card[data-cat=image] .cat-tag{color:var(--c-image)}
+.card[data-cat=biz]   .cat-tag{color:var(--c-biz)}
+.card[data-cat=japan] .cat-tag{color:var(--c-japan)}
+.card[data-cat=llm]   .cat-tag{color:var(--c-llm)}
+.card[data-cat=news]  .cat-tag{color:var(--c-news)}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.15rem;line-height:1.2;color:var(--txt);text-wrap:balance}
+.card[data-size=large] .card-title{font-size:1.9rem;line-height:1.1}
+.card[data-size=wide]  .card-title{font-size:1.4rem}
+.card:hover .card-title{color:var(--lime)}
+.expand-hint{margin-top:auto;font-size:.72rem;color:var(--txt3);display:flex;align-items:center;gap:3px}
+.chev{transition:transform .2s;display:inline-block}
+details[open] .chev{transform:rotate(90deg)}
+ 
+/* expanded body */
+.expand-body{border-top:1px solid var(--rule);padding:18px 16px 20px;background:var(--sur)}
+.card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{padding:20px 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.expand-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.expand-body li{display:flex;gap:8px;font-size:.85rem;line-height:1.55;color:var(--txt)}
+.expand-body li::before{content:counter(li);counter-increment:li;font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:500;color:var(--lime);flex-shrink:0;margin-top:2px;min-width:14px}
+.expand-body ul{counter-reset:li}
+.expand-body p{font-size:.85rem;line-height:1.65;color:var(--txt2);margin-bottom:12px}
+.expand-body a{color:var(--lime);font-weight:500;font-size:.82rem}
+.expand-body a:hover{text-decoration:underline}
+ 
+/* footer */
+.page-foot{font-size:.72rem;color:var(--txt3);margin-top:32px;text-align:center;font-family:'IBM Plex Mono',monospace}
+ 
+/* responsive */
+@media(max-width:900px){
+  .news-grid{grid-template-columns:repeat(2,1fr)}
+  .card[data-size=large]{grid-column:span 2}
+  .card[data-size=wide]{grid-column:span 2}
+  .card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .news-grid{grid-template-columns:1fr}
+  .card[data-size=large],.card[data-size=wide]{grid-column:span 1;grid-row:span 1}
+  .dl-main{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr-top">
+    <div class="wordmark">AI<span>.</span>DIGEST</div>
+    <div class="hdr-meta">毎朝 07:00 JST 自動配信</div>
+    <button class="theme-btn" onclick="(function(){var r=document.documentElement;r.setAttribute('data-theme',r.getAttribute('data-theme')==='light'?'dark':'light')})()">☀ / ☾</button>
+  </div>
+  <div class="filter-row">
+    <div class="filter-inner" id="fb">
+      <div class="ftab active" data-f="all">すべて</div>
+      <div class="ftab" data-f="3dai">🔴 3大AI</div>
+      <div class="ftab" data-f="image">🎨 画像・動画</div>
+      <div class="ftab" data-f="biz">💼 実務・副業</div>
+      <div class="ftab" data-f="japan">🇯🇵 日本のAI</div>
+      <div class="ftab" data-f="llm">🧠 LLM技術</div>
+      <div class="ftab" data-f="news">📰 一般ニュース</div>
+    </div>
+  </div>
+</header>
+<div class="page">
+  <div class="dateline">
+    <div><div class="dl-sub">2026-09-19</div><div class="dl-main">今日のAIニュース</div></div>
+    <div class="dl-sub" style="align-self:flex-end;margin-bottom:5px">10件</div>
+    <a href="index.html" class="back-lnk">‹ 一覧</a>
+  </div>
+  <div class="news-grid" id="grid">
+<article class="card" data-cat="news" data-size="large">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/AI__Economy_team_hero.max-600x600.format-webp.webp" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">OpenAIとMSの社内文書判明「Web破滅の連鎖と労働の盗用」</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：NYT訴訟で公開された未封印文書により、無断データ収集を「人類史上最大の労働の盗用」と自社内で表現していたことが判明。</li>
+    <li>要点2：AIによるWebデータの過剰消費が元メディアの衰退と質の低下を招く「ドゥームループ（破滅の連鎖）」を引き起こすと警告。</li>
+    <li>要点3：AI著作権訴訟やデータスクレイピング規制の法的リスクが急高まりしており、学習データのライセンス契約義務化への対応が不可避に。</li>
+  </ul>
+  <p>【詳細】ニューヨーク・タイムズ紙がOpenAIおよびマイクロソフト（MS）を相手取って起こした著作権侵害訴訟において、新たに未封印となった両社の社内文書から衝撃的な事実が明らかになった。文書内では、生成AIの学習モデル構築のためにウェブ上のコンテンツを無断でスクレイピングする行為について「人類史上最大の労働の盗用」と表現されており、自社のデータ収集手法に対する倫理的・法的なリスクを事前に深く認識していたことが裏付けられた。さらに、AIがWeb上のオリジナル情報を消費して出力を生成し続けることで、既存メディアが収益を失って衰退し、最終的にはAI自身も高品質なトレーニングデータを失うという「ドゥームループ（破滅の連鎖）」を引き起こす危険性についても明確に警告されていた。本文書の暴露は現在世界中で進行しているAI関連の法的議論や規制の枠組みに重大な影響を与える可能性が高く、AI開発企業における透明性の確保やデータ調達プロセスの根本的な再構築を迫るものとなる。</p>
+  <p><a href="https://www.theverge.com/ai-artificial-intelligence/997633/openai-microsoft-chatgpt-ai-new-york-times-doom-loop-theft-google-zero">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Blog_Header_V2.max-600x600.format-webp.webp" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">米加州知事が最先端AIへの「キルスイッチ」義務化案を提唱</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：ギャビン・ニューサム知事が行政命令を発令し、最先端AIモデルへの「キルスイッチ」実装に関する勧告を2か月以内に提出へ。</li>
+    <li>要点2：制御不能リスクや国家安全保障上のリスクを防止するため、AI開発の最前線であるカリフォルニア州が主導して規制枠組みを構築。</li>
+    <li>要点3：先端AIを開発・運用する事業者や投資家は、安全基準の適合審査や緊急停止プロトコルの組み込みへの対応が必須となる見込み。</li>
+  </ul>
+  <p>【詳細】米カリフォルニア州のギャビン・ニューサム知事は、最先端のAI（フロンティアモデル）に対する監視と規制を強化するための新たな州知事令を発令した。この命令により、専門家で構成される有識者グループが設置され、2か月以内に緊急停止機能（キルスイッチ）の義務化を含む具体的かつ実践的なガイドラインを取りまとめることが求められている。カリフォルニア州は多くの主要AI企業や研究機関が集積するグローバルなAI開発の中心地であり、以前廃案となった「SB 1047」法案に続き、州主導で実効性の高いAIガバナンスの基準を打ち立てる狙いがある。最先端モデルが壊滅的な障害やサイバー攻撃、制御不能な自律行動を引き起こすリスクを防ぐため、開発段階での安全検証や運用中のモデルを即座に遮断できる技術的仕組みの標準化が進められる見通しであり、AI業界全体における開発プロセスやコンプライアンス対応に非常に大きな影響を及ぼす。</p>
+  <p><a href="https://www.theverge.com/policy/997516/california-governor-newsom-ai-kill-switch">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="llm" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/kdn-reusing-the-prompt-prefix-with-a-key-value-cache-for-slm-optimization-feature.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">🧠 LLM・モデル技術</div>
+        <div class="card-title">リアルワールドデータで臨床LLMの回答精度が300%以上向上</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：精密医療の新ベンチマークにて、高品質なリアルワールドエビデンス（RWE）の付与により臨床LLMの精度が300%以上改善。</li>
+    <li>要点2：教科書的知識だけでなく実世界の患者データや治療経過を提示することで、複雑な医療推論の確実性が大幅向上することを実証。</li>
+    <li>要点3：ヘルスケア分野のAI開発において、RAG（検索拡張生成）やRWE基盤の統合が競争力と投資価値を左右する重要要素に。</li>
+  </ul>
+  <p>【詳細】精密医療（プレシジョン・メディシン）分野における新たな評価ベンチマーク調査の結果、検証済みの高品質なリアルワールドエビデンス（RWE：実際の診療現場で得られる患者データ、治療プロセス、臨床結果など）を大規模言語モデル（LLM）に供給・統合することで、臨床判断に関する回答精度が300%以上向上することが明らかになった。従来の医療用LLMは主に医学論文や教科書の固定的な知識に依存していたため、個別の患者の多角的な条件や実社会の臨床文脈が絡む高度な判断においては限界が指摘されていた。今回の研究は、RWEをAIの推論プロセス（RAG構造等）に直接組み込むことで、実際の医療現場で通用する精度の高い診断補助や治療プランの提示が可能になることを数値として証明した。医療AIスタートアップや製薬業界において、リアルワールドデータの収集・活用基盤の重要性が一段と増しており、今後のヘルスケア向けAIソリューションの標準的な開発アプローチとなることが期待されている。</p>
+  <p><a href="https://news.google.com/rss/articles/CBMilgJBVV95cUxOcWF0Y1cyNVowb0hYdU5GVnBVT1drdGZJZmx1a0tPODlpWDhReld3bk1TUHNoWTd4WS1KeExfbGI4V21oRWVaSGhkVTN3UXZWNjFlNU1BOV9ETHlKeTZuc296ei1ra01xbzdLZEQwVTh4bEY0SGpXTnBxZ0l4a0lyeEVQZkZYQUZQdUVkRlA2YWlCb21paTRKbXROZVZkWmFkMnRYSjNRUVlGTHdUbWg0VGFOWVRoMFp3MGVMUVVGaGtlNmxjQ2JkZ2dUNDBCSnJ0WnNwU3EyeTlURXBvWUt3ZG9KNFowSWd0TExpX21mZHQzU2RtbXkzS2RDS2VkSEp0trVLMGp5YXNkTEdzOS00M2txcWxhQQ?oc=5">📎 詳細を見る（出典："LLM large language model new release benchmark 2026" - Google News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/KDN-Shittu-5-Prompt-Optimization-Strategies-That-Actually-Improve-LLM-Output-scaled.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">AIコーディングの「サイレント不具合」を防ぐ検証手法</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：AIエージェントが生成コードを一見正常に動作させつつ仕様と異なる挙動をさせる「サイレント不具合」の問題点を指摘。</li>
+    <li>要点2：人間が1行もコードを読まずに、アプリが開発者の設計意図に合致しているかを自動検証するテストアプローチを提示。</li>
+    <li>要点3：AI活用開発におけるデバッグ負担や手戻りを解消し、受託開発やプロダクト開発での品質保証を大幅に効率化。</li>
+  </ul>
+  <p>【詳細】AIコーディングエージェントの利用が急速に拡大する一方で、ビルドや単体テストは通過するものの、設計者の真の意図とは微妙に異なる挙動や潜在的バグを仕込む「サイレント不具合（Silent Failures）」が深刻な開発課題となっている。Towards Data Scienceの公開記事では、生成された複雑なソースコードを人間が一行ずつレビューすることなく、アプリケーションが設計意図に沿って正しく機能しているかを外部から自動検証する新しいテスト・アプローチ手法を提示している。実行時の振る舞い分析や宣言的仕様記述と出力の一貫性チェックを組み合わせることで、AIが「見た目だけ正しく書いたように見せる」不具合を早期に捕捉する枠組みを提供する。これにより、AI生成コードに対するレビュー工数を大幅に削減し、品質事故を防止できるため、個人の副業エンジニアから企業の開発チームまで、実務におけるプロダクト出荷速度と信頼性を劇的に向上させることができる。</p>
+  <p><a href="https://towardsdatascience.com/coding-agents-keep-shipping-silent-failures-here-is-how-to-catch-them/">📎 詳細を見る（出典：Towards Data Science）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">米バージニア州知事がAIタスクフォースとDC建設制限を発令</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：アビゲイル・スパンバーガー知事が新行政命令（EO 22）を発令し、データセンター（DC）開発承認の厳格化とタスクフォース設置を指示。</li>
+    <li>要点2：世界最大のデータセンター拠点において行政と事業者のNDA締結を禁止し、地域社会の意向を反映した透明な開発へ転換。</li>
+    <li>要点3：クラウドインフラ事業者やインフラファンドにとって、データセンターの建設遅延や電力確保コスト増大などの規制リスクが表面化。</li>
+  </ul>
+  <p>【詳細】世界最大のデータセンター集積地として知られる米バージニア州のアビゲイル・スパンバーガー知事は、AI需要の急増に伴うデータセンターの無制限な建設を抑制し、地元コミュニティの主導権を強めるための行政命令（Executive Order 22）を発令した。この命令では、州職員が事業者と秘密保持契約（NDA）を締結することを禁止し、開発計画の透明性を高めるとともに、AIタスクフォースを立ち上げてインフラ拡大のペースを制御する枠組みを提示している。ハイパースケーラーによる巨大AIデータセンター建設は、地域での電力不足、送電網の圧迫、水資源の消費、地価高騰といった社会問題を引き起こしており、住民の懸念が高まっていた。世界のAI処理能力を支える中心地での規制強化は、今後のビッグテック企業の設備投資計画やクラウドインフラ構築戦略に直接影響を与え、他州や他国におけるデータセンター誘致・規制方針にも波及する可能性がある。</p>
+  <p><a href="https://www.theverge.com/policy/997573/virginia-governor-spanberger-data-center-ai-task-force">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="llm" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🧠 LLM・モデル技術</div>
+        <div class="card-title">PrismMLが超小型LLMでAI利用の常識変革を目指す</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：スタートアップのPrismMLが、ローカル端末上で高速動作する「超小型LLM（Tiny LLM）」モデルを発表。</li>
+    <li>要点2：クラウド依存を脱却し、スマートフォンやエッジデバイス単体で低遅延かつ高精度なAI処理を実行可能にする。</li>
+    <li>要点3：アプリ開発者や事業会社はサーバー通信コストを劇的に削減でき、機密データを保護したオフラインAI機能を実装可能。</li>
+  </ul>
+  <p>【詳細】AIスタートアップのPrismMLは、従来の大規模言語モデル（LLM）が抱えるクラウド依存と膨大な計算コストの問題を打開するため、エッジ端末向けに最適化された「超小型LLM（Tiny LLM）」の展開を打ち出した。同社のモデルは、モデル圧縮技術やパラメータの効率化を極限まで推し進めることで、スマートフォンやノートPC、IoT機器などのローカル環境上で超高速かつ低消費電力で動作するよう設計されている。これにより、クラウドサーバーへデータを送信することなくリアルタイムでの言語処理が可能となり、通信レイテンシの排除、インフラ費用の大幅低減、さらには厳格なプライバシー保護（データが端末外に出ない）を同時に達成できる。オンデバイスAI（エッジAI）の潮流が加速する中、モバイルアプリへのAI組み込みやセキュリティ要件が厳格なエンタープライズ領域での導入が進むと期待されている。</p>
+  <p><a href="https://news.google.com/rss/articles/CBMilwFBVV95cUxPakRpa2ZzOEhSR2tBT3hndnZ4MXZfcjRWN1RPbmVobGZxQnJPUS1oV0s5ZFZfWlIzaGREV054M3p5OXQ4WThlLXlnZ1ZzNVNEcVlzZHhDNXVSTk03VmVUa29Pb194TGVKYjZLcEp4dXp3WTluS25TWV9WTHI4VEVwclFqMmdWZjJFeFA3T0FCYkV2dFRlaTk0?oc=5">📎 詳細を見る（出典："LLM large language model new release benchmark 2026" - Google News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">LLMの出力を劇的に改善する5つのプロンプト最適化戦略</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：プロンプト最適化、Few-shot、Chain-of-Thought、構造化出力など成果を出す5つの主要戦略を体系化。</li>
+    <li>要点2：モデルの推論ロジックとフォーマットを厳密に制御することで、ハルシネーションを防止し回答精度を高める。</li>
+    <li>要点3：業務でのAIプロンプト作成、プロンプトエンジニアリング案件、AIプロダクト開発の実務にそのまま応用可能。</li>
+  </ul>
+  <p>【詳細】KDnuggetsが提示した本記事では、大規模言語モデル（LLM）の応答クオリティと信頼性を実際に向上させるための5つの高度なプロンプト最適化戦略を解説している。取り上げられている手法には、具体的例示を与えることで出力形式を安定させる「Few-shot Prompting」、段階的な思考プロセスを踏ませることで論理的推論力を高める「Chain-of-Thought（CoT）」、JSON等の固定フォーマットで確実なデータ抽出を行う「構造化出力（Structured Outputs）」、さらに指示文自体を自動チューニングする「プロンプト最適化手法」が含まれる。これらのテクニックを組み合わせることで、AI特有のハルシネーション（誤情報の出力）を最小限に抑え、意図した通りの正確な出力を安定して得ることができる。実務における業務自動化、生成AIを活用したシステム構築、プロンプト設計の副業案件など、幅広い現場で即座に精度向上を実現するための実用的なノウハウである。</p>
+  <p><a href="https://www.kdnuggets.com/5-prompt-optimization-strategies-that-actually-improve-llm-output">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">KVキャッシュによるプロンプト再利用でSLMを高速化</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Key-Value（KV）キャッシュを利用し、共通のプロンプトプレフィックス（前置文）を再利用する技術的手法を解説。</li>
+    <li>要点2：小規模言語モデル（SLM）における長文プロンプトの重複計算を回避し、レスポンス速度とGPU処理効率を大幅改善。</li>
+    <li>要点3：チャットボットやAIエージェントの開発現場において、トークン消費の効率化とAPIインフラコストの圧縮に直結。</li>
+  </ul>
+  <p>【詳細】小規模言語モデル（SLM）の最適化技術にフォーカスした解説記事の第2弾として、Key-Value（KV）キャッシュを活用した「プロンプトプレフィックス（Prompt Prefix）の再利用」アプローチが紹介されている。システム指示文や背景コンテキストなど、複数の会話やリクエスト間で使い回される固定の前置テキストの計算結果（KV状態）をメモリ上に保持・再利用することにより、推論のたびに発生していた重い重複計算処理を短縮する。この技術を導入することで、特に初期トークン生成までの時間（Time-to-First-Token）が大幅に短縮され、サーバーのGPUリソースを節約しながらユーザーに対する応答スピードを飛躍的に高めることができる。オンプレミス環境やコスト制限のあるクラウド環境で軽量言語モデルを運用・最適化するソフトウェアエンジニアにとって、実践的なパフォーマンスチューニングの手法として極めて重要である。</p>
+  <p><a href="https://www.kdnuggets.com/reusing-the-prompt-prefix-with-a-key-value-cache-for-slm-optimization">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">GoogleがAIと経済研究チームに新たな有識者を拡充</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Googleが自社の「AI & Economy Research Program」に外部の著名経済学者や政策研究者を多数招聘。</li>
+    <li>要点2：AI技術が雇用、生産性、マクロ経済、格差問題に及ぼす定量的影響を学術的に解明する体制を強化。</li>
+    <li>要点3：政策立案者や企業経営層に向け、将来の労働市場の変化や経済的インパクトに関する予測データを提供。</li>
+  </ul>
+  <p>【詳細】Googleは、AIが世界経済や労働環境に及ぼす影響を包括的に調査・分析する研究イニシアチブ「AI & Economy Research Program」の体制を拡大し、外部から著名な経済学者や政策専門家をチームに加えたことを発表した。AIの技術革新が急速に進む中、自動化による職種の変容、労働生産性の伸び、地域・産業間の経済的格差といったマクロ課題への関心が高まっている。Googleは本プログラムを通じて、政府機関や学術界と連携し、データに基づく多角的な経済分析レポートを発信していく考えだ。技術の普及がもたらす社会構造の変化を定量的・学術的に裏付けるこの試みは、今後の各国政府による労働・AI政策の策定や、経営者が将来の事業戦略・人材投資計画を立てる上での洞察を与える重要な取り組みとなっている。</p>
+  <p><a href="https://blog.google/innovation-and-ai/technology/ai/expanding-ai-economy-research-bench/">📎 詳細を見る（出典：AI）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">Googleが著名デザイナーとAI×ファッションの未来を共創</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：GoogleがJane WadeやSergio Hudson等のファッションデザイナーと提携し、AIを活用したクリエイティブ制作を披露。</li>
+    <li>要点2：デザインの発想、パターン展開、ムードボード制作などクリエイティブワークフロー全体に生成AIを融合。</li>
+    <li>要点3：アパレルやクリエイティブ業界におけるAI活用、ブランドのブランディング・デザイン業務の効率化を提示。</li>
+  </ul>
+  <p>【詳細】Googleは、著名ファッションデザイナーであるジェーン・ウェイド（Jane Wade）やセルジオ・ハドソン（Sergio Hudson）らとコラボレーションし、ファッション業界における先進的なAI共創プロジェクトを発表した。ニューヨーク・ファッションウィーク等のイベントを舞台に、Googleの生成AIツール群をコレクションのデザインプロセスやワークフローにどのように取り入れられるかを実証。アイデアの初期段階におけるイメージ生成、カラーパレットの試行錯誤、複雑なパターンの視覚化など、人間のクリエイティビティを損なうことなく制作スピードと表現の幅を広げる事例を示した。アパレルやデザイン業界において、伝統的な職人技と生成AI技術を融合させ、企画からプロトタイピングまでのコスト削減とイノベーションを同時に実現する具現化モデルとして高く評価されている。</p>
+  <p><a href="https://blog.google/innovation-and-ai/technology/ai/google-flow-fashion-week/">📎 詳細を見る（出典：AI）</a></p>
+    </div>
+  </details>
+</article>
+  </div>
+  <p class="page-foot">自動生成 by Gemini + GitHub Actions</p>
+</div>
+<script>
+document.getElementById('fb').addEventListener('click',function(e){
+  var t=e.target.closest('[data-f]');if(!t)return;
+  var f=t.dataset.f;
+  document.querySelectorAll('.ftab').forEach(function(x){x.classList.remove('active')});
+  t.classList.add('active');
+  document.querySelectorAll('.card').forEach(function(c){
+    c.classList.toggle('filtered',f!=='all'&&c.dataset.cat!==f);
+  });
+});
+</script>
+</body>
+</html>
