@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Digest — 2026-09-21</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg:#0c0c0c; --sur:#141414; --rule:#232323;
+  --txt:#f0f0f0; --txt2:#888; --txt3:#444;
+  --lime:#ccff00; --lime2:#1a2200;
+  --c-3dai:#ff4444; --c-image:#bf5af2; --c-biz:#ff9f0a;
+  --c-japan:#0a84ff; --c-llm:#30d158; --c-news:#636366;
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme=dark]){
+    --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+    --txt:#111; --txt2:#666; --txt3:#aaa;
+    --lime:#5c7a00; --lime2:#edf5c0;
+  }
+}
+:root[data-theme=light]{
+  --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+  --txt:#111; --txt2:#666; --txt3:#aaa;
+  --lime:#5c7a00; --lime2:#edf5c0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+a{color:var(--lime);text-decoration:none}
+a:hover{text-decoration:underline}
+ 
+/* header */
+header{background:var(--bg);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:100}
+.hdr-top{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:12px 20px;max-width:1200px;margin:0 auto}
+.wordmark{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;letter-spacing:-.01em;text-transform:uppercase;color:var(--txt)}
+.wordmark span{color:var(--lime)}
+.hdr-meta{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase}
+.theme-btn{background:transparent;border:1px solid var(--rule);color:var(--txt2);border-radius:4px;padding:5px 10px;font-size:.72rem;cursor:pointer}
+.theme-btn:hover{border-color:var(--txt2)}
+.filter-row{border-top:1px solid var(--rule);overflow-x:auto;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-inner{display:flex;max-width:1200px;margin:0 auto;padding:0 20px}
+.ftab{flex-shrink:0;padding:9px 14px;font-size:.75rem;font-weight:500;color:var(--txt2);border-bottom:2px solid transparent;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;user-select:none}
+.ftab:hover{color:var(--txt)}
+.ftab.active{color:var(--txt);border-bottom-color:var(--lime)}
+ 
+/* page */
+.page{max-width:1200px;margin:0 auto;padding:0 20px 60px}
+.dateline{padding:28px 0 20px;display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--rule)}
+.dl-main{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.6rem;text-transform:uppercase;letter-spacing:-.01em;line-height:1;color:var(--txt)}
+.dl-sub{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase}
+.back-lnk{margin-left:auto;font-size:.78rem;color:var(--txt2);display:flex;align-items:center;gap:5px;flex-shrink:0}
+.back-lnk:hover{color:var(--lime);text-decoration:none}
+ 
+/* grid */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-top:1px}
+.card{background:var(--bg);transition:background .15s}
+.card:hover{background:var(--sur)}
+.card.filtered{display:none}
+ 
+/* magazine sizing */
+.card[data-size=large]{grid-column:span 2;grid-row:span 2}
+.card[data-size=large] .card-img{aspect-ratio:4/3}
+.card[data-size=wide]{grid-column:span 2}
+.card[data-size=wide] .card-img{aspect-ratio:21/9}
+.card[data-size=small] .card-img{aspect-ratio:16/9}
+ 
+/* details / summary */
+details{height:100%;display:flex;flex-direction:column}
+details summary{list-style:none;cursor:pointer;height:100%;display:flex;flex-direction:column}
+details summary::-webkit-details-marker{display:none}
+ 
+/* card image */
+.card-img{width:100%;overflow:hidden;flex-shrink:0;position:relative}
+.card-real-img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+ 
+/* category gradients (fallback when no real image) */
+.card[data-cat=3dai]  .card-img{background:radial-gradient(ellipse 80% 80% at 30% 40%,#3d0a0a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 60% at 72% 65%,#6b1212 0%,transparent 50%)}
+.card[data-cat=image] .card-img{background:radial-gradient(ellipse 90% 70% at 20% 30%,#2d0d4f 0%,#0c0c0c 55%),radial-gradient(ellipse 50% 80% at 78% 60%,#4a1272 0%,transparent 50%)}
+.card[data-cat=biz]   .card-img{background:radial-gradient(ellipse 80% 80% at 40% 40%,#3d2200 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 50% at 75% 65%,#6b3d00 0%,transparent 50%)}
+.card[data-cat=japan] .card-img{background:radial-gradient(ellipse 80% 70% at 30% 35%,#001a3d 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 70%,#003b7a 0%,transparent 45%)}
+.card[data-cat=llm]   .card-img{background:radial-gradient(ellipse 80% 80% at 25% 35%,#062610 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 65%,#0d4820 0%,transparent 50%)}
+.card[data-cat=news]  .card-img{background:radial-gradient(ellipse 80% 70% at 35% 40%,#1a1a1a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 50% at 70% 65%,#2e2e2e 0%,transparent 50%)}
+.card-img::after{content:'';position:absolute;width:40%;height:40%;top:20%;left:15%;border-radius:50%;filter:blur(28px);opacity:.5}
+.card[data-cat=3dai]  .card-img::after{background:#ff4444}
+.card[data-cat=image] .card-img::after{background:#bf5af2}
+.card[data-cat=biz]   .card-img::after{background:#ff9f0a}
+.card[data-cat=japan] .card-img::after{background:#0a84ff}
+.card[data-cat=llm]   .card-img::after{background:#30d158}
+.card[data-cat=news]  .card-img::after{background:#888}
+ 
+/* light mode gradients */
+:root[data-theme=light] .card[data-cat=3dai]  .card-img,
+:root[data-theme=light] .card[data-cat=image] .card-img,
+:root[data-theme=light] .card[data-cat=biz]   .card-img,
+:root[data-theme=light] .card[data-cat=japan] .card-img,
+:root[data-theme=light] .card[data-cat=llm]   .card-img,
+:root[data-theme=light] .card[data-cat=news]  .card-img{filter:brightness(2.5) saturate(.5)}
+ 
+/* card body (text section) */
+.card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:6px}
+.card[data-size=large] .card-body{padding:18px 20px 20px}
+.cat-tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.card[data-cat=3dai]  .cat-tag{color:var(--c-3dai)}
+.card[data-cat=image] .cat-tag{color:var(--c-image)}
+.card[data-cat=biz]   .cat-tag{color:var(--c-biz)}
+.card[data-cat=japan] .cat-tag{color:var(--c-japan)}
+.card[data-cat=llm]   .cat-tag{color:var(--c-llm)}
+.card[data-cat=news]  .cat-tag{color:var(--c-news)}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.15rem;line-height:1.2;color:var(--txt);text-wrap:balance}
+.card[data-size=large] .card-title{font-size:1.9rem;line-height:1.1}
+.card[data-size=wide]  .card-title{font-size:1.4rem}
+.card:hover .card-title{color:var(--lime)}
+.expand-hint{margin-top:auto;font-size:.72rem;color:var(--txt3);display:flex;align-items:center;gap:3px}
+.chev{transition:transform .2s;display:inline-block}
+details[open] .chev{transform:rotate(90deg)}
+ 
+/* expanded body */
+.expand-body{border-top:1px solid var(--rule);padding:18px 16px 20px;background:var(--sur)}
+.card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{padding:20px 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.expand-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.expand-body li{display:flex;gap:8px;font-size:.85rem;line-height:1.55;color:var(--txt)}
+.expand-body li::before{content:counter(li);counter-increment:li;font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:500;color:var(--lime);flex-shrink:0;margin-top:2px;min-width:14px}
+.expand-body ul{counter-reset:li}
+.expand-body p{font-size:.85rem;line-height:1.65;color:var(--txt2);margin-bottom:12px}
+.expand-body a{color:var(--lime);font-weight:500;font-size:.82rem}
+.expand-body a:hover{text-decoration:underline}
+ 
+/* footer */
+.page-foot{font-size:.72rem;color:var(--txt3);margin-top:32px;text-align:center;font-family:'IBM Plex Mono',monospace}
+ 
+/* responsive */
+@media(max-width:900px){
+  .news-grid{grid-template-columns:repeat(2,1fr)}
+  .card[data-size=large]{grid-column:span 2}
+  .card[data-size=wide]{grid-column:span 2}
+  .card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .news-grid{grid-template-columns:1fr}
+  .card[data-size=large],.card[data-size=wide]{grid-column:span 1;grid-row:span 1}
+  .dl-main{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr-top">
+    <div class="wordmark">AI<span>.</span>DIGEST</div>
+    <div class="hdr-meta">毎朝 07:00 JST 自動配信</div>
+    <button class="theme-btn" onclick="(function(){var r=document.documentElement;r.setAttribute('data-theme',r.getAttribute('data-theme')==='light'?'dark':'light')})()">☀ / ☾</button>
+  </div>
+  <div class="filter-row">
+    <div class="filter-inner" id="fb">
+      <div class="ftab active" data-f="all">すべて</div>
+      <div class="ftab" data-f="3dai">🔴 3大AI</div>
+      <div class="ftab" data-f="image">🎨 画像・動画</div>
+      <div class="ftab" data-f="biz">💼 実務・副業</div>
+      <div class="ftab" data-f="japan">🇯🇵 日本のAI</div>
+      <div class="ftab" data-f="llm">🧠 LLM技術</div>
+      <div class="ftab" data-f="news">📰 一般ニュース</div>
+    </div>
+  </div>
+</header>
+<div class="page">
+  <div class="dateline">
+    <div><div class="dl-sub">2026-09-21</div><div class="dl-main">今日のAIニュース</div></div>
+    <div class="dl-sub" style="align-self:flex-end;margin-bottom:5px">5件</div>
+    <a href="index.html" class="back-lnk">‹ 一覧</a>
+  </div>
+  <div class="news-grid" id="grid">
+<article class="card" data-cat="news" data-size="large">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">トランプ氏、開発抑制せず「AI部隊」新設方針を表明</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：トランプ氏がTruth Socialで「AI部隊（AI Force）」の組織と「AI担当長官（AI czar）」の任命構想を発表した。</li>
+    <li>要点2：AI開発の抑制論が高まる中、政府主導による開発推進とイノベーション阻害防止を明確に打ち出した。</li>
+    <li>要点3：米国のAI政策が開発推進に傾く可能性があり、米国AI関連銘柄やスタートアップへの投資判断材料となる。</li>
+  </ul>
+  <p>【詳細】トランプ前大統領（現大統領）はTruth Socialへの投稿を通じて、新たな「AI部隊（AI Force）」の立ち上げと、それを率いる「AI長官（AI czar）」を任命する意向を表明した。現在、AI技術の急激な進化に伴い、政治界やAI業界内部からも規制強化や開発の過熱を抑えるべきだという声（イノベーションのブレーキ論）が高まりを見せている。しかし、同氏の政権方針としては「AI開発をいかなる形でも阻害・妨げない」とし、安全性の名のもとに過剰な規制を課すことに反対する姿勢を鮮明にした。この方針は米国内でのAI技術覇権の維持を目指すものであり、AI規制の緩和や政府支援の拡大が期待される一方で、倫理的配慮や安全対策がおろそかになる懸念も議論を呼んでいる。今後の米国のイノベーション政策やグローバルな規制枠組みの形成に極めて大きな影響を与える動きである。</p>
+  <p><a href="https://www.theverge.com/ai-artificial-intelligence/997867/trump-ai-force-ai-czar">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">NvidiaCEO「AIによる人類滅亡確率は0%」と主張</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Nvidiaのジェンスン・フアンCEOがCBSの番組で、AIによる人類滅亡リスクを「0%」と断言した。</li>
+    <li>要点2：何十年も研究してきた専門家や破滅論者の主張を否定し、楽観的な市場成長を強調。</li>
+    <li>要点3：半導体大手トップの姿勢を示すもので、AIハードウェア市場の長期的成長への信頼性を補強。</li>
+  </ul>
+  <p>【詳細】Nvidiaのジェンスン・フアンCEOは、CBSの番組「CBS Sunday Morning」のインタビューに対し、AIが人類を滅ぼすシナリオの可能性について「0%である」と強い口調で否定した。現在、生成AIの急速な発展に伴い、長年AI領域を研究してきた学者や研究者、倫理学者らからAIの破滅的脅威に対する警告が相次いでいるが、フアン氏はこうした懸念を「誇張されている」と一蹴した。AIブームで最大の利益を得ている企業のトップである同氏の発言には、自社ビジネスの正当化という見方や過度の楽観主義に対する批判も集まっている。しかし、半導体市場の絶対的リーダーが過度なリスク論に屈しない姿勢を示したことで、AI基盤インフラやデータセンター関連への投資意欲を強力に支える要因にもなっている。</p>
+  <p><a href="https://www.theverge.com/ai-artificial-intelligence/997936/nvidia-jensen-huang-ai-fears-overblown">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">GraphRAG構築手法：6つの高度アーキテクチャパターン</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：セマンティック検索と知識グラフ、LLM推論を組み合わせた6つの本番環境向けアーキテクチャを提示。</li>
+    <li>要点2：単なるベクター検索の限界を超え、複雑なエンタープライズデータの文脈理解と検索精度を飛躍的に向上。</li>
+    <li>要点3：実務での高度なRAG構築、副業でのエンジニアリング案件、エンタープライズ向けAIソリューション開発に直結。</li>
+  </ul>
+  <p>【詳細】Towards Data Scienceに公開された本ガイドは、従来の単純なベクトル検索（Vector RAG）の限界を克服するための実務者向け技術解説である。ナレッジグラフ（知識グラフ）とセマンティック検索、そしてLLMの高度な推論機能を統合した「GraphRAG」における6つの実用的なアーキテクチャパターンが提示されている。多層的なデータ構造の把握、グラフトラバースを活用したコンテキスト補完、エンティティ間の関係性を保った情報抽出など、実際のプロダクション環境で運用可能な設計ノウハウをカバーする。AIチャットボットや社内検索システムにおいて精度向上が課題となっている企業やエンジニアにとって、ハルシネーション（幻覚）を削減し、高度な推論を実現するための極めて実践的なリファレンスとなっている。</p>
+  <p><a href="https://towardsdatascience.com/graphrag-a-practitioners-guide-to-6-advanced-architectural-patterns/">📎 詳細を見る（出典：Towards Data Science）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">エネルギーインフラの最大脅威はAIでなく「人間」と指摘</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：サイバー攻撃の脅威において、未だ最大の脆弱性は「暴走AI」ではなく「人間」であると専門家が指摘。</li>
+    <li>要点2：AIによる破滅論の影で、既存の人間系セキュリティホール（フィッシングや設定ミス等）がおろそかになるリスクを警告。</li>
+    <li>要点3：セキュリティ投資やインフラ管理において、AI脅威対策と人間的要因（ヒューマンエラー）対策のバランス見直しが必要。</li>
+  </ul>
+  <p>【詳細】エネルギー施設など重要インフラへのサイバー攻撃において、世間では「暴走したAIが人類を脅かす」というシナリオが懸念されがちだが、専門家は「依然として最大のサイバーセキュリティリスクは人間である」と警告している。公共安全とレジリエンスの専門家であるジョシュア・コーマン氏らは、高精度なAIサイバー攻撃の影で、フィッシング詐欺や運用者の不注意、管理体制の甘さといった人間の弱点を突いた攻撃によって、すでにエネルギーシステムが深刻な脆弱性に晒されている現状を強調する。AI技術の悪用に対する警戒も重要である一方、過度にAIリスクに目を奪われることで、最も初歩的かつ壊滅的な被害をもたらすヒューマンエラーや基礎的なセキュリティ対策が疎かになることへの危機感が示されている。</p>
+  <p><a href="https://www.theverge.com/science/997834/ai-cyberattack-energy-critical-infrastructure">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">PyTorchでゼロから実装するCBAMアテンション機構</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Convolutional Block Attention Module (CBAM) のチャネル＆空間ダブルアテンション構造を解説。</li>
+    <li>要点2：画像認識モデルの精度向上のための軽量かつ汎用的なアテンションブロックの理論と実装を網羅。</li>
+    <li>要点3：画像処理AIのモデル開発やカスタマイズ、コンピュータビジョン分野での案件・副業で活用可能。</li>
+  </ul>
+  <p>【詳細】Towards Data Scienceに掲載された本記事は、コンピュータビジョン領域で広く用いられるアテンション機構「CBAM（Convolutional Block Attention Module）」の論文解説およびPyTorch実装ガイドである。CBAMは、画像の特徴マップに対して「チャネルアテンション（何に注目するか）」と「空間アテンション（どこに注目するか）」の二段階のアテンション（ダブルアテンションメカニズム）を順次適用することで、計算コストを抑えつつCNNモデルの予測精度を大幅に向上させる手法である。記事では数式やアーキテクチャ図を用いて動作原理を丁寧に紐解きながら、PyTorchを使ったゼロからのコーディング手順をステップ・バイ・ステップで示している。既存のCNNモデルへ容易に組み込み可能であるため、画像診断・物体検出モデルの精度改善を目指す開発者にとって有益な実務資料となる。</p>
+  <p><a href="https://towardsdatascience.com/cbam-paper-walkthrough-the-double-attention-mechanism/">📎 詳細を見る（出典：Towards Data Science）</a></p>
+    </div>
+  </details>
+</article>
+  </div>
+  <p class="page-foot">自動生成 by Gemini + GitHub Actions</p>
+</div>
+<script>
+document.getElementById('fb').addEventListener('click',function(e){
+  var t=e.target.closest('[data-f]');if(!t)return;
+  var f=t.dataset.f;
+  document.querySelectorAll('.ftab').forEach(function(x){x.classList.remove('active')});
+  t.classList.add('active');
+  document.querySelectorAll('.card').forEach(function(c){
+    c.classList.toggle('filtered',f!=='all'&&c.dataset.cat!==f);
+  });
+});
+</script>
+</body>
+</html>
