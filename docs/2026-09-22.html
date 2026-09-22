@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Digest — 2026-09-22</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg:#0c0c0c; --sur:#141414; --rule:#232323;
+  --txt:#f0f0f0; --txt2:#888; --txt3:#444;
+  --lime:#ccff00; --lime2:#1a2200;
+  --c-3dai:#ff4444; --c-image:#bf5af2; --c-biz:#ff9f0a;
+  --c-japan:#0a84ff; --c-llm:#30d158; --c-news:#636366;
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme=dark]){
+    --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+    --txt:#111; --txt2:#666; --txt3:#aaa;
+    --lime:#5c7a00; --lime2:#edf5c0;
+  }
+}
+:root[data-theme=light]{
+  --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+  --txt:#111; --txt2:#666; --txt3:#aaa;
+  --lime:#5c7a00; --lime2:#edf5c0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+a{color:var(--lime);text-decoration:none}
+a:hover{text-decoration:underline}
+ 
+/* header */
+header{background:var(--bg);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:100}
+.hdr-top{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:12px 20px;max-width:1200px;margin:0 auto}
+.wordmark{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;letter-spacing:-.01em;text-transform:uppercase;color:var(--txt)}
+.wordmark span{color:var(--lime)}
+.hdr-meta{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase}
+.theme-btn{background:transparent;border:1px solid var(--rule);color:var(--txt2);border-radius:4px;padding:5px 10px;font-size:.72rem;cursor:pointer}
+.theme-btn:hover{border-color:var(--txt2)}
+.filter-row{border-top:1px solid var(--rule);overflow-x:auto;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-inner{display:flex;max-width:1200px;margin:0 auto;padding:0 20px}
+.ftab{flex-shrink:0;padding:9px 14px;font-size:.75rem;font-weight:500;color:var(--txt2);border-bottom:2px solid transparent;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;user-select:none}
+.ftab:hover{color:var(--txt)}
+.ftab.active{color:var(--txt);border-bottom-color:var(--lime)}
+ 
+/* page */
+.page{max-width:1200px;margin:0 auto;padding:0 20px 60px}
+.dateline{padding:28px 0 20px;display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--rule)}
+.dl-main{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.6rem;text-transform:uppercase;letter-spacing:-.01em;line-height:1;color:var(--txt)}
+.dl-sub{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase}
+.back-lnk{margin-left:auto;font-size:.78rem;color:var(--txt2);display:flex;align-items:center;gap:5px;flex-shrink:0}
+.back-lnk:hover{color:var(--lime);text-decoration:none}
+ 
+/* grid */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-top:1px}
+.card{background:var(--bg);transition:background .15s}
+.card:hover{background:var(--sur)}
+.card.filtered{display:none}
+ 
+/* magazine sizing */
+.card[data-size=large]{grid-column:span 2;grid-row:span 2}
+.card[data-size=large] .card-img{aspect-ratio:4/3}
+.card[data-size=wide]{grid-column:span 2}
+.card[data-size=wide] .card-img{aspect-ratio:21/9}
+.card[data-size=small] .card-img{aspect-ratio:16/9}
+ 
+/* details / summary */
+details{height:100%;display:flex;flex-direction:column}
+details summary{list-style:none;cursor:pointer;height:100%;display:flex;flex-direction:column}
+details summary::-webkit-details-marker{display:none}
+ 
+/* card image */
+.card-img{width:100%;overflow:hidden;flex-shrink:0;position:relative}
+.card-real-img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+ 
+/* category gradients (fallback when no real image) */
+.card[data-cat=3dai]  .card-img{background:radial-gradient(ellipse 80% 80% at 30% 40%,#3d0a0a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 60% at 72% 65%,#6b1212 0%,transparent 50%)}
+.card[data-cat=image] .card-img{background:radial-gradient(ellipse 90% 70% at 20% 30%,#2d0d4f 0%,#0c0c0c 55%),radial-gradient(ellipse 50% 80% at 78% 60%,#4a1272 0%,transparent 50%)}
+.card[data-cat=biz]   .card-img{background:radial-gradient(ellipse 80% 80% at 40% 40%,#3d2200 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 50% at 75% 65%,#6b3d00 0%,transparent 50%)}
+.card[data-cat=japan] .card-img{background:radial-gradient(ellipse 80% 70% at 30% 35%,#001a3d 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 70%,#003b7a 0%,transparent 45%)}
+.card[data-cat=llm]   .card-img{background:radial-gradient(ellipse 80% 80% at 25% 35%,#062610 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 65%,#0d4820 0%,transparent 50%)}
+.card[data-cat=news]  .card-img{background:radial-gradient(ellipse 80% 70% at 35% 40%,#1a1a1a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 50% at 70% 65%,#2e2e2e 0%,transparent 50%)}
+.card-img::after{content:'';position:absolute;width:40%;height:40%;top:20%;left:15%;border-radius:50%;filter:blur(28px);opacity:.5}
+.card[data-cat=3dai]  .card-img::after{background:#ff4444}
+.card[data-cat=image] .card-img::after{background:#bf5af2}
+.card[data-cat=biz]   .card-img::after{background:#ff9f0a}
+.card[data-cat=japan] .card-img::after{background:#0a84ff}
+.card[data-cat=llm]   .card-img::after{background:#30d158}
+.card[data-cat=news]  .card-img::after{background:#888}
+ 
+/* light mode gradients */
+:root[data-theme=light] .card[data-cat=3dai]  .card-img,
+:root[data-theme=light] .card[data-cat=image] .card-img,
+:root[data-theme=light] .card[data-cat=biz]   .card-img,
+:root[data-theme=light] .card[data-cat=japan] .card-img,
+:root[data-theme=light] .card[data-cat=llm]   .card-img,
+:root[data-theme=light] .card[data-cat=news]  .card-img{filter:brightness(2.5) saturate(.5)}
+ 
+/* card body (text section) */
+.card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:6px}
+.card[data-size=large] .card-body{padding:18px 20px 20px}
+.cat-tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.card[data-cat=3dai]  .cat-tag{color:var(--c-3dai)}
+.card[data-cat=image] .cat-tag{color:var(--c-image)}
+.card[data-cat=biz]   .cat-tag{color:var(--c-biz)}
+.card[data-cat=japan] .cat-tag{color:var(--c-japan)}
+.card[data-cat=llm]   .cat-tag{color:var(--c-llm)}
+.card[data-cat=news]  .cat-tag{color:var(--c-news)}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.15rem;line-height:1.2;color:var(--txt);text-wrap:balance}
+.card[data-size=large] .card-title{font-size:1.9rem;line-height:1.1}
+.card[data-size=wide]  .card-title{font-size:1.4rem}
+.card:hover .card-title{color:var(--lime)}
+.expand-hint{margin-top:auto;font-size:.72rem;color:var(--txt3);display:flex;align-items:center;gap:3px}
+.chev{transition:transform .2s;display:inline-block}
+details[open] .chev{transform:rotate(90deg)}
+ 
+/* expanded body */
+.expand-body{border-top:1px solid var(--rule);padding:18px 16px 20px;background:var(--sur)}
+.card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{padding:20px 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.expand-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.expand-body li{display:flex;gap:8px;font-size:.85rem;line-height:1.55;color:var(--txt)}
+.expand-body li::before{content:counter(li);counter-increment:li;font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:500;color:var(--lime);flex-shrink:0;margin-top:2px;min-width:14px}
+.expand-body ul{counter-reset:li}
+.expand-body p{font-size:.85rem;line-height:1.65;color:var(--txt2);margin-bottom:12px}
+.expand-body a{color:var(--lime);font-weight:500;font-size:.82rem}
+.expand-body a:hover{text-decoration:underline}
+ 
+/* footer */
+.page-foot{font-size:.72rem;color:var(--txt3);margin-top:32px;text-align:center;font-family:'IBM Plex Mono',monospace}
+ 
+/* responsive */
+@media(max-width:900px){
+  .news-grid{grid-template-columns:repeat(2,1fr)}
+  .card[data-size=large]{grid-column:span 2}
+  .card[data-size=wide]{grid-column:span 2}
+  .card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .news-grid{grid-template-columns:1fr}
+  .card[data-size=large],.card[data-size=wide]{grid-column:span 1;grid-row:span 1}
+  .dl-main{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr-top">
+    <div class="wordmark">AI<span>.</span>DIGEST</div>
+    <div class="hdr-meta">毎朝 07:00 JST 自動配信</div>
+    <button class="theme-btn" onclick="(function(){var r=document.documentElement;r.setAttribute('data-theme',r.getAttribute('data-theme')==='light'?'dark':'light')})()">☀ / ☾</button>
+  </div>
+  <div class="filter-row">
+    <div class="filter-inner" id="fb">
+      <div class="ftab active" data-f="all">すべて</div>
+      <div class="ftab" data-f="3dai">🔴 3大AI</div>
+      <div class="ftab" data-f="image">🎨 画像・動画</div>
+      <div class="ftab" data-f="biz">💼 実務・副業</div>
+      <div class="ftab" data-f="japan">🇯🇵 日本のAI</div>
+      <div class="ftab" data-f="llm">🧠 LLM技術</div>
+      <div class="ftab" data-f="news">📰 一般ニュース</div>
+    </div>
+  </div>
+</header>
+<div class="page">
+  <div class="dateline">
+    <div><div class="dl-sub">2026-09-22</div><div class="dl-main">今日のAIニュース</div></div>
+    <div class="dl-sub" style="align-self:flex-end;margin-bottom:5px">9件</div>
+    <a href="index.html" class="back-lnk">‹ 一覧</a>
+  </div>
+  <div class="news-grid" id="grid">
+<article class="card" data-cat="3dai" data-size="large">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">OpenAIが次世代AIに向けた標準規格と統治の枠組みを提示</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：共通の評価・報告・ガバナンス基準をグローバルに構築することを提言。</li>
+    <li>要点2：AIの安全性を確保しつつ次世代AI開発を進めるための国際標準化。</li>
+    <li>要点3：AI事業者は今後の法的規制や業界標準に沿った監査・開発体制の準備が必要。</li>
+  </ul>
+  <p>【詳細】OpenAIは、フロンティアAIモデルの急速な進化に伴い、世界共通の評価・ガバナンス基準を確立するための道筋を発表しました。これまでのモデル開発からさらに高次元なAIの段階（次世代AI）へと移行する中で、一国や一企業だけの対応では不十分であり、国際的な連携による監視と評価が不可欠であると訴えています。具体的には、AIリスクの共通評価フレームワークの策定、透明性の高いレポート開示義務、そして安全基準を満たさないモデルの展開防止策などを提示しています。このイニシアチブは、世界の規制機関や研究機関と協調してAIの安全性を確保することを目的としており、今後の各国のAI規制案や標準化団体（ISO等）の動きにも決定的な影響を与えると見られています。企業や開発者は、単なる技術開発だけでなく、説明責任や標準規格への準拠が求められる時代に備える必要があります。</p>
+  <p><a href="https://openai.com/index/building-standards-next-phase-ai">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">加州がAIデータセンターの電力・水使用を制限する7法案に署名</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：ガビン・ニューサム知事がデータセンター規制に関する7つの法案に署名。</li>
+    <li>要点2：巨大AIインフラの電力・水インフラ負担を地域住民に転嫁させない仕組みを構築。</li>
+    <li>要点3：クラウド利用料やデータセンター投資のコスト上昇に直結する可能性。</li>
+  </ul>
+  <p>【詳細】米国カリフォルニア州のガビン・ニューサム知事は、急速に拡大するAIデータセンターによるエネルギーおよび水資源の膨大な消費に対処するため、7つの法案からなる一連の法律に署名しました。この法案群は、データセンターの設置や運用に伴う送電網の強化や水インフラの更新費用が、地域住民の電気料金や水道料金に転嫁されるのを防ぐことを主目的としています。州の公共事業委員会（CPUC）に対し、データセンター向けの新料金体系の設定を義務付けるとともに、インフラ改修費用を事業者側が負担するよう規定しています。AIモデルの学習や推論に必要なコンピュート資源の急増は、世界中で電力不足と環境負荷を引き起こしており、本法案はその最前線における規制モデルとなります。AI事業者は今後、データセンターの設置場所選定において、環境負荷や電力調達コストを再計算せざるを得ず、クラウドサービス価格や開発コストにも影響を及ぼす見込みです。</p>
+  <p><a href="https://www.theverge.com/ai-artificial-intelligence/998453/california-ai-data-center-bills">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">アップル、AI機能不履行の訴訟で2.5億ドルの和解金支払いに合意</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：宣伝していたAI機能付きSiriの提供遅延で2億5000万ドルの集団訴訟和解。</li>
+    <li>要点2：宣伝と実際の提供機能のギャップに対するビッグテックの法的リスクを提示。</li>
+    <li>要点3：対象iPhone購入者は一定の条件で請求手続きにより返金・給付を受領可能。</li>
+  </ul>
+  <p>【詳細】Appleは、プロモーションで予告していた高度なAI機能を備えたSiriを期限内に提供できなかったとして起こされていた集団訴訟において、2億5000万ドル（約370億円以上）を支払うことで和解に達し、対象ユーザーの請求受け付けが開始されました。この訴訟は、2024年6月から特定期間内にiPhone 15 Pro、iPhone 15 Pro Max、iPhone 16シリーズを購入した米国在住の消費者が対象となっています。顧客は、AI機能の実現を前提として高額な端末を購入したにもかかわらず、約束された機能が提供されなかったことを不服として提訴していました。今回の巨大な和解金支払いは、AI製品の発表やマーケティングにおいて、未実装の機能を誇大にアピールするリスクに対する強い警鐘となっています。企業はAI関連プロダクトのロードマップ開示やリリース時期の告知において、より厳格かつ現実的な対応を迫られることになります。</p>
+  <p><a href="https://www.theverge.com/tech/998191/apple-siri-ai-iphone-16-class-action-lawsuit-settlement">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/awan_everyone_getting_wrong_typesafe_ais_jev_2.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">Higgsfield AIがGPT-6 Astraで動画広告機能を即日開発</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：GPT-6 Astraの活用により新動画生成機能をわずか1日で構築・導入。</li>
+    <li>要点2：最先端AIモデルが製品開発速度と小規模事業者の動画作成を激変。</li>
+    <li>要点3：動画広告制作コストと開発期間の極限までの短縮による副業・実務革命。</li>
+  </ul>
+  <p>【詳細】動画生成AIプロダクトを手掛けるHiggsfield AIは、次世代モデル「GPT-6 Astra」を導入したことで、新たな動画広告制作機能をわずか1日で開発・本番環境へデプロイすることに成功したと発表しました。これにより、リソースが限られる中小企業や個人事業主でも、高品質な動画広告をプロンプトから迅速に作成・生成できる環境が整いました。強力なAIモデルのコード生成・マルチモーダル処理能力を活用することで、従来は数週間から数か月を要していたプロダクトの新機能追加サイクルが爆発的に加速しています。開発プロセスそのものがAIによって置き換わることで、スタートアップの市場投入スピード（Time-to-market）は異次元の領域に入りました。実務やマーケティングの現場では、専門知識がなくても最先端のクリエイティブを低コストかつ即座に制作できるようになり、デジタル広告戦略やコンテンツ制作の現場に大きな構造変化をもたらしています。</p>
+  <p><a href="https://openai.com/index/higgsfield-from-prompt-to-production-with-astra">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/awan_turn_python_script_ai_agent_4.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">OpenAIが数学とAIの検証・成果発信に向け諮問グループを設置</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：OpenAIが独立した「数学とAIに関する諮問グループ」を組織。</li>
+    <li>要点2：AIが導き出す新たな数学的成果の事前検証と信頼性評価の枠組み構築。</li>
+    <li>要点3：高度な学術・科学計算分野におけるAI成果のビジネス・研究利用が加速。</li>
+  </ul>
+  <p>【詳細】OpenAIは、AIが解明した数学的発見や理論的成果を的確に検証・公表するため、外部の有識者からなる独立組織「数学とAIに関する諮問グループ（Advisory Group on Mathematics and Artificial Intelligence）」の設立を発表しました。近年、推論能力が強化されたAIモデルは、最先端の数学問題の解決や証明の自動化において顕著な成果を上げつつあります。しかし、その正当性の検証や学術界への適切なフィードバックには、専門家による厳格なレビューが必要です。この諮問グループは、AIが生み出す新発見の学術的評価手法を提示し、誤った情報の拡散を防ぐとともに、科学的発見のスピードを加速させる役割を担います。高度な数理モデルや金融工学、暗号理論など、正確性が絶対的に求められる分野において、AIの出力結果に対する信頼性を高める動きとして注目されており、今後の学術研究や産業応用における重要な足がかりとなります。</p>
+  <p><a href="https://openai.com/index/advisory-group-on-mathematics-and-ai">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/kdn-3-polars-tricks-for-high-performance-data-manipulation-feature.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">OpenAI Agents SDKでPython処理をAIエージェント化</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：OpenAI Agents SDKとTool Callingを活用したエージェント構築手法。</li>
+    <li>要点2：単独スクリプトから自律型マルチステップワークフローへの容易な移行。</li>
+    <li>要点3：実務作業や副業案件における自動化システムの設計・単価向上に直結。</li>
+  </ul>
+  <p>【詳細】KDnuggetsの記事では、従来の単発的なPythonスクリプトを、OpenAIが提供する「Agents SDK」を用いて高度なAIエージェントへと進化させる実践的な手法が解説されています。従来のスクリプト処理では、条件分岐やエラーハンドリングをすべて明示的に記述する必要がありましたが、Agents SDKとTool Calling（関数呼び出し機能）を組み合わせることで、LLMが文脈を判断しながら自動的に必要な関数を選択・実行する自律的なワークフローが実現できます。複数ステップにわたるデータ収集、処理、意思決定、外部API連携などを一つの統合されたエージェントとして構築できるため、タスク自動化の柔軟性と拡張性が飛躍的に向上します。実務における業務フローの自動化ツール開発や、副業での受託開発・自社サービス開発において、エージェント型アーキテクチャの導入は不可欠なスキルとなりつつあります。</p>
+  <p><a href="https://www.kdnuggets.com/how-to-turn-a-python-script-into-an-ai-agent">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">アップルの次期経営陣とSiri・AI戦略の今後を専門家が解説</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：著名記者マーク・ガーマン氏がアップルのAI戦略とキーマンについて分析。</li>
+    <li>要点2：ハードウェア責任者John Ternus氏の浮上と次世代Siri再建への課題。</li>
+    <li>要点3：iPhone等の次世代デバイスにおけるオンデバイスAIの方向性を推測。</li>
+  </ul>
+  <p>【詳細】The Vergeのポッドキャストにおいて、Appleのインサイダー情報で最も信頼されるマーク・ガーマン記者が、同社の将来のCEO候補と目されるJohn Ternus（ジョン・ターナス）ハードウェアエンジニアリング担当上級副社長と、AppleのAI遅れからの巻き返し策について解説しました。Appleは年次iPhone発表イベントを終えましたが、市場の関心は「Apple Intelligence」や刷新されたSiriがどのように同社のエコシステムに統合されるかに集まっています。Ternus氏はMacのApple Silicon移行などを成功させた実績を持ち、今後のハードウェアとAIの緊密な統合を導く重要人物として注目されています。AppleがGoogleやOpenAIなどの先行勢に対抗するため、オンデバイス処理とプライバシー保護を強みにした独自のAI体験をいかに構築できるかが、今後の同社の株価や市場での地位を左右します。</p>
+  <p><a href="https://www.theverge.com/podcast/996874/apple-john-ternus-tim-cook-mark-gurman-future-ai-siri-iphone">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">TypeSafe AIの「Jev」がもたらす真の革新と過度な期待</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：TypeSafe AIが開発した「Jev」の実際の機能と技術的新規性を詳細分析。</li>
+    <li>要点2：型安全性を持たせたAI出力制御の実用性と、市場の過剰な過熱感を批判。</li>
+    <li>要点3：堅牢なシステム開発を目指すエンジニアにとって適切なツール選定の指針。</li>
+  </ul>
+  <p>【詳細】KDnuggetsの解説記事では、現在注目を集めているTypeSafe AIのツール「Jev」について、誤解されがちな機能と実態を整理し、客観的な評価を下しています。JevはLLMの出力に対する型安全性（Type Safety）を担保し、エンタープライズ開発において構造化データをより確実かつ安全に取得するためのフレームワークです。市場の一部では「LLMのハルシネーションを完全に無くす」といった過度なハイプ（過熱した噂）が広まっていますが、記事ではJevが実際に解決できる領域（JSONフォーマットの強制やスキーマ検証など）と、解消できない問題（モデルの前提知識の誤りなど）を明確に区分しています。実務において信頼性の高いシステムを構築するためには、ツールに対する正確な理解が不可欠であり、過度な期待を排除して適切なユースケースに導入することの重要性を説いています。</p>
+  <p><a href="https://www.kdnuggets.com/what-everyone-is-getting-wrong-about-typesafe-ais-jev">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">Polarsによる超高速データ処理を実現する3つのテクニック</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Expression EngineとQuery Optimizerを最大限活用する3手法。</li>
+    <li>要点2：Rustベースの並列処理エンジンを活用したPythonデータ処理の超高速化。</li>
+    <li>要点3：大規模データを扱うデータ分析や機械学習前処理の作業時間を劇的削減。</li>
+  </ul>
+  <p>【詳細】KDnuggetsの記事では、Pythonのデータ処理ライブラリ「Polars」のパフォーマンスを最大化するための3つの高度なテクニックを紹介しています。多くの低速なPolarsスクリプトは、全CPUコアを駆使してRustで高速実行される「Expression Engine（表現エンジン）」と、処理前にクエリ全体を最適化する「Query Optimizer（クエリ最適化）」を正しく使いこなせていないことが原因だと指摘されています。記事では、Pandas風の不効率な書き方を避け、Polars本来の遅延評価（Lazy API）や適切な式（Expressions）を利用することで、メモリ消費を抑えつつ処理速度を何倍にも引き上げる具体策を提示しています。大量のAI学習データやログデータを扱うエンジニアにとって、これらの最適化テクニックを導入することは、データ処理パイプラインのコスト削減と効率化に直結します。</p>
+  <p><a href="https://www.kdnuggets.com/3-polars-tricks-for-high-performance-data-manipulation">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+  </div>
+  <p class="page-foot">自動生成 by Gemini + GitHub Actions</p>
+</div>
+<script>
+document.getElementById('fb').addEventListener('click',function(e){
+  var t=e.target.closest('[data-f]');if(!t)return;
+  var f=t.dataset.f;
+  document.querySelectorAll('.ftab').forEach(function(x){x.classList.remove('active')});
+  t.classList.add('active');
+  document.querySelectorAll('.card').forEach(function(c){
+    c.classList.toggle('filtered',f!=='all'&&c.dataset.cat!==f);
+  });
+});
+</script>
+</body>
+</html>
