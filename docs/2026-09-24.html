@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Digest — 2026-09-24</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg:#0c0c0c; --sur:#141414; --rule:#232323;
+  --txt:#f0f0f0; --txt2:#888; --txt3:#444;
+  --lime:#ccff00; --lime2:#1a2200;
+  --c-3dai:#ff4444; --c-image:#bf5af2; --c-biz:#ff9f0a;
+  --c-japan:#0a84ff; --c-llm:#30d158; --c-news:#636366;
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme=dark]){
+    --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+    --txt:#111; --txt2:#666; --txt3:#aaa;
+    --lime:#5c7a00; --lime2:#edf5c0;
+  }
+}
+:root[data-theme=light]{
+  --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+  --txt:#111; --txt2:#666; --txt3:#aaa;
+  --lime:#5c7a00; --lime2:#edf5c0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+a{color:var(--lime);text-decoration:none}
+a:hover{text-decoration:underline}
+ 
+/* header */
+header{background:var(--bg);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:100}
+.hdr-top{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:12px 20px;max-width:1200px;margin:0 auto}
+.wordmark{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;letter-spacing:-.01em;text-transform:uppercase;color:var(--txt)}
+.wordmark span{color:var(--lime)}
+.hdr-meta{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase}
+.theme-btn{background:transparent;border:1px solid var(--rule);color:var(--txt2);border-radius:4px;padding:5px 10px;font-size:.72rem;cursor:pointer}
+.theme-btn:hover{border-color:var(--txt2)}
+.filter-row{border-top:1px solid var(--rule);overflow-x:auto;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-inner{display:flex;max-width:1200px;margin:0 auto;padding:0 20px}
+.ftab{flex-shrink:0;padding:9px 14px;font-size:.75rem;font-weight:500;color:var(--txt2);border-bottom:2px solid transparent;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;user-select:none}
+.ftab:hover{color:var(--txt)}
+.ftab.active{color:var(--txt);border-bottom-color:var(--lime)}
+ 
+/* page */
+.page{max-width:1200px;margin:0 auto;padding:0 20px 60px}
+.dateline{padding:28px 0 20px;display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--rule)}
+.dl-main{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.6rem;text-transform:uppercase;letter-spacing:-.01em;line-height:1;color:var(--txt)}
+.dl-sub{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase}
+.back-lnk{margin-left:auto;font-size:.78rem;color:var(--txt2);display:flex;align-items:center;gap:5px;flex-shrink:0}
+.back-lnk:hover{color:var(--lime);text-decoration:none}
+ 
+/* grid */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-top:1px}
+.card{background:var(--bg);transition:background .15s}
+.card:hover{background:var(--sur)}
+.card.filtered{display:none}
+ 
+/* magazine sizing */
+.card[data-size=large]{grid-column:span 2;grid-row:span 2}
+.card[data-size=large] .card-img{aspect-ratio:4/3}
+.card[data-size=wide]{grid-column:span 2}
+.card[data-size=wide] .card-img{aspect-ratio:21/9}
+.card[data-size=small] .card-img{aspect-ratio:16/9}
+ 
+/* details / summary */
+details{height:100%;display:flex;flex-direction:column}
+details summary{list-style:none;cursor:pointer;height:100%;display:flex;flex-direction:column}
+details summary::-webkit-details-marker{display:none}
+ 
+/* card image */
+.card-img{width:100%;overflow:hidden;flex-shrink:0;position:relative}
+.card-real-img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+ 
+/* category gradients (fallback when no real image) */
+.card[data-cat=3dai]  .card-img{background:radial-gradient(ellipse 80% 80% at 30% 40%,#3d0a0a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 60% at 72% 65%,#6b1212 0%,transparent 50%)}
+.card[data-cat=image] .card-img{background:radial-gradient(ellipse 90% 70% at 20% 30%,#2d0d4f 0%,#0c0c0c 55%),radial-gradient(ellipse 50% 80% at 78% 60%,#4a1272 0%,transparent 50%)}
+.card[data-cat=biz]   .card-img{background:radial-gradient(ellipse 80% 80% at 40% 40%,#3d2200 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 50% at 75% 65%,#6b3d00 0%,transparent 50%)}
+.card[data-cat=japan] .card-img{background:radial-gradient(ellipse 80% 70% at 30% 35%,#001a3d 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 70%,#003b7a 0%,transparent 45%)}
+.card[data-cat=llm]   .card-img{background:radial-gradient(ellipse 80% 80% at 25% 35%,#062610 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 65%,#0d4820 0%,transparent 50%)}
+.card[data-cat=news]  .card-img{background:radial-gradient(ellipse 80% 70% at 35% 40%,#1a1a1a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 50% at 70% 65%,#2e2e2e 0%,transparent 50%)}
+.card-img::after{content:'';position:absolute;width:40%;height:40%;top:20%;left:15%;border-radius:50%;filter:blur(28px);opacity:.5}
+.card[data-cat=3dai]  .card-img::after{background:#ff4444}
+.card[data-cat=image] .card-img::after{background:#bf5af2}
+.card[data-cat=biz]   .card-img::after{background:#ff9f0a}
+.card[data-cat=japan] .card-img::after{background:#0a84ff}
+.card[data-cat=llm]   .card-img::after{background:#30d158}
+.card[data-cat=news]  .card-img::after{background:#888}
+ 
+/* light mode gradients */
+:root[data-theme=light] .card[data-cat=3dai]  .card-img,
+:root[data-theme=light] .card[data-cat=image] .card-img,
+:root[data-theme=light] .card[data-cat=biz]   .card-img,
+:root[data-theme=light] .card[data-cat=japan] .card-img,
+:root[data-theme=light] .card[data-cat=llm]   .card-img,
+:root[data-theme=light] .card[data-cat=news]  .card-img{filter:brightness(2.5) saturate(.5)}
+ 
+/* card body (text section) */
+.card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:6px}
+.card[data-size=large] .card-body{padding:18px 20px 20px}
+.cat-tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.card[data-cat=3dai]  .cat-tag{color:var(--c-3dai)}
+.card[data-cat=image] .cat-tag{color:var(--c-image)}
+.card[data-cat=biz]   .cat-tag{color:var(--c-biz)}
+.card[data-cat=japan] .cat-tag{color:var(--c-japan)}
+.card[data-cat=llm]   .cat-tag{color:var(--c-llm)}
+.card[data-cat=news]  .cat-tag{color:var(--c-news)}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.15rem;line-height:1.2;color:var(--txt);text-wrap:balance}
+.card[data-size=large] .card-title{font-size:1.9rem;line-height:1.1}
+.card[data-size=wide]  .card-title{font-size:1.4rem}
+.card:hover .card-title{color:var(--lime)}
+.expand-hint{margin-top:auto;font-size:.72rem;color:var(--txt3);display:flex;align-items:center;gap:3px}
+.chev{transition:transform .2s;display:inline-block}
+details[open] .chev{transform:rotate(90deg)}
+ 
+/* expanded body */
+.expand-body{border-top:1px solid var(--rule);padding:18px 16px 20px;background:var(--sur)}
+.card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{padding:20px 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.expand-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.expand-body li{display:flex;gap:8px;font-size:.85rem;line-height:1.55;color:var(--txt)}
+.expand-body li::before{content:counter(li);counter-increment:li;font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:500;color:var(--lime);flex-shrink:0;margin-top:2px;min-width:14px}
+.expand-body ul{counter-reset:li}
+.expand-body p{font-size:.85rem;line-height:1.65;color:var(--txt2);margin-bottom:12px}
+.expand-body a{color:var(--lime);font-weight:500;font-size:.82rem}
+.expand-body a:hover{text-decoration:underline}
+ 
+/* footer */
+.page-foot{font-size:.72rem;color:var(--txt3);margin-top:32px;text-align:center;font-family:'IBM Plex Mono',monospace}
+ 
+/* responsive */
+@media(max-width:900px){
+  .news-grid{grid-template-columns:repeat(2,1fr)}
+  .card[data-size=large]{grid-column:span 2}
+  .card[data-size=wide]{grid-column:span 2}
+  .card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .news-grid{grid-template-columns:1fr}
+  .card[data-size=large],.card[data-size=wide]{grid-column:span 1;grid-row:span 1}
+  .dl-main{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr-top">
+    <div class="wordmark">AI<span>.</span>DIGEST</div>
+    <div class="hdr-meta">毎朝 07:00 JST 自動配信</div>
+    <button class="theme-btn" onclick="(function(){var r=document.documentElement;r.setAttribute('data-theme',r.getAttribute('data-theme')==='light'?'dark':'light')})()">☀ / ☾</button>
+  </div>
+  <div class="filter-row">
+    <div class="filter-inner" id="fb">
+      <div class="ftab active" data-f="all">すべて</div>
+      <div class="ftab" data-f="3dai">🔴 3大AI</div>
+      <div class="ftab" data-f="image">🎨 画像・動画</div>
+      <div class="ftab" data-f="biz">💼 実務・副業</div>
+      <div class="ftab" data-f="japan">🇯🇵 日本のAI</div>
+      <div class="ftab" data-f="llm">🧠 LLM技術</div>
+      <div class="ftab" data-f="news">📰 一般ニュース</div>
+    </div>
+  </div>
+</header>
+<div class="page">
+  <div class="dateline">
+    <div><div class="dl-sub">2026-09-24</div><div class="dl-main">今日のAIニュース</div></div>
+    <div class="dl-sub" style="align-self:flex-end;margin-bottom:5px">9件</div>
+    <a href="index.html" class="back-lnk">‹ 一覧</a>
+  </div>
+  <div class="news-grid" id="grid">
+<article class="card" data-cat="3dai" data-size="large">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">サム・アルトマン氏が国連安保理でAIの安全性を演説</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：OpenAIのサム・アルトマンCEOが国連安全保障理事会でスピーチを行い、AIリスクへの国際的な統制と管理の必要性を提言した。</li>
+    <li>要点2：先進AIシステムに対する人間の制御（Human Control）の維持と、国家間での規制枠組み・安全標準の共有を呼びかけた。</li>
+    <li>要点3：国際的なAI規制の動向は、今後のAI企業のコンプライアンス対応やグローバル投資判断に直結する重要指標となる。</li>
+  </ul>
+  <p>【詳細】OpenAIのCEOであるサム・アルトマン氏が国連安全保障理事会（UNSC）に登壇し、人工知能の急速な進化がもたらす安全保障上のリスクと、それに対する国際社会の協調体制について演説を行った。アルトマン氏は、AGI（汎用人工知能）の到来を見据え、軍事利用やサイバー攻撃への悪用を防ぎつつ、人類全体の利益を最大化するための国際的な安全基準と監視機関の設立（IAEAのAI版のような枠組み）の重要性を強調した。特に「最終的な意思決定権を人間が保持する（Human-in-the-loop）」ことの不可欠さを訴え、米中をはじめとする国際的な枠組みでのAIセーフガードの構築を強く促した。この動きは、今後の各国のAI法規制や国際条約の制定に強い影響を与える可能性が高い。</p>
+  <p><a href="https://openai.com/index/sam-altman-un-security-council-remarks">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">Anthropic「Claude Opus 5.5」の全仕様と数値解説</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：システムカードや公開ドキュメントからベンチマーク数値や各種仕様を体系的に検証・集約。</li>
+    <li>要点2：最先端モデルにおける推理力・コード生成・長文コンテキスト処理の精度が飛躍的に向上し、AI開発の基準を更新した。</li>
+    <li>要点3：実務における高度な自動化やシステム構築、AIアプリ開発、投資分析など多岐にわたる高度タスクへ即座に適用可能。</li>
+  </ul>
+  <p>【詳細】Anthropicが発表したフラッグシップモデル「Claude Opus 5.5」に関して、同社のアナウンス、プラットフォームドキュメント、システムカード、第三者による検証データを網羅した包括的なファクトチェック記事。Opus 5.5は従来の思考・推理性能を大幅に更新し、特に複雑なプログラミングタスク、数理的推論、マルチステップのワークフロー実行において業界トップクラスのベンチマーク数値を記録している。また、より長大なコンテキストウインドウの安定処理や、出力の安全性・信頼性（ハルシネーションの低減）に関する定量的評価も明示された。開発者や企業は、本モデルをAPI経由で導入することで、既存の高度なナレッジワークや自動化パイプラインの精度を大幅に向上させることができる。</p>
+  <p><a href="https://www.kdnuggets.com/everything-claude-opus-5-5-actually-ships-with">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">Meta Connect 2026開催：AIとウェアラブルの最新動向</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：年次イベント「Meta Connect 2026」にて、マーク・ザッカーバーグCEOがAIとスマートグラスの最新発表を行った。</li>
+    <li>要点2：ウェアラブルデバイスと次世代AIモデルの融合を加速させ、オープンソースAIエコシステムの主導権獲得を強くアピール。</li>
+    <li>要点3：スマートグラスをはじめとする新規デバイス市場の拡大と、Metaプラットフォームを活用したビジネス展開に注視が必要。</li>
+  </ul>
+  <p>【詳細】Metaの年次ハードウェアおよびAI発表イベント「Meta Connect 2026」が開幕し、マーク・ザッカーバーグCEOが登壇した。今年の焦点は、同社が注力するオープンソースAIモデル「Llama」シリーズの進歩と、Ray-Ban Metaなどのスマートグラスに代表されるウェアラブル技術の統合である。社会的なAI利用への注視が高まる中、Metaはユーザー体験の革新だけでなく、安全対策やプライバシー保護の強化についても言及した。デバイス上で直接動作するマルチモーダルAIの進化により、視覚や音声を通じたリアルタイムなアシスタント機能が大幅に向上しており、消費者の日常生活およびエンタープライズ領域における空間コンピューティングとAIの融合がより現実的なものとなっている。</p>
+  <p><a href="https://www.theverge.com/tech/998480/meta-connect-2026-biggest-news-announcements">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/KDN-Shittu-Claude-Opus-5.5-scaled.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">MetaのAI agent「Muse」がビデオ通話や専用メールに対応</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Metaが新AIエージェント「Muse」に独自のメールアドレス付与機能やビデオチャット機能を発表。</li>
+    <li>要点2：単なる対話AIを超え、独立してタスクを実行し人間とマルチモーダルに会話する「自律型エージェント」へ進化。</li>
+    <li>要点3：メール送信を伴う事務作業の自動化や、ビデオを通じたリアルタイムサポートなど副業・業務効率化に直結。</li>
+  </ul>
+  <p>【詳細】MetaはAIエージェント「Muse」の大幅なアップデートを発表した。新機能として、Museエージェント自身が固有の電子メールアドレスを持てるようになり、ユーザーの代わりに外部とのメールやり取りやスケジュール調停、外部サービスとの連携タスクを自律的に遂行可能となった。さらに、テキストや音声だけでなく、ビデオチャットによるリアルタイムコミュニケーション機能も追加され、カメラを通じた視覚情報の共有や対話が可能になる。これにより、Museは単なる疑問回答チャットボットから、現実のタスクを実行する自律型パーソナルアシスタントへとステップアップした。ビジネス現場での顧客対応自動化や日常的なパーソナルタスクの代行など、AIエージェントの実用化が大きく加速することが期待される。</p>
+  <p><a href="https://www.theverge.com/tech/999454/meta-muse-ai-agent-video-chat-connect-2026">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/Rosidi-Notebooks-That-Survive-1.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">OpenAIがウクライナのインフラ保護へサイバー支援を拡大</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：OpenAIがウクライナ政府に対し、サイバー防衛プログラム「Daybreak」のアクセス権を拡大提供。</li>
+    <li>要点2：民間インフラを標的としたサイバー攻撃に対する検知・防衛能力を高め、国家安全保障と市民生活を護る。</li>
+    <li>要点3：地政学リスクにおける生成AI・サイバーセキュリティ技術の役割増大を示し、セキュリティ関連市場への影響大。</li>
+  </ul>
+  <p>【詳細】OpenAIは、地政学的リスクに直面するウクライナ政府に対し、同社のサイバー防衛イニシアチブ「Daybreak」プログラムを通じた支援を拡大することを決定した。本取り組みは、電力網や水導管、通信網などの市民生活を支える重要インフラに対する高度なサイバー攻撃を検知・防御することを目的としている。OpenAIの最先端AI技術を活用して、脅威インテリジェンスの分析や異常検知を高速化し、ウクライナのサイバー防衛機関の対応能力を向上させる。生成AIが攻撃ツールとして悪用される懸念がある一方で、防衛側の強力なシールドとして実戦投入される画期的な事例であり、国家安全保障分野におけるAI活用と国際支援の新たなモデルケースとなる。</p>
+  <p><a href="https://openai.com/index/openai-extends-cyber-access-to-ukraine-for-civilian-defense">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/kdn-high-performance-data-processing-with-polars-a-cheat-sheet-feature.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">Meta Connect 2026基調講演の現場ライブレポート</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：米メンロパークの本社にて、ザッカーバーグ氏の基調講演を中心にリアルタイムで速報配信を実施。</li>
+    <li>要点2：「すべての人のための未来を築く」というビジョンのもと、AIとメタバースの具体的な統合戦略が明かされた。</li>
+    <li>要点3：迅速な最新技術トレンドの把握は、テック領域での事業開発やプロダクト企画の迅速な意思決定に貢献する。</li>
+  </ul>
+  <p>【詳細】The Vergeによる「Meta Connect 2026」の現地取材ライブブログ速報。米国カリフォルニア州メンロパークのMeta本社から、マーク・ザッカーバーグCEOの基調講演の模様がリアルタイムでレポートされた。ザッカーバーグ氏は、先立って提示された「誰もが享受できるAIと没入型テクノロジーの構築」というビジョンに基づき、消費者向けハードウェアと最先端AIモデルの融合について語った。最新のハードウェア仕様やソフトウェアエコシステムのアップデートが順次明示され、特にオープンソースAIモデル「Llama」エコシステムの拡張と、日常生活に溶け込むスマートウェアラブルの進歩が現地メディアの大きな関心を集めた。</p>
+  <p><a href="https://www.theverge.com/tech/998457/meta-connect-2026-live-blog-mark-zuckerberg-keynote">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">OpenAI Academyが設立2周年、グローバル教育を強化</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：OpenAI Academyが発足から2周年を迎え、世界各国のコミュニティへAI教育の普及を推進。</li>
+    <li>要点2：AIスキルの格差解消を目指し、地域社会や未開拓市場における人材育成とイノベーション促進に貢献。</li>
+    <li>要点3：無料・低価格なAI教育リソースの活用により、個人や中小企業のAIスキル習得とキャリアアップに役立つ。</li>
+  </ul>
+  <p>【詳細】OpenAIのAI能力開発プログラム「OpenAI Academy」が立ち上げから2周年を完了した。本プログラムは、これまでAIテクノロジーへのアクセスや教育機会が限られていた地域のコミュニティ、学生、研究者、起業家に対して、AIスキルの修得支援や開発ツールの提供を行ってきた。2年間の活動を通じて、多くの受講者が基礎的なプロンプトエンジニアリングから高度なAPI連携開発までのスキルを獲得しており、地域社会の課題解決や新たなスタートアップ創出へとつながっている。OpenAIは今後もこのプログラムを拡充し、AI技術の民主化とデジタル格差の是正に向けた投資をグローバル規模で拡大していく方針である。</p>
+  <p><a href="https://openai.com/index/two-years-of-openai-academy">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">Polarsによる超高速データ処理のチートシート公開</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Apache Arrowメモリフォーマット採用のPolarsによるデータ処理高速化手法と式（Expressions）設計を解説。</li>
+    <li>要点2：単なる言語起因の速さではなく、クエリエンジンの計画最適化により大容量データの並列処理を劇的に改善。</li>
+    <li>要点3：Python/Rustでのデータ分析や機械学習前処理の実行速度を劇的に向上させ、クラウドインフラコストを削減。</li>
+  </ul>
+  <p>【詳細】KDnuggetsが公開した、Rust製高速DataFrameライブラリ「Polars」のチートシート記事。Polarsの圧倒的な処理速度は、単にRust言語で書かれていることだけではなく、Apache Arrowメモリフォーマットを採用し、作業を「式（Expressions）」として記述させてクエリエンジンが実行計画を極限まで最適化・並列化するアーキテクチャに由来する。記事では、Pandasからの移行者が直感的に理解できるよう、Lazy API（遅延評価）や効率的なフィルタリング、集計処理の実装例を整理している。データサイエンティストやエンジニアが実務で活用することで、大規模データ処理にかかる時間とメモリ使用量を削減し、副業や業務でのシステム運用効率を高めることができる。</p>
+  <p><a href="https://www.kdnuggets.com/high-performance-data-processing-with-polars-a-cheat-sheet">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">初日以降も破綻しないデータサイエンスNotebookの構築術</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：作成初日で放置・破綻しがちなJupyter Notebookを維持するための「6つの習慣」を提示。</li>
+    <li>要点2：再現性とメンテナンス性を高め、データ分析や機械学習モデル開発における技術的負債を大幅削減。</li>
+    <li>要点3：共同開発や納品データのクオリティ向上に直結し、実務や受託開発でのトラブルを未然に防止。</li>
+  </ul>
+  <p>【詳細】データサイエンス実務において、作成したNotebookが翌日には再実行不能になる「使い捨て化」問題に対処するための解説記事。ノートブックを長期間実行可能かつ共有可能な状態に維持するための「6つの必須習慣（依存関係の明記、状態の全削除テスト、モジュール化など）」を詳述している。グローバル変数の乱用や乱雑な実行順序を防ぎ、パイプラインの再現性を担保する設計手法を導入することで、チーム内でのスムーズなナレッジ共有や本番環境へのスムーズなコード移行が可能となる。個人で受託案件を行うデータサイエンティストにとっても、クライアントへの成果物品質を高める上で極めて有益なノウハウである。</p>
+  <p><a href="https://www.kdnuggets.com/why-most-data-science-notebooks-die-after-day-one-how-to-build-ones-that-survive">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+  </div>
+  <p class="page-foot">自動生成 by Gemini + GitHub Actions</p>
+</div>
+<script>
+document.getElementById('fb').addEventListener('click',function(e){
+  var t=e.target.closest('[data-f]');if(!t)return;
+  var f=t.dataset.f;
+  document.querySelectorAll('.ftab').forEach(function(x){x.classList.remove('active')});
+  t.classList.add('active');
+  document.querySelectorAll('.card').forEach(function(c){
+    c.classList.toggle('filtered',f!=='all'&&c.dataset.cat!==f);
+  });
+});
+</script>
+</body>
+</html>
