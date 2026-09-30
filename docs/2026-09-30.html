@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Digest — 2026-09-30</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg:#0c0c0c; --sur:#141414; --rule:#232323;
+  --txt:#f0f0f0; --txt2:#888; --txt3:#444;
+  --lime:#ccff00; --lime2:#1a2200;
+  --c-3dai:#ff4444; --c-image:#bf5af2; --c-biz:#ff9f0a;
+  --c-japan:#0a84ff; --c-llm:#30d158; --c-news:#636366;
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme=dark]){
+    --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+    --txt:#111; --txt2:#666; --txt3:#aaa;
+    --lime:#5c7a00; --lime2:#edf5c0;
+  }
+}
+:root[data-theme=light]{
+  --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+  --txt:#111; --txt2:#666; --txt3:#aaa;
+  --lime:#5c7a00; --lime2:#edf5c0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+a{color:var(--lime);text-decoration:none}
+a:hover{text-decoration:underline}
+ 
+/* header */
+header{background:var(--bg);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:100}
+.hdr-top{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:12px 20px;max-width:1200px;margin:0 auto}
+.wordmark{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;letter-spacing:-.01em;text-transform:uppercase;color:var(--txt)}
+.wordmark span{color:var(--lime)}
+.hdr-meta{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase}
+.theme-btn{background:transparent;border:1px solid var(--rule);color:var(--txt2);border-radius:4px;padding:5px 10px;font-size:.72rem;cursor:pointer}
+.theme-btn:hover{border-color:var(--txt2)}
+.filter-row{border-top:1px solid var(--rule);overflow-x:auto;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-inner{display:flex;max-width:1200px;margin:0 auto;padding:0 20px}
+.ftab{flex-shrink:0;padding:9px 14px;font-size:.75rem;font-weight:500;color:var(--txt2);border-bottom:2px solid transparent;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;user-select:none}
+.ftab:hover{color:var(--txt)}
+.ftab.active{color:var(--txt);border-bottom-color:var(--lime)}
+ 
+/* page */
+.page{max-width:1200px;margin:0 auto;padding:0 20px 60px}
+.dateline{padding:28px 0 20px;display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--rule)}
+.dl-main{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.6rem;text-transform:uppercase;letter-spacing:-.01em;line-height:1;color:var(--txt)}
+.dl-sub{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase}
+.back-lnk{margin-left:auto;font-size:.78rem;color:var(--txt2);display:flex;align-items:center;gap:5px;flex-shrink:0}
+.back-lnk:hover{color:var(--lime);text-decoration:none}
+ 
+/* grid */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-top:1px}
+.card{background:var(--bg);transition:background .15s}
+.card:hover{background:var(--sur)}
+.card.filtered{display:none}
+ 
+/* magazine sizing */
+.card[data-size=large]{grid-column:span 2;grid-row:span 2}
+.card[data-size=large] .card-img{aspect-ratio:4/3}
+.card[data-size=wide]{grid-column:span 2}
+.card[data-size=wide] .card-img{aspect-ratio:21/9}
+.card[data-size=small] .card-img{aspect-ratio:16/9}
+ 
+/* details / summary */
+details{height:100%;display:flex;flex-direction:column}
+details summary{list-style:none;cursor:pointer;height:100%;display:flex;flex-direction:column}
+details summary::-webkit-details-marker{display:none}
+ 
+/* card image */
+.card-img{width:100%;overflow:hidden;flex-shrink:0;position:relative}
+.card-real-img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+ 
+/* category gradients (fallback when no real image) */
+.card[data-cat=3dai]  .card-img{background:radial-gradient(ellipse 80% 80% at 30% 40%,#3d0a0a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 60% at 72% 65%,#6b1212 0%,transparent 50%)}
+.card[data-cat=image] .card-img{background:radial-gradient(ellipse 90% 70% at 20% 30%,#2d0d4f 0%,#0c0c0c 55%),radial-gradient(ellipse 50% 80% at 78% 60%,#4a1272 0%,transparent 50%)}
+.card[data-cat=biz]   .card-img{background:radial-gradient(ellipse 80% 80% at 40% 40%,#3d2200 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 50% at 75% 65%,#6b3d00 0%,transparent 50%)}
+.card[data-cat=japan] .card-img{background:radial-gradient(ellipse 80% 70% at 30% 35%,#001a3d 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 70%,#003b7a 0%,transparent 45%)}
+.card[data-cat=llm]   .card-img{background:radial-gradient(ellipse 80% 80% at 25% 35%,#062610 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 65%,#0d4820 0%,transparent 50%)}
+.card[data-cat=news]  .card-img{background:radial-gradient(ellipse 80% 70% at 35% 40%,#1a1a1a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 50% at 70% 65%,#2e2e2e 0%,transparent 50%)}
+.card-img::after{content:'';position:absolute;width:40%;height:40%;top:20%;left:15%;border-radius:50%;filter:blur(28px);opacity:.5}
+.card[data-cat=3dai]  .card-img::after{background:#ff4444}
+.card[data-cat=image] .card-img::after{background:#bf5af2}
+.card[data-cat=biz]   .card-img::after{background:#ff9f0a}
+.card[data-cat=japan] .card-img::after{background:#0a84ff}
+.card[data-cat=llm]   .card-img::after{background:#30d158}
+.card[data-cat=news]  .card-img::after{background:#888}
+ 
+/* light mode gradients */
+:root[data-theme=light] .card[data-cat=3dai]  .card-img,
+:root[data-theme=light] .card[data-cat=image] .card-img,
+:root[data-theme=light] .card[data-cat=biz]   .card-img,
+:root[data-theme=light] .card[data-cat=japan] .card-img,
+:root[data-theme=light] .card[data-cat=llm]   .card-img,
+:root[data-theme=light] .card[data-cat=news]  .card-img{filter:brightness(2.5) saturate(.5)}
+ 
+/* card body (text section) */
+.card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:6px}
+.card[data-size=large] .card-body{padding:18px 20px 20px}
+.cat-tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.card[data-cat=3dai]  .cat-tag{color:var(--c-3dai)}
+.card[data-cat=image] .cat-tag{color:var(--c-image)}
+.card[data-cat=biz]   .cat-tag{color:var(--c-biz)}
+.card[data-cat=japan] .cat-tag{color:var(--c-japan)}
+.card[data-cat=llm]   .cat-tag{color:var(--c-llm)}
+.card[data-cat=news]  .cat-tag{color:var(--c-news)}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.15rem;line-height:1.2;color:var(--txt);text-wrap:balance}
+.card[data-size=large] .card-title{font-size:1.9rem;line-height:1.1}
+.card[data-size=wide]  .card-title{font-size:1.4rem}
+.card:hover .card-title{color:var(--lime)}
+.expand-hint{margin-top:auto;font-size:.72rem;color:var(--txt3);display:flex;align-items:center;gap:3px}
+.chev{transition:transform .2s;display:inline-block}
+details[open] .chev{transform:rotate(90deg)}
+ 
+/* expanded body */
+.expand-body{border-top:1px solid var(--rule);padding:18px 16px 20px;background:var(--sur)}
+.card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{padding:20px 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.expand-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.expand-body li{display:flex;gap:8px;font-size:.85rem;line-height:1.55;color:var(--txt)}
+.expand-body li::before{content:counter(li);counter-increment:li;font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:500;color:var(--lime);flex-shrink:0;margin-top:2px;min-width:14px}
+.expand-body ul{counter-reset:li}
+.expand-body p{font-size:.85rem;line-height:1.65;color:var(--txt2);margin-bottom:12px}
+.expand-body a{color:var(--lime);font-weight:500;font-size:.82rem}
+.expand-body a:hover{text-decoration:underline}
+ 
+/* footer */
+.page-foot{font-size:.72rem;color:var(--txt3);margin-top:32px;text-align:center;font-family:'IBM Plex Mono',monospace}
+ 
+/* responsive */
+@media(max-width:900px){
+  .news-grid{grid-template-columns:repeat(2,1fr)}
+  .card[data-size=large]{grid-column:span 2}
+  .card[data-size=wide]{grid-column:span 2}
+  .card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .news-grid{grid-template-columns:1fr}
+  .card[data-size=large],.card[data-size=wide]{grid-column:span 1;grid-row:span 1}
+  .dl-main{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr-top">
+    <div class="wordmark">AI<span>.</span>DIGEST</div>
+    <div class="hdr-meta">毎朝 07:00 JST 自動配信</div>
+    <button class="theme-btn" onclick="(function(){var r=document.documentElement;r.setAttribute('data-theme',r.getAttribute('data-theme')==='light'?'dark':'light')})()">☀ / ☾</button>
+  </div>
+  <div class="filter-row">
+    <div class="filter-inner" id="fb">
+      <div class="ftab active" data-f="all">すべて</div>
+      <div class="ftab" data-f="3dai">🔴 3大AI</div>
+      <div class="ftab" data-f="image">🎨 画像・動画</div>
+      <div class="ftab" data-f="biz">💼 実務・副業</div>
+      <div class="ftab" data-f="japan">🇯🇵 日本のAI</div>
+      <div class="ftab" data-f="llm">🧠 LLM技術</div>
+      <div class="ftab" data-f="news">📰 一般ニュース</div>
+    </div>
+  </div>
+</header>
+<div class="page">
+  <div class="dateline">
+    <div><div class="dl-sub">2026-09-30</div><div class="dl-main">今日のAIニュース</div></div>
+    <div class="dl-sub" style="align-self:flex-end;margin-bottom:5px">11件</div>
+    <a href="index.html" class="back-lnk">‹ 一覧</a>
+  </div>
+  <div class="news-grid" id="grid">
+<article class="card" data-cat="3dai" data-size="large">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">OpenAI DevDay 2026発表まとめ：GPT-6 Astra登場</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：GPT-6 Astra、ChatGPT、Codex、新API等20以上の新プロダクト・機能が一挙発表。</li>
+    <li>要点2：基盤モデルの性能向上に加えセキュリティや開発者ツールが強化され、AIエコシステムが急拡大。</li>
+    <li>要点3：最新APIやCodexの活用により、システム開発の高速化や業務自動化プロダクトの構築が容易に。</li>
+  </ul>
+  <p>【詳細】OpenAIは開発者向け年次イベント「DevDay 2026」を開催し、次世代フラグシップモデル「GPT-6 Astra」をはじめとする20以上の新発表を行った。基盤モデルのアップデートに加え、開発者向けAPI、コード生成に特化した「Codex」、エンタープライズ層を見据えたセキュリティ機能の強化など多角的な発表が行われた。GPT-6 Astraは従来の推論・マルチモーダル能力を格段に向上させており、複雑なワークフローを完全自動化する開発環境が整備された。また、開発者が独自の自律型エージェントや高度なAIアプリケーションを迅速に構築できる新ツール群も提供開始され、業界全体におけるAI実装のスピードがさらに加速することが予想される。</p>
+  <p><a href="https://openai.com/index/devday-2026-recap">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">OpenAI「GPT-6.1 Sol」発表：コスト5分の1で高知能</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：フラグシップ級の推論・コーディング能力を、標準APIの5分の1（インプット/アウトプット）価格で実現。</li>
+    <li>要点2：高度なAIモデルの運用コストが激減し、スタートアップや大企業でのAI大規模導入が加速。</li>
+    <li>要点3：開発や副業でのAPI利用コストを大幅削減でき、投資対効果（ROI）の高いAIアプリ開発が可能。</li>
+  </ul>
+  <p>【詳細】OpenAIは新たなAIモデル「GPT-6.1 Sol」を発表した。本モデルは、最上位モデル「Astra」に匹敵する高度なコーディング、コンピュータ操作（Computer Use）、および専門的なビジネス業務の処理能力を備えつつ、トークン単価（入力・出力双方）を従来比5分の1という破格のコストに抑えているのが最大の特徴である。これにより、これまで費用面がボトルネックとなっていた複雑な自律型エージェントの構築や長文コンテキスト処理、24時間稼働のバックエンド処理などを大幅に低い予算で運用できるようになる。開発者や事業者にとっては、低費用で高品質なサービスを提供できるため、AI駆動型ビジネスの市場参入障壁が大きく下がるインパクトを持つ。</p>
+  <p><a href="https://openai.com/index/introducing-gpt-6-1-sol">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">OpenAIの能動型自律アシスタント「dots」が登場</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：プロジェクトや日常タスクを横断し、人間の指示を待たず能動的に作業を継続する新機能を搭載。</li>
+    <li>要点2：受動的なチャットボットから、主体的に目標を達成する「プロアクティブAI」へのパラダイムシフト。</li>
+    <li>要点3：タスク管理やプロジェクト進行の自動化により、個人の実務生産性やチーム運用効率が劇的に向上。</li>
+  </ul>
+  <p>【詳細】OpenAIは、複雑なプロジェクトや日々の業務を能動的に支援する新しいアシスタント機能「dots」を発表した。従来のAIツールはユーザーからのプロンプトに対して応答する「受動型」が主流であったが、dotsはユーザーの文脈や目標を理解し、プロジェクト全体を通じて自律的かつ継続的にタスクを実行・フォローアップする「プロアクティブ型」のアシスタントである。作業の進捗管理や情報収集、タスクの切り出しなどをAIが主体となって進めるため、ユーザーは重要な意思決定やクリエイティブな作業に集中できるようになる。人間がコントロールを保持しつつ作業の進行度を劇的に高める仕組みとなっており、今後の働き方やコラボレーションの形を大きく変革する可能性を秘めている。</p>
+  <p><a href="https://openai.com/index/introducing-dots">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/image2-21.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">サム・アルトマン氏、安全性確保までOpenAI上場せず</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：モデルの安全性に対する明確な保証が立てられるまでIPOを行わない方針をCEOが明言。</li>
+    <li>要点2：上場による短期的な利益追求圧力よりも、AIリスク管理とアライメントを優先する姿勢を鮮明化。</li>
+    <li>要点3：AI業界のガバナンス評価の基準になるとともに、AI企業の投資リスクや資金調達戦略に影響。</li>
+  </ul>
+  <p>【詳細】OpenAIのCEOであるサム・アルトマン（Sam Altman）氏は、同社の株式公開（IPO）について、モデルの安全性が十分に約束できるようになるまでは実施しない方針を明らかにした。市場からは株式上場の時期に大きな注目が集まっていたが、明確なタイムラインを設定せず、安全性の確保を最優先事項として掲げている。モデルの能力が急速に向上する一方で、制御不能なリスクや社会的な悪影響に対する懸念が高まっており、上場企業としての短期的な業績向上圧力がAI安全性の取り組みを歪めることを防ぐ狙いがあると見られる。この決断は、生成AI業界全体におけるガバナンス議論や非営利・営利のハイブリッド構造の是非、先行投資を行うVCや主要投資家の戦略にも大きな投じ石となる。</p>
+  <p><a href="https://www.theverge.com/ai-artificial-intelligence/1002505/sam-altman-openai-ipo-devday-ai-safety">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/KDN-Shittu-SuperWhisper-s1-mini-scaled.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">トランプ米大統領、政府内の「AI」呼称を「超知能」へ変更</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：大統領令により、米政府の公式サイトや政策文書での「AI」表記を「Super Intelligence」に統一。</li>
+    <li>要点2：米国政府の国家戦略において、AI開発・競争を国家の優位性を決定づける絶対的領域と再定義。</li>
+    <li>要点3：政府調達や国家予算配分、米国の規制フレームワークに影響を与える可能性があり投資家要注目。</li>
+  </ul>
+  <p>【詳細】ドナルド・トランプ米大統領は、連邦政府の行政機関に対し、公式文書やウェブサイト、プレスリリース等で従来の「人工知能（Artificial Intelligence）」という言葉を使わず、すべて「Super Intelligence（超知能）」と呼称することを命じる大統領令に署名した。トランプ氏は記者会見で「Superという言葉は最もシンプルで強力だ」と述べ、米国のテクノロジー主導権をアピールする狙いを見せた。単なる呼称の変更にとどまらず、国家安全保障や産業政策における「超知能」開発の優先度を最大化するシグナルと受け止められており、米国の対外輸出規制や国内のAI研究開発予算の配分方針にも波及する可能性がある。テクノロジー企業や投資家にとっても米国のAI国家戦略の方向性を示す重要ニュースである。</p>
+  <p><a href="https://www.theverge.com/policy/1002468/trump-ai-superintelligence-executive-order-ai">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/awan_5_free_courses_learn_ai_engineering_1.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">イーロン・マスク氏のAI百科事典「Grokipedia」更新再開</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：4月以降停止していたページの編集・更新作業が数ヶ月ぶりに再開されたことが確認された。</li>
+    <li>要点2：xAI/SpaceXの独自エコシステムにおけるリアルタイム情報網構築が再び動き出した。</li>
+    <li>要点3：AI生成コンテンツによるナレッジベース構築の精度やファクトチェックの動向に注目が集まる。</li>
+  </ul>
+  <p>【詳細】イーロン・マスク氏率いるAI/宇宙事業エコシステムが手がけるAI主導のオンライン百科事典「Grokipedia」が、数ヶ月間の更新停止期間を経て再びコンテンツの更新を開始した。同プラットフォームは8月時点で4月以降記事の編集審査が止まっていると報じられていたが、最新のライブアップデートサイトによると、さまざまなページで最近の変更が反映され始めている。Grokipediaは、LLMを活用して膨大な情報をリアルタイムで要約・ナレッジ化する試みであり、Wikipediaに対する対抗馬およびGrok（xAIのモデル）の知識ソースとして位置づけられている。AIによる知識基盤の構築におけるファクトチェック能力やハルシネーション対策の精度検証の場として、今後の動向が注目される。</p>
+  <p><a href="https://www.theverge.com/tech/1002448/elon-musk-grokipedia-ai-updating-again">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="japan" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🇯🇵 日本のAI</div>
+        <div class="card-title">AI普及で電力消費激増：データセンター問題と日本の課題</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：生成AIの日常的利用に伴い、データセンター等の電力需要が急増しインフラ負荷が深刻化。</li>
+    <li>要点2：省電力型チップの導入や次世代エネルギーの活用など、持続可能なAI基盤整備が急務に。</li>
+    <li>要点3：データセンター関連株や省エネ技術（液冷・パワー半導体等）への投資機会・需要拡大。</li>
+  </ul>
+  <p>【詳細】ASCII.jpの論説において、生成AIが日常的に利用されるようになった結果、データセンターの電力消費量が指数関数的に激増している問題が取り上げられた。AIモデルの学習・推論には膨大な計算資源が必要であり、従来のITインフラの想定を超える電力が要求されている。日本国内でもデータセンターの増設が進む中、電力不足リスクや環境負荷への対応、送電網の強靭化が大きな課題となっている。この問題に対しては、アルゴリズムの軽量化や省電力AIチップの開発、液冷技術の導入、再生可能エネルギーや原子力エネルギーの活用など、多角的なアプローチが求められている。インフラ構築に関わる企業や電力・省エネ関連技術を持つ国内企業にとっては大きなビジネス機会でもある。</p>
+  <p><a href="https://news.google.com/rss/articles/CBMiWEFVX3lxTE5iR2d6SEl3MFRaUF85Y1RhVUhNMVcwa1pja2pPX1dNcU9JREg3elBMQ0dTZ28xNXNsRFRUdEZPcDRzMW40OVo0d0xSUV95T09JbDBLdHdVLWk?oc=5">📎 詳細を見る（出典："site:ascii.jp OR site:itmedia.co.jp OR site:mynavi.jp AI 生成AI" - Google News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="japan" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🇯🇵 日本のAI</div>
+        <div class="card-title">デル調査：AI利用拡大による端末リスクとSub-OS防御</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：AI端末の普及に伴い、OSより下層のファームウェア層（Sub-OS）を狙う脅威が急増。</li>
+    <li>要点2：従来のアンチウイルス等では防げないセキュリティ領域の保護が企業ITの必須課題に。</li>
+    <li>要点3：企業のIT管理者や副業・リモートワーカーはハードウェアレベルでのセキュリティ対策を厳格化。</li>
+  </ul>
+  <p>【詳細】デル・テクノロジーズは、AI利用の急速な広がりに伴うエンドポイント（端末）セキュリティリスクに関する調査結果を発表した。AI処理を実行するPC（AI PC）等の導入が進む中、攻撃者のターゲットが従来のOS層から、OSの下層で動作するファームウェアやBIOSといった「Sub-OS」領域へとシフトしている実態が明らかになった。Sub-OSレベルでの攻撃は発見が困難であり、AIモデルや機密データの漏洩、端末の不正操作に直結する重大なリスクとなる。本調査では、従来のソフトウェア型セキュリティ対策だけでは不十分であり、ハードウェアに統合された防護メカニズムやゼロトラストモデルを端末レベルで実装することが企業のビジネス継続性において不可欠であると強調している。</p>
+  <p><a href="https://news.google.com/rss/articles/CBMiWEFVX3lxTE5rM2Z1MXVhRHBfdHFWM3dRbnFDa1dPUzFDNTR3R0pxNXZ0VDFfWmNNTE9yTkxTQmRRclU5YTk0Z0RRWW1vUVEwbGduam9GVWRjSTh3amJacnE?oc=5">📎 詳細を見る（出典："site:ascii.jp OR site:itmedia.co.jp OR site:mynavi.jp AI 生成AI" - Google News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">超軽量6億パラメータの文字起こしモデル「s1-mini」</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：600M（6億）パラメータという軽量サイズで高い精度の音声テキスト化を実現。</li>
+    <li>要点2：エッジデバイスやローカル環境でのリアルタイム高精度文字起こしが可能に。</li>
+    <li>要点3：クラウド通信不要でプライバシーを保ちつつ、議事録作成や副業案件の作業スピード向上。</li>
+  </ul>
+  <p>【詳細】SuperWhisperから新たにリリースされた「S1」モデルファミリーの最新軽量版「s1-mini」に関する詳細分析記事。わずか600M（6億）パラメータという非常に小規模なモデルサイズでありながら、最新の構造最適化によりWhisper等の標準モデルに匹敵する優れた音声認識・文字起こし精度を誇る。パラメータ数が少ないため、スマートフォンのようなモバイル端末やノートPCのローカル環境（エッジ環境）でレスポンス良く高速動作するのが最大の強みである。外部サーバーへ音声を送信する必要がないため、機密情報を取り扱う会議の議事録作成や、プライバシー保護が求められる医療・法律領域の実務での活用が期待される。</p>
+  <p><a href="https://www.kdnuggets.com/superwhisper-s1-mini-the-600m-parameter-model-built-just-for-transcription">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">Julius AIでExcelデータをパワポ資料へ自動作成</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Julius AIを活用してExcelデータを自動分析・検証し、編集可能なPowerPointを生成。</li>
+    <li>要点2：スプレッドシートの集計からプレゼン資料化までの実務時間を劇的に短縮可能。</li>
+    <li>要点3：業務効率化や副業でのレポート作成作業において即戦力となる分析テクニック。</li>
+  </ul>
+  <p>【詳細】データ分析AIツール「Julius AI」を活用し、複雑なExcelデータの集計・分析から、その結果をもとにした見栄えの良いPowerPointプレゼンテーションの作成までを自動化する実践的なガイド記事。Julius AIは、プロンプトベースでデータの異常値チェックや傾向分析を行えるだけでなく、分析結果の要点を抽出して編集可能なPPTXファイルとして直接出力する機能を備えている。従来の「データ分析」と「資料作成」という2つの分離した工程をシームレスに統合できるため、実務担当者やコンサルタント、副業ワーカーの業務負担を大幅に削減する。出力されたスライドは後からデザイン微調整が可能なため、実務で即座に活用できる実用性の高さが特徴である。</p>
+  <p><a href="https://www.kdnuggets.com/julius.ai/how-to-turn-excel-data-into-powerpoint-presentations-with-ai">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">AIエンジニアリングを無料で学べる厳選5コース</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：LLM基礎、RAG、MLOps、ファインチューニング、デプロイまで学べる5つの無料講座。</li>
+    <li>要点2：理論だけでなく実践的なコード実装と運用スキルを体系的に身につけることが可能。</li>
+    <li>要点3：スキルアップによるAIエンジニアへのキャリアチェンジや副業案件獲得に最適。</li>
+  </ul>
+  <p>【詳細】KDnuggetsが厳選した、AIエンジニアリングおよび大規模言語モデル（LLM）の実装技術を無料で学べる5つのオンライン講座の紹介記事。単なる「AIの使い方」にとどまらず、Retrieval-Augmented Generation（RAG）の構築、モデルのファインチューニング（微調整）、MLOps（機械学習運用）、本番環境へのデプロイなど、現場で最も需要が高い技術スタックを網羅している。各コースは実践的なプロジェクト課題を含んでおり、ハンズオン形式でコードを書きながらスキルを磨くことができる。AIエンジニアとしての転職を目指す求職者や、実践的なAI開発スキルを獲得して単価の高い副業案件を獲得したいエンジニアにとって極めて有用なカリキュラムとなっている。</p>
+  <p><a href="https://www.kdnuggets.com/5-free-courses-to-learn-ai-engineering">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+  </div>
+  <p class="page-foot">自動生成 by Gemini + GitHub Actions</p>
+</div>
+<script>
+document.getElementById('fb').addEventListener('click',function(e){
+  var t=e.target.closest('[data-f]');if(!t)return;
+  var f=t.dataset.f;
+  document.querySelectorAll('.ftab').forEach(function(x){x.classList.remove('active')});
+  t.classList.add('active');
+  document.querySelectorAll('.card').forEach(function(c){
+    c.classList.toggle('filtered',f!=='all'&&c.dataset.cat!==f);
+  });
+});
+</script>
+</body>
+</html>
