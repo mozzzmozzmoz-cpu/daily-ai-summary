@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Digest — 2026-10-03</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg:#0c0c0c; --sur:#141414; --rule:#232323;
+  --txt:#f0f0f0; --txt2:#888; --txt3:#444;
+  --lime:#ccff00; --lime2:#1a2200;
+  --c-3dai:#ff4444; --c-image:#bf5af2; --c-biz:#ff9f0a;
+  --c-japan:#0a84ff; --c-llm:#30d158; --c-news:#636366;
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme=dark]){
+    --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+    --txt:#111; --txt2:#666; --txt3:#aaa;
+    --lime:#5c7a00; --lime2:#edf5c0;
+  }
+}
+:root[data-theme=light]{
+  --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+  --txt:#111; --txt2:#666; --txt3:#aaa;
+  --lime:#5c7a00; --lime2:#edf5c0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+a{color:var(--lime);text-decoration:none}
+a:hover{text-decoration:underline}
+ 
+/* header */
+header{background:var(--bg);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:100}
+.hdr-top{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:12px 20px;max-width:1200px;margin:0 auto}
+.wordmark{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;letter-spacing:-.01em;text-transform:uppercase;color:var(--txt)}
+.wordmark span{color:var(--lime)}
+.hdr-meta{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase}
+.theme-btn{background:transparent;border:1px solid var(--rule);color:var(--txt2);border-radius:4px;padding:5px 10px;font-size:.72rem;cursor:pointer}
+.theme-btn:hover{border-color:var(--txt2)}
+.filter-row{border-top:1px solid var(--rule);overflow-x:auto;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-inner{display:flex;max-width:1200px;margin:0 auto;padding:0 20px}
+.ftab{flex-shrink:0;padding:9px 14px;font-size:.75rem;font-weight:500;color:var(--txt2);border-bottom:2px solid transparent;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;user-select:none}
+.ftab:hover{color:var(--txt)}
+.ftab.active{color:var(--txt);border-bottom-color:var(--lime)}
+ 
+/* page */
+.page{max-width:1200px;margin:0 auto;padding:0 20px 60px}
+.dateline{padding:28px 0 20px;display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--rule)}
+.dl-main{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.6rem;text-transform:uppercase;letter-spacing:-.01em;line-height:1;color:var(--txt)}
+.dl-sub{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase}
+.back-lnk{margin-left:auto;font-size:.78rem;color:var(--txt2);display:flex;align-items:center;gap:5px;flex-shrink:0}
+.back-lnk:hover{color:var(--lime);text-decoration:none}
+ 
+/* grid */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-top:1px}
+.card{background:var(--bg);transition:background .15s}
+.card:hover{background:var(--sur)}
+.card.filtered{display:none}
+ 
+/* magazine sizing */
+.card[data-size=large]{grid-column:span 2;grid-row:span 2}
+.card[data-size=large] .card-img{aspect-ratio:4/3}
+.card[data-size=wide]{grid-column:span 2}
+.card[data-size=wide] .card-img{aspect-ratio:21/9}
+.card[data-size=small] .card-img{aspect-ratio:16/9}
+ 
+/* details / summary */
+details{height:100%;display:flex;flex-direction:column}
+details summary{list-style:none;cursor:pointer;height:100%;display:flex;flex-direction:column}
+details summary::-webkit-details-marker{display:none}
+ 
+/* card image */
+.card-img{width:100%;overflow:hidden;flex-shrink:0;position:relative}
+.card-real-img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+ 
+/* category gradients (fallback when no real image) */
+.card[data-cat=3dai]  .card-img{background:radial-gradient(ellipse 80% 80% at 30% 40%,#3d0a0a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 60% at 72% 65%,#6b1212 0%,transparent 50%)}
+.card[data-cat=image] .card-img{background:radial-gradient(ellipse 90% 70% at 20% 30%,#2d0d4f 0%,#0c0c0c 55%),radial-gradient(ellipse 50% 80% at 78% 60%,#4a1272 0%,transparent 50%)}
+.card[data-cat=biz]   .card-img{background:radial-gradient(ellipse 80% 80% at 40% 40%,#3d2200 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 50% at 75% 65%,#6b3d00 0%,transparent 50%)}
+.card[data-cat=japan] .card-img{background:radial-gradient(ellipse 80% 70% at 30% 35%,#001a3d 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 70%,#003b7a 0%,transparent 45%)}
+.card[data-cat=llm]   .card-img{background:radial-gradient(ellipse 80% 80% at 25% 35%,#062610 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 65%,#0d4820 0%,transparent 50%)}
+.card[data-cat=news]  .card-img{background:radial-gradient(ellipse 80% 70% at 35% 40%,#1a1a1a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 50% at 70% 65%,#2e2e2e 0%,transparent 50%)}
+.card-img::after{content:'';position:absolute;width:40%;height:40%;top:20%;left:15%;border-radius:50%;filter:blur(28px);opacity:.5}
+.card[data-cat=3dai]  .card-img::after{background:#ff4444}
+.card[data-cat=image] .card-img::after{background:#bf5af2}
+.card[data-cat=biz]   .card-img::after{background:#ff9f0a}
+.card[data-cat=japan] .card-img::after{background:#0a84ff}
+.card[data-cat=llm]   .card-img::after{background:#30d158}
+.card[data-cat=news]  .card-img::after{background:#888}
+ 
+/* light mode gradients */
+:root[data-theme=light] .card[data-cat=3dai]  .card-img,
+:root[data-theme=light] .card[data-cat=image] .card-img,
+:root[data-theme=light] .card[data-cat=biz]   .card-img,
+:root[data-theme=light] .card[data-cat=japan] .card-img,
+:root[data-theme=light] .card[data-cat=llm]   .card-img,
+:root[data-theme=light] .card[data-cat=news]  .card-img{filter:brightness(2.5) saturate(.5)}
+ 
+/* card body (text section) */
+.card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:6px}
+.card[data-size=large] .card-body{padding:18px 20px 20px}
+.cat-tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.card[data-cat=3dai]  .cat-tag{color:var(--c-3dai)}
+.card[data-cat=image] .cat-tag{color:var(--c-image)}
+.card[data-cat=biz]   .cat-tag{color:var(--c-biz)}
+.card[data-cat=japan] .cat-tag{color:var(--c-japan)}
+.card[data-cat=llm]   .cat-tag{color:var(--c-llm)}
+.card[data-cat=news]  .cat-tag{color:var(--c-news)}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.15rem;line-height:1.2;color:var(--txt);text-wrap:balance}
+.card[data-size=large] .card-title{font-size:1.9rem;line-height:1.1}
+.card[data-size=wide]  .card-title{font-size:1.4rem}
+.card:hover .card-title{color:var(--lime)}
+.expand-hint{margin-top:auto;font-size:.72rem;color:var(--txt3);display:flex;align-items:center;gap:3px}
+.chev{transition:transform .2s;display:inline-block}
+details[open] .chev{transform:rotate(90deg)}
+ 
+/* expanded body */
+.expand-body{border-top:1px solid var(--rule);padding:18px 16px 20px;background:var(--sur)}
+.card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{padding:20px 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.expand-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.expand-body li{display:flex;gap:8px;font-size:.85rem;line-height:1.55;color:var(--txt)}
+.expand-body li::before{content:counter(li);counter-increment:li;font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:500;color:var(--lime);flex-shrink:0;margin-top:2px;min-width:14px}
+.expand-body ul{counter-reset:li}
+.expand-body p{font-size:.85rem;line-height:1.65;color:var(--txt2);margin-bottom:12px}
+.expand-body a{color:var(--lime);font-weight:500;font-size:.82rem}
+.expand-body a:hover{text-decoration:underline}
+ 
+/* footer */
+.page-foot{font-size:.72rem;color:var(--txt3);margin-top:32px;text-align:center;font-family:'IBM Plex Mono',monospace}
+ 
+/* responsive */
+@media(max-width:900px){
+  .news-grid{grid-template-columns:repeat(2,1fr)}
+  .card[data-size=large]{grid-column:span 2}
+  .card[data-size=wide]{grid-column:span 2}
+  .card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .news-grid{grid-template-columns:1fr}
+  .card[data-size=large],.card[data-size=wide]{grid-column:span 1;grid-row:span 1}
+  .dl-main{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr-top">
+    <div class="wordmark">AI<span>.</span>DIGEST</div>
+    <div class="hdr-meta">毎朝 07:00 JST 自動配信</div>
+    <button class="theme-btn" onclick="(function(){var r=document.documentElement;r.setAttribute('data-theme',r.getAttribute('data-theme')==='light'?'dark':'light')})()">☀ / ☾</button>
+  </div>
+  <div class="filter-row">
+    <div class="filter-inner" id="fb">
+      <div class="ftab active" data-f="all">すべて</div>
+      <div class="ftab" data-f="3dai">🔴 3大AI</div>
+      <div class="ftab" data-f="image">🎨 画像・動画</div>
+      <div class="ftab" data-f="biz">💼 実務・副業</div>
+      <div class="ftab" data-f="japan">🇯🇵 日本のAI</div>
+      <div class="ftab" data-f="llm">🧠 LLM技術</div>
+      <div class="ftab" data-f="news">📰 一般ニュース</div>
+    </div>
+  </div>
+</header>
+<div class="page">
+  <div class="dateline">
+    <div><div class="dl-sub">2026-10-03</div><div class="dl-main">今日のAIニュース</div></div>
+    <div class="dl-sub" style="align-self:flex-end;margin-bottom:5px">9件</div>
+    <a href="index.html" class="back-lnk">‹ 一覧</a>
+  </div>
+  <div class="news-grid" id="grid">
+<article class="card" data-cat="3dai" data-size="large">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">OpenAIが次世代「GPT-6」モデル群の活用ガイドを公開</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：OpenAIが次世代モデル「GPT-6」ファミリーの選定方法や推論努力（reasoning effort）の調整手順を公式発表した。</li>
+    <li>要点2：推論機能の調整やツール連携手法が明示され、プロダクション環境における高度な自律型AI構築の標準が確立される。</li>
+    <li>要点3：実務・投資において、GPT-6基盤へのシステム移行準備やプロンプト構築スキルの刷新が最重要課題となる。</li>
+  </ul>
+  <p>【詳細】OpenAIは、次世代主力AIモデルとなる「GPT-6」ファミリーを実用に落とし込むための開発者向け実践ガイドを公開しました。本ガイドでは、スタートアップや企業が用途に応じて最適なGPT-6モデルを選択する方法に加え、推論にかけるリソース（Reasoning Effort）の動的な調整手法、プロンプトやスキルの最適化プロセスが詳細に解説されています。特に、複数のAIツールを効率的に調整・連携させ、本番環境のワークフローへ組み込むための具体的な設計原則が示された点が大きな特徴です。単なるモデル能力向上にとどまらず、開発者が高い信頼性と低コストを両立させながらエンタープライズ規模のアプリケーションを展開できるよう考慮されています。GPT-6への移行を見据えたアーキテクチャ刷新の指針となる重要な文書です。</p>
+  <p><a href="https://openai.com/index/practical-guide-building-gpt-6">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">OpenAIが最新企業向けAIエージェント「Dots」を発表</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：OpenAIが複雑なエンタープライズ業務と日常タスクを実行する新AIエージェント「Dots」をリリースした。</li>
+    <li>要点2：従来のチャット型から「業務を直接代行する自律的ソフトウェア」へとAIの役割を本格的に進化させた。</li>
+    <li>要点3：副業や実務における事務作業の自動化に直結し、社内AIツールの選定・導入での注目の選択肢となる。</li>
+  </ul>
+  <p>【詳細】OpenAIは、企業向けAIエージェントプラットフォーム「Dots」を発表しました。「Dots」は、ユーザーの親しみやすいWebインターフェースを持ちながらも、実質的には本格的なエンタープライズソフトウェアとして機能します。社内の高度なデータ処理やワークフローの実行はもちろん、夕食の注文といった個人の日常タスクまでシームレスに対応可能です。Metaの消費者向けエージェント「Muse」のような親しみやすさを持ちつつも、明確にビジネスでの実務利用に重点を置いた設計となっており、社内ツールとの深い連携が図られています。ユーザーが直接操作することなく背景で自動タスクをこなす自律性が最大の特徴であり、業務自動化のあり方を根本から変える可能性を秘めています。</p>
+  <p><a href="https://www.theverge.com/ai-artificial-intelligence/1004096/openai-chatgpt-dots-hands-on-agent">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/September_AI_Recap_hero.max-600x600.format-webp.webp" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">AppleがAIリスク増加でMacの全ディスクアクセス制限を決定</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：AppleがAIエージェントによるセキュリティ脅威の増大を受け、Macにおけるフルディスクアクセス制限を強化した。</li>
+    <li>要点2：自律型AIエージェントの権限濫用や情報漏洩を防止するための業界標準的ルール策定の動きである。</li>
+    <li>要点3：Mac環境で動作するAIアプリ開発において、権限昇格手続きやファイルアクセス設計の見直しが必要となる。</li>
+  </ul>
+  <p>【詳細】Appleは、自律型AIエージェントの普及に伴うセキュリティリスクの急速な高まりに対応するため、macOSにおける「フルディスクアクセス（Full Disk Access）」権限の厳格化を実施することを明らかにしました。従来のアプリケーションと異なり、AIエージェントはユーザーに代わってローカルシステム内を幅広く探索・操作するため、過剰なアクセス権限が付与されている場合、データ漏洩や誤操作の被害が甚大になる危険性があります。今回の更新により、真にディスク全体へのアクセス権限を必要とするアプリに対し、ユーザーが明示的かつ厳格な許可を与える新しい管理コントロールが導入されます。AI時代のプラットフォームセキュリティを維持するための重要施策です。</p>
+  <p><a href="https://www.theverge.com/tech/1004295/apple-limit-mac-disk-access-ai-agents">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/kdn-python-foundations-for-engineering-a-cheat-sheet-feature.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">MetaがAI端末開発用コード「Muse」をオープンソース化</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Metaが新AIエージェント「Muse」を搭載した自作ハードウェア用コードをオープンソース公開した。</li>
+    <li>要点2：電子ペーパーやHDMIスティックなど、独自のAI専用ガジェットの開発がコミュニティで加速する。</li>
+    <li>要点3：個人開発やハードウェア関連の副業において、自作AIデバイスを安価に構築できるビジネス機会が拡大。</li>
+  </ul>
+  <p>【詳細】Metaは、同社の新しいAIエージェント「Muse」を自作ハードウェアデバイスで動作させるためのソースコードを一般公開（オープンソース化）しました。開発者はこのコードを活用することで、カラー電子ペーパーディスプレイにリマインダーを表示する卓上端末や、テレビの大画面でMuseを呼び出すHDMIスティック型のデバイスなどを自作することが可能になります。ソフトウェア主導のAIエージェント開発をハードウェア領域へと拡張し、オープンソースエコシステムを主導するMetaの戦略が鮮明になっています。これにより、独自の専用AIガジェットを低コストで開発・製品化するハードウェアスタートアップや個人開発者の参入が容易になります。</p>
+  <p><a href="https://www.theverge.com/tech/1004330/meta-muse-ai-gadgets-home-link">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/fde-skills-arch.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">ChathamがGPT-5.6で検証時間を30分から4分未満に短縮</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Chatham FinancialがCodexとGPT-5.6を導入し、取引検証時間を30分から4分未満へと短縮させた。</li>
+    <li>要点2：金融市場におけるAI導入が大幅な工数削減と高度な意思決定支援を実証した成功事例である。</li>
+    <li>要点3：金融・コンサル・法務などの高度専門職における大規模言語モデルの業務組込みの好手本となる。</li>
+  </ul>
+  <p>【詳細】金融ソリューション大手のChatham Financialは、OpenAIの「Codex」および「GPT-5.6」を採用し、資本市場業務のテクノロジー基盤およびワークフローを抜本的に刷新しました。従来、高度な金融知識を要する取引検証作業（Trade Validation）には1件あたり30分を要していましたが、最新AIモデルの導入により4分未満へと劇的に短縮することに成功しました。この取り組みは、単なるテキスト生成にとどまらず、複雑な金融データと専門的知見を最新の言語モデルに組み合わせることで、大幅な業務効率化と精度向上を両立できることを示しています。高度なビジネス実務における生成AI活用の価値を提示する代表例です。</p>
+  <p><a href="https://openai.com/index/chatham-financial">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/kdn-chugani-5-proven-techniques-token-compression-prompt-optimization-feature.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">Googleが2026年9月の最新AI新機能とアップデートを発表</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Googleが2026年9月に公開したAI関連の主要機能アップデートをまとめた新映像を発表した。</li>
+    <li>要点2：Geminiを中心とするマルチモーダルAIや検索・ワークスペース機能の統合進化が示されている。</li>
+    <li>要点3：Googleエコシステムに依存する企業のIT管理者やクリエイターは最新機能のキャッチアップに必須。</li>
+  </ul>
+  <p>【詳細】Googleは、2026年9月中に発表・提供を開始した最新のAIテクノロジーおよびプロダクトのアップデートをまとめた公式映像を公開しました。映像内では、進化を続けるGeminiモデルの機能強化をはじめ、Google Workspaceや検索エンジン、クラウド基盤におけるAI機能の最新統合事例が紹介されています。特にマルチモーダル処理機能や実務での操作性改善に焦点を当てており、GoogleのAIエコシステム全体がどのように連携しユーザー体験を向上させているかが俯瞰できるようになっています。プラットフォーム全体の進化スピードを確認する上で有益な情報源です。</p>
+  <p><a href="https://blog.google/innovation-and-ai/technology/ai/google-ai-updates-september-2026/">📎 詳細を見る（出典：AI）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">AI開発コストを削減するトークン圧縮とプロンプト最適化の5手法</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：トークン消費量を削減し応答品質を高める実戦的な5つの最適化テクニックを解説。</li>
+    <li>要点2：LLM利用コストの抑制と低遅延化を実現し、スケーラブルなAIアプリ構築を支援する。</li>
+    <li>要点3：プロンプトエンジニアリングやAIプロダクト開発の実務においてAPIコストを直ちに削減可能。</li>
+  </ul>
+  <p>【詳細】KDnuggetsは、LLM（大規模言語モデル）を用いたアプリケーション開発において、API利用コストの削減と応答速度の向上を実現する「トークン圧縮」と「プロンプト最適化」の5つの証明済み手法を解説する記事を公開しました。プロンプト内の冗長な表現の除去、文脈圧縮アルゴリズムの適用、効率的なコンテキストウィンドウ設計などを網羅しています。大量の呼び出しが発生するエンタープライズ製品や個人プロダクトにおいて、モデルの出力品質を維持しながらコストパフォーマンスを最大化するための必須ノウハウとなっており、開発実務や副業プロジェクトですぐに導入可能な実践的内容です。</p>
+  <p><a href="https://www.kdnuggets.com/5-proven-techniques-for-token-compression-and-prompt-optimization">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">AI業界最注目の職種「FDE」の真価とキャリア像を徹底解説</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：現場密着型エンジニア「Forward Deployed Engineer（FDE）」の需要急増背景を分析。</li>
+    <li>要点2：単なるコンサルティングではなく、AIモデルを顧客業務に直接組み込む重要職種としての位置付け。</li>
+    <li>要点3：AI分野への転職・キャリアチェンジや高度な単価設定を目指すフリーランスエンジニアの好機。</li>
+  </ul>
+  <p>【詳細】AI業界で急速に需要が高まっている職種「Forward Deployed Engineer（FDE）」について、その実体とキャリアとしての価値を考察した記事です。FDEは、顧客企業（クライアント）の現場に入り込み、ビジネス課題を理解した上で最新のAIモデルやシステムを迅速に実装・最適化する役割を担います。「単なるITコンサルタントの名称変更に過ぎないのではないか」というハイプ（過度な期待）に対する疑問に対し、モデルの微調整やパイプライン構築という深いエンジニアリングスキルとビジネス理解の双方を求められる最前線の職種であることを示しています。AI技術の実運用フェーズへの移行に伴い、極めて高価値なキャリアパスとなっています。</p>
+  <p><a href="https://www.kdnuggets.com/forward-deployed-engineer-ais-hottest-new-career-or-consulting-with-a-better-title">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">エンジニア必携！AI時代を生き抜くPython基礎チートシート</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：将来的なフレームワーク変更にも風化しないPythonエンジニアリングの基本要素を網羅。</li>
+    <li>要点2：AI・データサイエンス領域で長く重宝する不変のコア文法と設計思想を凝縮した参照リファレンス。</li>
+    <li>要点3：Python初心者から実務者まで、効率的なコード作成と学習の定着に活用できる。</li>
+  </ul>
+  <p>【詳細】KDnuggetsは、AIエンジニアやデータエンジニア向けに、流行のWebフレームワークや高層ライブラリに左右されない「Pythonの普遍的な基礎知識」をまとめたチートシートを公開しました。フレームワークが移り変わっても淘汰されないデータ構造、効率的な処理記述、基礎的なプログラミング原則が集約されています。学習した知識が後から無駄にならないコアな技術領域に絞られており、デスクや開発環境の傍らに置いて常時参照できる利便性を備えています。AIエンジニアとしての基礎体力を培うための実用的なリファレンス教材です。</p>
+  <p><a href="https://www.kdnuggets.com/python-foundations-for-engineering-a-cheat-sheet">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+  </div>
+  <p class="page-foot">自動生成 by Gemini + GitHub Actions</p>
+</div>
+<script>
+document.getElementById('fb').addEventListener('click',function(e){
+  var t=e.target.closest('[data-f]');if(!t)return;
+  var f=t.dataset.f;
+  document.querySelectorAll('.ftab').forEach(function(x){x.classList.remove('active')});
+  t.classList.add('active');
+  document.querySelectorAll('.card').forEach(function(c){
+    c.classList.toggle('filtered',f!=='all'&&c.dataset.cat!==f);
+  });
+});
+</script>
+</body>
+</html>
