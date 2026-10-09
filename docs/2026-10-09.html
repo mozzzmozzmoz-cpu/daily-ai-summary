@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Digest — 2026-10-09</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg:#0c0c0c; --sur:#141414; --rule:#232323;
+  --txt:#f0f0f0; --txt2:#888; --txt3:#444;
+  --lime:#ccff00; --lime2:#1a2200;
+  --c-3dai:#ff4444; --c-image:#bf5af2; --c-biz:#ff9f0a;
+  --c-japan:#0a84ff; --c-llm:#30d158; --c-news:#636366;
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme=dark]){
+    --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+    --txt:#111; --txt2:#666; --txt3:#aaa;
+    --lime:#5c7a00; --lime2:#edf5c0;
+  }
+}
+:root[data-theme=light]{
+  --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+  --txt:#111; --txt2:#666; --txt3:#aaa;
+  --lime:#5c7a00; --lime2:#edf5c0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+a{color:var(--lime);text-decoration:none}
+a:hover{text-decoration:underline}
+ 
+/* header */
+header{background:var(--bg);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:100}
+.hdr-top{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:12px 20px;max-width:1200px;margin:0 auto}
+.wordmark{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;letter-spacing:-.01em;text-transform:uppercase;color:var(--txt)}
+.wordmark span{color:var(--lime)}
+.hdr-meta{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase}
+.theme-btn{background:transparent;border:1px solid var(--rule);color:var(--txt2);border-radius:4px;padding:5px 10px;font-size:.72rem;cursor:pointer}
+.theme-btn:hover{border-color:var(--txt2)}
+.filter-row{border-top:1px solid var(--rule);overflow-x:auto;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-inner{display:flex;max-width:1200px;margin:0 auto;padding:0 20px}
+.ftab{flex-shrink:0;padding:9px 14px;font-size:.75rem;font-weight:500;color:var(--txt2);border-bottom:2px solid transparent;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;user-select:none}
+.ftab:hover{color:var(--txt)}
+.ftab.active{color:var(--txt);border-bottom-color:var(--lime)}
+ 
+/* page */
+.page{max-width:1200px;margin:0 auto;padding:0 20px 60px}
+.dateline{padding:28px 0 20px;display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--rule)}
+.dl-main{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.6rem;text-transform:uppercase;letter-spacing:-.01em;line-height:1;color:var(--txt)}
+.dl-sub{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase}
+.back-lnk{margin-left:auto;font-size:.78rem;color:var(--txt2);display:flex;align-items:center;gap:5px;flex-shrink:0}
+.back-lnk:hover{color:var(--lime);text-decoration:none}
+ 
+/* grid */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-top:1px}
+.card{background:var(--bg);transition:background .15s}
+.card:hover{background:var(--sur)}
+.card.filtered{display:none}
+ 
+/* magazine sizing */
+.card[data-size=large]{grid-column:span 2;grid-row:span 2}
+.card[data-size=large] .card-img{aspect-ratio:4/3}
+.card[data-size=wide]{grid-column:span 2}
+.card[data-size=wide] .card-img{aspect-ratio:21/9}
+.card[data-size=small] .card-img{aspect-ratio:16/9}
+ 
+/* details / summary */
+details{height:100%;display:flex;flex-direction:column}
+details summary{list-style:none;cursor:pointer;height:100%;display:flex;flex-direction:column}
+details summary::-webkit-details-marker{display:none}
+ 
+/* card image */
+.card-img{width:100%;overflow:hidden;flex-shrink:0;position:relative}
+.card-real-img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+ 
+/* category gradients (fallback when no real image) */
+.card[data-cat=3dai]  .card-img{background:radial-gradient(ellipse 80% 80% at 30% 40%,#3d0a0a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 60% at 72% 65%,#6b1212 0%,transparent 50%)}
+.card[data-cat=image] .card-img{background:radial-gradient(ellipse 90% 70% at 20% 30%,#2d0d4f 0%,#0c0c0c 55%),radial-gradient(ellipse 50% 80% at 78% 60%,#4a1272 0%,transparent 50%)}
+.card[data-cat=biz]   .card-img{background:radial-gradient(ellipse 80% 80% at 40% 40%,#3d2200 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 50% at 75% 65%,#6b3d00 0%,transparent 50%)}
+.card[data-cat=japan] .card-img{background:radial-gradient(ellipse 80% 70% at 30% 35%,#001a3d 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 70%,#003b7a 0%,transparent 45%)}
+.card[data-cat=llm]   .card-img{background:radial-gradient(ellipse 80% 80% at 25% 35%,#062610 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 65%,#0d4820 0%,transparent 50%)}
+.card[data-cat=news]  .card-img{background:radial-gradient(ellipse 80% 70% at 35% 40%,#1a1a1a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 50% at 70% 65%,#2e2e2e 0%,transparent 50%)}
+.card-img::after{content:'';position:absolute;width:40%;height:40%;top:20%;left:15%;border-radius:50%;filter:blur(28px);opacity:.5}
+.card[data-cat=3dai]  .card-img::after{background:#ff4444}
+.card[data-cat=image] .card-img::after{background:#bf5af2}
+.card[data-cat=biz]   .card-img::after{background:#ff9f0a}
+.card[data-cat=japan] .card-img::after{background:#0a84ff}
+.card[data-cat=llm]   .card-img::after{background:#30d158}
+.card[data-cat=news]  .card-img::after{background:#888}
+ 
+/* light mode gradients */
+:root[data-theme=light] .card[data-cat=3dai]  .card-img,
+:root[data-theme=light] .card[data-cat=image] .card-img,
+:root[data-theme=light] .card[data-cat=biz]   .card-img,
+:root[data-theme=light] .card[data-cat=japan] .card-img,
+:root[data-theme=light] .card[data-cat=llm]   .card-img,
+:root[data-theme=light] .card[data-cat=news]  .card-img{filter:brightness(2.5) saturate(.5)}
+ 
+/* card body (text section) */
+.card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:6px}
+.card[data-size=large] .card-body{padding:18px 20px 20px}
+.cat-tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.card[data-cat=3dai]  .cat-tag{color:var(--c-3dai)}
+.card[data-cat=image] .cat-tag{color:var(--c-image)}
+.card[data-cat=biz]   .cat-tag{color:var(--c-biz)}
+.card[data-cat=japan] .cat-tag{color:var(--c-japan)}
+.card[data-cat=llm]   .cat-tag{color:var(--c-llm)}
+.card[data-cat=news]  .cat-tag{color:var(--c-news)}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.15rem;line-height:1.2;color:var(--txt);text-wrap:balance}
+.card[data-size=large] .card-title{font-size:1.9rem;line-height:1.1}
+.card[data-size=wide]  .card-title{font-size:1.4rem}
+.card:hover .card-title{color:var(--lime)}
+.expand-hint{margin-top:auto;font-size:.72rem;color:var(--txt3);display:flex;align-items:center;gap:3px}
+.chev{transition:transform .2s;display:inline-block}
+details[open] .chev{transform:rotate(90deg)}
+ 
+/* expanded body */
+.expand-body{border-top:1px solid var(--rule);padding:18px 16px 20px;background:var(--sur)}
+.card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{padding:20px 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.expand-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.expand-body li{display:flex;gap:8px;font-size:.85rem;line-height:1.55;color:var(--txt)}
+.expand-body li::before{content:counter(li);counter-increment:li;font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:500;color:var(--lime);flex-shrink:0;margin-top:2px;min-width:14px}
+.expand-body ul{counter-reset:li}
+.expand-body p{font-size:.85rem;line-height:1.65;color:var(--txt2);margin-bottom:12px}
+.expand-body a{color:var(--lime);font-weight:500;font-size:.82rem}
+.expand-body a:hover{text-decoration:underline}
+ 
+/* footer */
+.page-foot{font-size:.72rem;color:var(--txt3);margin-top:32px;text-align:center;font-family:'IBM Plex Mono',monospace}
+ 
+/* responsive */
+@media(max-width:900px){
+  .news-grid{grid-template-columns:repeat(2,1fr)}
+  .card[data-size=large]{grid-column:span 2}
+  .card[data-size=wide]{grid-column:span 2}
+  .card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .news-grid{grid-template-columns:1fr}
+  .card[data-size=large],.card[data-size=wide]{grid-column:span 1;grid-row:span 1}
+  .dl-main{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr-top">
+    <div class="wordmark">AI<span>.</span>DIGEST</div>
+    <div class="hdr-meta">毎朝 07:00 JST 自動配信</div>
+    <button class="theme-btn" onclick="(function(){var r=document.documentElement;r.setAttribute('data-theme',r.getAttribute('data-theme')==='light'?'dark':'light')})()">☀ / ☾</button>
+  </div>
+  <div class="filter-row">
+    <div class="filter-inner" id="fb">
+      <div class="ftab active" data-f="all">すべて</div>
+      <div class="ftab" data-f="3dai">🔴 3大AI</div>
+      <div class="ftab" data-f="image">🎨 画像・動画</div>
+      <div class="ftab" data-f="biz">💼 実務・副業</div>
+      <div class="ftab" data-f="japan">🇯🇵 日本のAI</div>
+      <div class="ftab" data-f="llm">🧠 LLM技術</div>
+      <div class="ftab" data-f="news">📰 一般ニュース</div>
+    </div>
+  </div>
+</header>
+<div class="page">
+  <div class="dateline">
+    <div><div class="dl-sub">2026-10-09</div><div class="dl-main">今日のAIニュース</div></div>
+    <div class="dl-sub" style="align-self:flex-end;margin-bottom:5px">9件</div>
+    <a href="index.html" class="back-lnk">‹ 一覧</a>
+  </div>
+  <div class="news-grid" id="grid">
+<article class="card" data-cat="news" data-size="large">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">USA Today社がOpenAIを提訴、2.5億ドル超の損害賠償請求</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：USA Today社とその傘下地域紙が、何万件もの記事を無断学習されたとしてOpenAIを提訴し、2億5,000万ドル（約370億円）以上の損害賠償を請求。</li>
+    <li>要点2：NYT等に続く大手新聞社の提訴であり、生成AIの学習データに関する著作権侵害リスクとコンテンツ保護規制の議論を一層加速させる。</li>
+    <li>要点3：メディア・コンテンツ制作事業者は自社IPのライセンス価値再評価、AI開発企業は著作権リスクの引き当てや法的準備が必須。</li>
+  </ul>
+  <p>【詳細】米国の大手新聞メディアであるUSA Today Co.とその傘下の地域紙グループが、OpenAIに対して著作権侵害に基づく大規模な損害賠償請求訴訟を提起した。訴状によると、OpenAIは許諾を得ることなく「数十万件」におよぶ記事コンテンツを自社のAIモデル（ChatGPT等）のトレーニングデータとしてコピーし、使用したとされる。原告側は2億5,000万ドル（約370億円）を超える損害賠償を求めている。近年、The New York Timesをはじめとする複数の主要メディアがOpenAIや他AIベンダーを提訴する動きが相次いでいるが、本件は米国の広大な地域報道網を持つ主要出版チェーンによる直接的な法的措置であり、AI業界における学習データの正当性と著作権保護をめぐる法的対立をさらに深刻化させるものだ。今後の裁判の行方は、AIベンダーと既存メディアとのライセンス交渉や契約モデルの標準化、さらには生成AIのモデル開発コストやビジネスモデルそのものに甚大な影響を与えることが予想される。</p>
+  <p><a href="https://www.theverge.com/ai-artificial-intelligence/1008198/usa-today-openai-copyright-lawsuit">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">Anthropic、オープンソース開発者向けに無料AI脆弱性診断を提供</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Anthropicがオープンソースプロジェクト向けに最強AIモデルを活用した自動セキュリティ診断「OSS Scanner」を無料提供開始。</li>
+    <li>要点2：開発リソースが不足しがちなOSSの脆弱性を早期発見し、ソフトウェアサプライチェーン全体の安全性底上げに寄与。</li>
+    <li>要点3：OSS開発者は導入によりセキュリティ検証の工数を大幅削減可能。AIによる自動脆弱性検出の実践例としても注目。</li>
+  </ul>
+  <p>【詳細】AIスタートアップのAnthropicは、オープンソースソフトウェア（OSS）プロジェクトのセキュリティ向上を目的とした新しいサービス「OSS Scanner」を発表した。オプトイン（参加申請）したオープンソースプロジェクトに対し、同社の最も強力なAIモデルを用いてソースコード内の脆弱性を定期的にスキャンし、問題点を迅速に通知・共有するサービスを無償で提供する。オープンソースソフトウェアは現代のシステムやアプリケーションの基盤を支えているものの、多くのプロジェクトで十分なセキュリティ監査リソースが不足しており、潜在的な脆弱性が重大なサプライチェーン攻撃リスクとなっている。Anthropicのこの取り組みは、高度なAIモデルを活用してコード監査の精度と速度を劇的に高め、脆弱性の早期修正を支援するものだ。利用する開発者にとっては無償で高品質な自動コード監査を受けられるメリットがあり、AIを活用したサイバーセキュリティ対策の代表例として、ソフトウェア業界全体のセキュリティ水準向上に大きく貢献することが期待されている。</p>
+  <p><a href="https://www.theverge.com/ai-artificial-intelligence/1008521/anthropic-open-source-oss-scanner">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">Oracle、ChatGPTとCodex導入で業務時間を数日から数分へ削減</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：OracleがChatGPT WorkおよびCodexを全社導入し、採用・エンジニアリング・運用において数日かかっていた作業を数分へと短縮。</li>
+    <li>要点2：大手エンタープライズ企業における生成AIの本格活用が、組織のナレッジ共有と業務スピードを劇的に変革することを実証。</li>
+    <li>要点3：社内ナレッジのプロンプト化・ワークフロー化を進めることで、非エンジニア部門でも劇的な生産性向上を実現可能。</li>
+  </ul>
+  <p>【詳細】エンタープライズIT大手のOracle（オラクル）は、OpenAIのChatGPT WorkおよびCodexを自社の採用、ソフトウェアエンジニアリング、業務運用の各部門に導入し、業務効率の大幅な向上を達成したことを公表した。これまで専門知識を要し、完了までに数日を要していた一連のワークフローが、AIツールの活用によりわずか数分で実行可能な自動化プロセスへと刷新された。エンジニアリング部門ではCodexを用いたコード生成・レビュー・デバッグの高速化が実現したほか、人事や運用部門においてもナレッジの即時参照や標準作業の迅速化が進んでいる。本事例は、生成AIの活用が単なる個人の作業補助に留まらず、大企業の組織全体における専門知識の標準化・再利用可能な共有ワークフロー構築に極めて有効であることを示している。自社データや専門ノウハウをAIと統合する「ワークフローの再構築」は、今後の企業DXや業務効率化戦略における重要なスタンダードとなることが提示されている。</p>
+  <p><a href="https://openai.com/index/oracle">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/guerrillabuzz-7hA2wqBcSF8-unsplash-scaled.jpg" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">LegalOn、AIモデルの最適配置でCodex開発運用コストを65%削減</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：リーガルテックのLegalOnがタスクに応じたモデル選択（Astra, Sol, Luna等）によりCodexの日次推論コストを65%削減。</li>
+    <li>要点2：単一の高スペックAIに依存せず、タスクの難易度や要件に合わせて複数モデルを使い分ける戦略的予算管理の成功例。</li>
+    <li>要点3：システム開発や副業でAIを組み込む際、小型モデルと高度モデルのハイブリッド運用で利益率を大幅向上可能。</li>
+  </ul>
+  <p>【詳細】法務テック（リーガルテック）を展開するLegalOnは、開発工程および製品提供においてCodexの運用管理を最適化し、開発速度や精度を維持したまま、推論にかかる推定日次コストを約65%削減することに成功したと発表した。同社は、すべての処理を最上位モデルに依存させるのではなく、タスクの複雑性やリアルタイム性に応じて「Astra」「Sol」「Luna」といった処理能力と価格の異なる複数のAIモデルを戦略的にマッピングして使い分けた。これにより、簡単な処理には軽量・低コストモデルを割り当て、高度な推論や法務判断を伴うタスクにのみ大型モデルを集中投入する柔軟なコストコントロールを実現している。生成AIサービスを本格運用する多くの企業が直面している「APIコストの膨張」という課題に対し、適切なモデル選定と予算の最適配分という解決アプローチを示す実践的な事例である。今後のAIネイティブなシステム開発において、モデルのマルチレイヤー運用とLLMopsの重要性を示すものとなっている。</p>
+  <p><a href="https://openai.com/index/legalon-halves-codex-costs">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/KDN-Shittu-Building-AI-Agents-with-Docker-Agent-scaled.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">Docker社、AIエージェントをコンテナのように扱うツールを公開</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Docker EngineeringがApache 2.0ライセンスのオープンソースCLIプラグイン「Docker Agent」を発表。</li>
+    <li>要点2：AIエージェントをコンテナと同様にポータブルかつ再現可能に実行・管理する開発環境の標準化を推進。</li>
+    <li>要点3：開発者は既存のDockerノウハウを活かしてAIエージェントのローカル開発・テスト・環境構築を格段に簡略化可能。</li>
+  </ul>
+  <p>【詳細】Docker Engineeringは、AIエージェントの開発と実行を簡略化するオープンソースのCLIプラグイン「Docker Agent」（Apache 2.0ライセンス）をリリースした。本ツールは「docker agent」コマンドとしてインストール・実行でき、「コンテナのようにAIエージェントを運用・管理する」ことをコンセプトに掲げている。従来のAIエージェント開発では、多様なLLMや外部API、ローカル実行環境、ツール呼び出し（Tool Calling）の統合において依存関係や実行環境の差異が問題になりやすかった。Docker Agentはこれらをコンテナ化された一律のインターフェースで包み込むことで、環境に依存しない再現可能で安全なAIエージェント構築を可能にする。Dockerが長年培ってきたコンテナエコシステムとプラットフォーム標準化の知見をAIエージェント分野に持ち込んだ形であり、開発者が複雑なエージェント型システムを迅速にプロトタイピングし、本番環境へデプロイするための強力なツールとして今後の普及が期待される。</p>
+  <p><a href="https://www.kdnuggets.com/building-ai-agents-with-docker-agent">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/kdn-7-best-resources-to-learn-about-self-evolving-ai-agents-feature.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">Pollo AI、OpenAIの次世代モデル活用で映像・画像生成を強化</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Pollo AIがGPT-5.6、GPT-6 Astra、GPT-Image-2.5などの最新OpenAI技術を統合し、広告キャンペーン制作を高速化。</li>
+    <li>要点2：企画構築から高品質画像・シネマティック動画広告の生成までを一気通貫で自動化し、クリエイティブ業界を刷新。</li>
+    <li>要点3：マーケターやクリエイターはプロンプト指示のみで高度な映像表現が可能となり、制作コストと期間を大幅短縮。</li>
+  </ul>
+  <p>【詳細】クリエイティブ制作プラットフォームのPollo AIは、OpenAIが提供する先進モデル群（GPT-5.6、GPT-6 Astra、GPT-Image-2.5等）を活用し、アイデア立案から高品質なマルチメディア広告キャンペーン制作までを支援する機能を統合した。これによりクリエイターやマーケティング担当者は、テキスト指示やコンセプト案を入力するだけで、精細なコンセプト画像やシネマティックな動画広告コンテンツを短時間で自動生成できるようになった。複数のAIモデルを高度に連携させることで、ブランドの一貫性を保ったビジュアル展開や、ターゲット別のバリエーション作成が容易になる。生成AIの発展がテキスト処理から高度な画像・映像表現の自動生成へと大きく移り変わる中、本取り組みは広告・出版・デザイン業界における制作フローを劇的に効率化し、小規模なクリエイティブチームや個人のクリエイターでも大企業並みのクオリティの映像表現を展開できる環境を提供している。</p>
+  <p><a href="https://openai.com/index/pollo-ai">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">自己進化型AIエージェントを学ぶための必読リソース7選</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：AIエージェントの次世代トレンドである「自己改善・自己進化（Self-Evolving）」を学ぶための厳選リソース7選を公開。</li>
+    <li>要点2：静的なタスク実行から、自らコードを改修し精度を高める自律型AIへのシフトを解説し、開発者の学習ロードマップを提示。</li>
+    <li>要点3：最新の論文や実装フレームワークに触れることで、副業・受託開発での最先端AIシステム構築スキルの先取りが可能。</li>
+  </ul>
+  <p>【詳細】データサイエンスメディアKDnuggetsは、AIエージェント技術の次なる進化段階として注目を集める「自己進化型AIエージェント（Self-Evolving AI Agents）」を体系的に学ぶための厳選リソース7選をまとめた記事を公開した。従来のAIエージェントは与えられたルールやプロンプトの範囲内で動く「静的な自動化」が中心であったのに対し、最新の自己進化型モデルは、過去の失敗データやフィードバックから学習し、自らのプロンプト、ツール利用ロジック、あるいはソースコード自体を自動修正してパフォーマンスを向上させる能力を持つ。紹介されているリソースには、自己改善フィードバックループを構築するための学術論文やオープンソースライブラリ、具体的なチュートリアルが含まれており、開発者が次世代の自律型システムを設計するための実践的な知識を提供する。高度な自律型AIの開発や、長期間運用しても劣化しないAIプロダクトを設計したいエンジニアにとって、必読のナレッジとなっている。</p>
+  <p><a href="https://www.kdnuggets.com/7-best-resources-to-learn-about-self-evolving-ai-agents">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">エンタープライズAI開発でガバナンスと規制順守を両立する手法</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：AIモデル設計の全段階に規制順守（ガバナンス）を組み込むパイプライン構築のアプローチを解説。</li>
+    <li>要点2：ガバナンスを最後の「関門」ではなく初期設計からの「組み込み要素」とすることで、法的リスクと手戻りコストを激減。</li>
+    <li>要点3：企業のAI開発担当者は、EU AI法などの規制に対応した堅牢なMLOpsガバナンス構築に活用可能。</li>
+  </ul>
+  <p>【詳細】KDnuggetsに掲載された論考では、企業が高度なエンタープライズAIシステムを構築する際、モデルの最先端化と厳格な規制順守を両立させるための「ガバナンス・バイ・デザイン」手法を提示している。多くの企業では、AIモデル開発の最終段階でガバナンスやコンプライアンスのチェックを行うため、問題が発覚した際の大幅な手戻りやリリースの遅延が発生しがちである。本記事では、データ収集・前処理からモデル学習、検証、評価、デプロイに至る機械学習パイプライン（ML Pipeline）の全てのステップにおいて、自動化された監査ログ生成やデータガバナンスルールを組み込むアプローチを推奨している。EU AI法をはじめとする世界的なAI規制の強化に伴い、説明可能性（XAI）やデータプライバシー、公平性の担保はビジネスの継続性に直結する課題となっている。技術的イノベーションと法的リスク管理を統合するこの手法は、エンタープライズ企業が安心して生成AIや自動化モデルを全社導入するための必須の指針を示している。</p>
+  <p><a href="https://www.kdnuggets.com/bridging-algorithmic-design-and-regulatory-standards-in-enterprise-ai">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">カリフォルニア州、人間対ロボットの格闘技マッチに停止命令</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：カリフォルニア州体育委員会が、人間と人型ロボットの格闘イベントを運営するスタートアップRekに停止勧告を送付。</li>
+    <li>要点2：ロボティクス技術の進歩に伴い、人間対ロボットの物理的接触イベントにおける法的・安全性の規制線が議論に。</li>
+    <li>要点3：エンタメ・ロボティクス関連の事業やイベントを計画する際、既存のスポーツ・安全規制への適合が課題となる。</li>
+  </ul>
+  <p>【詳細】カリフォルニア州体育委員会（CSAC）は、人間とヒューマノイド（人型）ロボットとの格闘マッチを主催したテックスタートアップ企業「Rek」に対し、事業停止命令（Cease-and-Desist Letter）を送付したことがThe New York Timesの報道で明らかになった。該当の試合は今年9月18日に開催され、インフルエンサーのFrankie LaPenna氏とRek社が所有するヒューマノイドロボットがリング上で対戦していた。規制当局は、人間と物理的破壊力を持つロボットとの格闘行為が、既存の格闘技興行法や安全基準に違反している可能性を懸念している。ヒューマノイドロボティクスやAI制御のハードウェアが急速に発展し、エンターテインメントやスポーツ分野への応用が模索される中、物理的な安全確保や法的フレームワークの整備が追いついていない実態が浮き彫りとなった。本件は、AI・ロボティクス技術が現実世界の物理的な人間社会と接触・交錯する中で生じる新たな規制的・倫理的課題の典型例として高い関心を集めている。</p>
+  <p><a href="https://www.theverge.com/tech/1008401/california-shut-down-rek-fighting-robot-company-human">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+  </div>
+  <p class="page-foot">自動生成 by Gemini + GitHub Actions</p>
+</div>
+<script>
+document.getElementById('fb').addEventListener('click',function(e){
+  var t=e.target.closest('[data-f]');if(!t)return;
+  var f=t.dataset.f;
+  document.querySelectorAll('.ftab').forEach(function(x){x.classList.remove('active')});
+  t.classList.add('active');
+  document.querySelectorAll('.card').forEach(function(c){
+    c.classList.toggle('filtered',f!=='all'&&c.dataset.cat!==f);
+  });
+});
+</script>
+</body>
+</html>
