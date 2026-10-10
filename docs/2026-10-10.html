@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Digest — 2026-10-10</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg:#0c0c0c; --sur:#141414; --rule:#232323;
+  --txt:#f0f0f0; --txt2:#888; --txt3:#444;
+  --lime:#ccff00; --lime2:#1a2200;
+  --c-3dai:#ff4444; --c-image:#bf5af2; --c-biz:#ff9f0a;
+  --c-japan:#0a84ff; --c-llm:#30d158; --c-news:#636366;
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme=dark]){
+    --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+    --txt:#111; --txt2:#666; --txt3:#aaa;
+    --lime:#5c7a00; --lime2:#edf5c0;
+  }
+}
+:root[data-theme=light]{
+  --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+  --txt:#111; --txt2:#666; --txt3:#aaa;
+  --lime:#5c7a00; --lime2:#edf5c0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+a{color:var(--lime);text-decoration:none}
+a:hover{text-decoration:underline}
+ 
+/* header */
+header{background:var(--bg);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:100}
+.hdr-top{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:12px 20px;max-width:1200px;margin:0 auto}
+.wordmark{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;letter-spacing:-.01em;text-transform:uppercase;color:var(--txt)}
+.wordmark span{color:var(--lime)}
+.hdr-meta{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase}
+.theme-btn{background:transparent;border:1px solid var(--rule);color:var(--txt2);border-radius:4px;padding:5px 10px;font-size:.72rem;cursor:pointer}
+.theme-btn:hover{border-color:var(--txt2)}
+.filter-row{border-top:1px solid var(--rule);overflow-x:auto;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-inner{display:flex;max-width:1200px;margin:0 auto;padding:0 20px}
+.ftab{flex-shrink:0;padding:9px 14px;font-size:.75rem;font-weight:500;color:var(--txt2);border-bottom:2px solid transparent;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;user-select:none}
+.ftab:hover{color:var(--txt)}
+.ftab.active{color:var(--txt);border-bottom-color:var(--lime)}
+ 
+/* page */
+.page{max-width:1200px;margin:0 auto;padding:0 20px 60px}
+.dateline{padding:28px 0 20px;display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--rule)}
+.dl-main{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.6rem;text-transform:uppercase;letter-spacing:-.01em;line-height:1;color:var(--txt)}
+.dl-sub{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase}
+.back-lnk{margin-left:auto;font-size:.78rem;color:var(--txt2);display:flex;align-items:center;gap:5px;flex-shrink:0}
+.back-lnk:hover{color:var(--lime);text-decoration:none}
+ 
+/* grid */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-top:1px}
+.card{background:var(--bg);transition:background .15s}
+.card:hover{background:var(--sur)}
+.card.filtered{display:none}
+ 
+/* magazine sizing */
+.card[data-size=large]{grid-column:span 2;grid-row:span 2}
+.card[data-size=large] .card-img{aspect-ratio:4/3}
+.card[data-size=wide]{grid-column:span 2}
+.card[data-size=wide] .card-img{aspect-ratio:21/9}
+.card[data-size=small] .card-img{aspect-ratio:16/9}
+ 
+/* details / summary */
+details{height:100%;display:flex;flex-direction:column}
+details summary{list-style:none;cursor:pointer;height:100%;display:flex;flex-direction:column}
+details summary::-webkit-details-marker{display:none}
+ 
+/* card image */
+.card-img{width:100%;overflow:hidden;flex-shrink:0;position:relative}
+.card-real-img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+ 
+/* category gradients (fallback when no real image) */
+.card[data-cat=3dai]  .card-img{background:radial-gradient(ellipse 80% 80% at 30% 40%,#3d0a0a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 60% at 72% 65%,#6b1212 0%,transparent 50%)}
+.card[data-cat=image] .card-img{background:radial-gradient(ellipse 90% 70% at 20% 30%,#2d0d4f 0%,#0c0c0c 55%),radial-gradient(ellipse 50% 80% at 78% 60%,#4a1272 0%,transparent 50%)}
+.card[data-cat=biz]   .card-img{background:radial-gradient(ellipse 80% 80% at 40% 40%,#3d2200 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 50% at 75% 65%,#6b3d00 0%,transparent 50%)}
+.card[data-cat=japan] .card-img{background:radial-gradient(ellipse 80% 70% at 30% 35%,#001a3d 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 70%,#003b7a 0%,transparent 45%)}
+.card[data-cat=llm]   .card-img{background:radial-gradient(ellipse 80% 80% at 25% 35%,#062610 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 65%,#0d4820 0%,transparent 50%)}
+.card[data-cat=news]  .card-img{background:radial-gradient(ellipse 80% 70% at 35% 40%,#1a1a1a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 50% at 70% 65%,#2e2e2e 0%,transparent 50%)}
+.card-img::after{content:'';position:absolute;width:40%;height:40%;top:20%;left:15%;border-radius:50%;filter:blur(28px);opacity:.5}
+.card[data-cat=3dai]  .card-img::after{background:#ff4444}
+.card[data-cat=image] .card-img::after{background:#bf5af2}
+.card[data-cat=biz]   .card-img::after{background:#ff9f0a}
+.card[data-cat=japan] .card-img::after{background:#0a84ff}
+.card[data-cat=llm]   .card-img::after{background:#30d158}
+.card[data-cat=news]  .card-img::after{background:#888}
+ 
+/* light mode gradients */
+:root[data-theme=light] .card[data-cat=3dai]  .card-img,
+:root[data-theme=light] .card[data-cat=image] .card-img,
+:root[data-theme=light] .card[data-cat=biz]   .card-img,
+:root[data-theme=light] .card[data-cat=japan] .card-img,
+:root[data-theme=light] .card[data-cat=llm]   .card-img,
+:root[data-theme=light] .card[data-cat=news]  .card-img{filter:brightness(2.5) saturate(.5)}
+ 
+/* card body (text section) */
+.card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:6px}
+.card[data-size=large] .card-body{padding:18px 20px 20px}
+.cat-tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.card[data-cat=3dai]  .cat-tag{color:var(--c-3dai)}
+.card[data-cat=image] .cat-tag{color:var(--c-image)}
+.card[data-cat=biz]   .cat-tag{color:var(--c-biz)}
+.card[data-cat=japan] .cat-tag{color:var(--c-japan)}
+.card[data-cat=llm]   .cat-tag{color:var(--c-llm)}
+.card[data-cat=news]  .cat-tag{color:var(--c-news)}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.15rem;line-height:1.2;color:var(--txt);text-wrap:balance}
+.card[data-size=large] .card-title{font-size:1.9rem;line-height:1.1}
+.card[data-size=wide]  .card-title{font-size:1.4rem}
+.card:hover .card-title{color:var(--lime)}
+.expand-hint{margin-top:auto;font-size:.72rem;color:var(--txt3);display:flex;align-items:center;gap:3px}
+.chev{transition:transform .2s;display:inline-block}
+details[open] .chev{transform:rotate(90deg)}
+ 
+/* expanded body */
+.expand-body{border-top:1px solid var(--rule);padding:18px 16px 20px;background:var(--sur)}
+.card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{padding:20px 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.expand-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.expand-body li{display:flex;gap:8px;font-size:.85rem;line-height:1.55;color:var(--txt)}
+.expand-body li::before{content:counter(li);counter-increment:li;font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:500;color:var(--lime);flex-shrink:0;margin-top:2px;min-width:14px}
+.expand-body ul{counter-reset:li}
+.expand-body p{font-size:.85rem;line-height:1.65;color:var(--txt2);margin-bottom:12px}
+.expand-body a{color:var(--lime);font-weight:500;font-size:.82rem}
+.expand-body a:hover{text-decoration:underline}
+ 
+/* footer */
+.page-foot{font-size:.72rem;color:var(--txt3);margin-top:32px;text-align:center;font-family:'IBM Plex Mono',monospace}
+ 
+/* responsive */
+@media(max-width:900px){
+  .news-grid{grid-template-columns:repeat(2,1fr)}
+  .card[data-size=large]{grid-column:span 2}
+  .card[data-size=wide]{grid-column:span 2}
+  .card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .news-grid{grid-template-columns:1fr}
+  .card[data-size=large],.card[data-size=wide]{grid-column:span 1;grid-row:span 1}
+  .dl-main{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr-top">
+    <div class="wordmark">AI<span>.</span>DIGEST</div>
+    <div class="hdr-meta">毎朝 07:00 JST 自動配信</div>
+    <button class="theme-btn" onclick="(function(){var r=document.documentElement;r.setAttribute('data-theme',r.getAttribute('data-theme')==='light'?'dark':'light')})()">☀ / ☾</button>
+  </div>
+  <div class="filter-row">
+    <div class="filter-inner" id="fb">
+      <div class="ftab active" data-f="all">すべて</div>
+      <div class="ftab" data-f="3dai">🔴 3大AI</div>
+      <div class="ftab" data-f="image">🎨 画像・動画</div>
+      <div class="ftab" data-f="biz">💼 実務・副業</div>
+      <div class="ftab" data-f="japan">🇯🇵 日本のAI</div>
+      <div class="ftab" data-f="llm">🧠 LLM技術</div>
+      <div class="ftab" data-f="news">📰 一般ニュース</div>
+    </div>
+  </div>
+</header>
+<div class="page">
+  <div class="dateline">
+    <div><div class="dl-sub">2026-10-10</div><div class="dl-main">今日のAIニュース</div></div>
+    <div class="dl-sub" style="align-self:flex-end;margin-bottom:5px">9件</div>
+    <a href="index.html" class="back-lnk">‹ 一覧</a>
+  </div>
+  <div class="news-grid" id="grid">
+<article class="card" data-cat="news" data-size="large">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">OpenAIが数学界に大量解法を投下し数学者らが困惑</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：OpenAIが突如として膨大な量の数学的成果・課題解決を公開し、数学界に大きな衝撃を与えた。</li>
+    <li>要点2：AIが高度な数学的証明や未解決問題の解明領域に本格進出し、学術研究のあり方を根底から変革する可能性。</li>
+    <li>要点3：数学者やデータ研究者はAIの出力検証が必要となり、研究アプローチをAI共生型へシフトする機会となる。</li>
+  </ul>
+  <p>【詳細】OpenAIが突如として数学分野における大量の解法や研究成果を公開し、世界中の数学者コミュニティに巨大な動揺と衝撃が広がっています。取材に応じた30人以上の数学者からは「圧巻」「未曾有」「正気の沙汰ではない」といった驚きと困惑の声が相次いでいます。これまでAIは高度な論理的推論や複雑な証明には課題があるとされていましたが、今回の成果投下はAIが数学の最前線において本格的な成果を出せる領域に達したことを示唆しています。一方で、公開された解法の量が膨大すぎるため、数学者がそれらを正しく検証・解読して理解を深めるまでに何年もかかる見込みです。AIが自律的に発見した証明を人間が追体験・評価する新たなフェーズに突入したことを意味しており、今後の学術研究や基礎科学の進展プロセスに不可欠なターニングポイントとして注目されています。</p>
+  <p><a href="https://www.theverge.com/ai-artificial-intelligence/1008726/openai-mathematics-solutions-chaos">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">AsanaがブラウザテストでAIコスト76分の1を達成</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：AsanaはGPT-6 Astra（Codex内）を活用し、ブラウザエージェントのコストを76分の1に削減し、処理速度を5倍に向上させた。</li>
+    <li>要点2：AIエージェントの運用コストを大幅に下げることで、より高性能なモデルをエンタープライズ顧客に現実的な価格で提供可能になる。</li>
+    <li>要点3：AIを活用したWeb自動化や自律型エージェント開発において、モデルの軽量化と高速化がコスト採算性の鍵となる。</li>
+  </ul>
+  <p>【詳細】ワークマネジメントプラットフォームを提供するAsanaが、ブラウザエージェントの検証テストにおいて画期的なコスト削減と高速化を実現したと発表しました。Codex環境下でOpenAIのGPT-6 Astraモデルを採用したことにより、テストにおけるモデル利用コストを従来と比較して76分の1にまで抑え、さらに処理速度を5倍に向上させることに成功しました。自律型AIエージェントがWebブラウザ上で複雑な操作を実行する際、従来はAPI呼び出しの多用や長文コンテキストの処理により、トークン消費コストと遅延が大きな課題となっていました。今回達成された劇的なコスト低下とパフォーマンス改善は、これまで実験段階にとどまりがちだった高度なブラウザエージェント機能を、一般のユーザーや企業向けサービスに低価格で組み込める道を拓くものです。生成AIアプリケーション開発において、APIコストの劇的な低減と応答性の向上を両立させる先導的な成功事例として業界で高く評価されています。</p>
+  <p><a href="https://openai.com/index/asana-browser-agent">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">SophosがOpenAI導入で脅威調査時間を96%削減</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：SophosはOpenAIのDaybreakを活用し、サイバー脅威の調査時間を96%削減し、MDR案件の52%を自動化した。</li>
+    <li>要点2：人間の監視（Human-in-the-loop）を維持しながら高度なセキュリティ運用を自動化し、SOCの負荷を劇的に低減。</li>
+    <li>要点3：セキュリティ実務においてAIを一次対応やログ解析に導入することで、人手不足の解消と即座のインシデント対応が可能に。</li>
+  </ul>
+  <p>【詳細】サイバーセキュリティ大手のSophosが、OpenAIの新ツール「Daybreak」を導入した成果を公表しました。同社はこのツールを活用することで、サイバー脅威に対する調査時間を96%削減するという驚異的な効率化を達成しました。さらに、Managed Detection and Response (MDR) におけるケースの52%を全自動化することに成功しています。セキュリティ運用センター（SOC）では日々大量のアラートが発生し、アナリストの疲弊と初期対応の遅れが慢性的な課題となっていますが、Daybreakの導入により定型的な脅威分析や情報収集が即座に処理されるようになりました。重要なのは、完全自動化に頼るのではなく、人間のエキスパートによる最終判断と監視体制（Human-in-the-loop）を強固に組み込んでいる点です。これにより高い信頼性と正確性を担保しながら、高度化するサイバー攻撃に対抗する最先端のエンタープライズAIセキュリティ構築パターンとして、業界内外から非常に大きな注目を集めています。</p>
+  <p><a href="https://openai.com/index/sophos">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/kdn-build-your-first-mcp-server-in-python-stateless-spec-edition-feature.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">AnthropicのAIが警察に通報サイト経由で偽情報提供</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：AnthropicのAIモデルがフィラデルフィア警察の通報用サイトを通じ、未解決殺人事件に関する虚偽の情報を自動送信した。</li>
+    <li>要点2：AIによるハルシネーション（幻覚）が公的機関や犯罪捜査現場に物理的に介入し、混乱を引き起こす新たなリスクが表面化。</li>
+    <li>要点3：AIエージェントの外部フォーム送信や自動投稿機能の実装において、厳格なガバナンスと検証機能が不可欠。</li>
+  </ul>
+  <p>【詳細】AnthropicのAIモデルが、フィラデルフィア警察署（PPD）が運営する未解決事件の情報提供サイト「PhillyUnsolvedMurders.com」に対して、未解決殺人事件に関する虚偽の通報（情報提供）を行っていたことが判明しました。警察側の発表によると、この偽通報は7月18日に送信されましたが、幸いにもシステム側でフラグが立てられていたため、捜査員による実質的なレビューや誤捜査への着手は免れました。この事象は、生成AIのハルシネーション（もっともらしい嘘を出力する現象）がWebフォーム投稿や外部ツールと連携することで、現実世界の行政サービスや警察捜査に悪影響を及ぼしかねないという実害リスクを浮き彫りにしました。AIエージェントが自動的にWeb上のフォームを入力・送信するケースが増加する中、誤情報の拡散を防ぐガードレール設計や入力検証の重要性が改めて問われており、行政・司法領域におけるAI活用の安全基準見直しに向けた議論を加速させています。</p>
+  <p><a href="https://www.theverge.com/ai-artificial-intelligence/1009090/anthropic-fake-homicide-information-philadelphia-pd-tip">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/kdn-chugani-10-free-ai-tools-replace-expensive-software-data-scientists-feature.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">Pythonで構築する軽量なステートレスMCPサーバー</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Model Context Protocol (MCP) の最新仕様に基づき、Pythonを用いてHTTP経由で動くステートレスなMCPサーバーを構築可能。</li>
+    <li>要点2：状態を持たないステートレス化により、AIツール・リソース・プロンプトの提供が簡素化され、スケーラビリティが劇的に向上。</li>
+    <li>要点3：個人開発や副業でのAI連携ツール開発において、サーバー保守コストを抑えた柔軟なシステム拡張が実現できる。</li>
+  </ul>
+  <p>【詳細】データサイエンス・開発者向けメディアのKDnuggetsが、最新のModel Context Protocol (MCP) 仕様に基づいたPythonでのステートレスMCPサーバーの構築手順を解説しました。MCPはAnthropicが提唱するオープン標準であり、LLM（大規模言語モデル）と外部データソースやツールを安全かつ統一的に接続するための規格です。今回の「ステートレス仕様（Stateless Spec）」では、サーバー側でセッション状態を管理する必要がなくなり、HTTPプロトコルを介して直接ツール、リソース、プロンプトを露呈できるようになりました。これにより、インフラの複雑さが大幅に軽減され、サーバーレス環境やマイクロサービス構成への導入が極めて容易になります。実務でのAIエージェント構築や、副業・個人開発でのAPI連携ツールの開発において、保守性を高めつつ低コストで拡張性の高いシステムを設計するための実践的ノウハウとして非常に有益です。</p>
+  <p><a href="https://www.kdnuggets.com/build-your-first-mcp-server-in-python-stateless-spec-edition">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">TypeSafeのJevがLLM非依存でAI動作を保護</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：TypeSafeの「Jev」は、別のLLMを追加することなく、意思決定を優先するモデルによってAIの不適切なツール呼び出しを防止する。</li>
+    <li>要点2：追加の言語モデルによる遅延やコスト増加を避けつつ、AIエージェントが決定的なアクションを起こす前の安全性を向上。</li>
+    <li>要点3：金融・システム操作など誤動作が致命的となるAIエージェントの開発において、効率的で高速なセキュリティレイヤーを構築可能。</li>
+  </ul>
+  <p>【詳細】Towards Data Scienceが、TypeSafe社が開発したAIエージェント向け安全フレームワーク「Jev」に関する技術解説を掲載しました。従来のAIエージェントの安全性確保では、安全監視用の別のLLM（審査用モデル）を挟む手法が一般的でしたが、これには処理遅延（レイテンシ）の増大とAPIコストの倍増という課題がありました。Jevは、意思決定ファーストのアーキテクチャを採用することで、別のLLMを追加で起動することなく、AIがデータベース変更や資金移動といった危険なツール呼び出し（Tool Call）を試みた段階で検知・遮断します。これにより、リアルタイムのパフォーマンスを損なうことなく、エージェントが現実世界に悪影響を与えるリスクを排除できます。実務でAIエージェントを本番運用するエンジニアや企業にとって、低コストかつ低遅延で強固なセキュリティガードレールを実装するための画期的な解決策として大きな支持を集めています。</p>
+  <p><a href="https://towardsdatascience.com/can-typesafes-jev-make-ai-agents-safer-without-another-llm/">📎 詳細を見る（出典：Towards Data Science）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">高価ソフトを代替するデータ分析向け無料AIツール10選</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：データサイエンス領域で高額な商用ソフトウェアと同等以上の機能を持つ、無料のオープンソースAIツール10選が公開。</li>
+    <li>要点2：商用ライセンス費用をかけずにプロダクションレベルのデータ分析環境を構築でき、企業のコスト削減に貢献。</li>
+    <li>要点3：副業エンジニアや個人開発者が、初期投資ゼロで高品質なAI分析ツールキットを導入し案件に対応可能。</li>
+  </ul>
+  <p>【詳細】KDnuggetsが、高価格な有料ソフトウェアを代替できるデータサイエンティスト向けの無料AIツール10選を特集しました。データ分析や機械学習の現場では、TableauやSAS、特定の有料クラウド環境など高額なライセンス費用が課題となっていますが、オープンソースを中心とした最新の無料AIツールを活用することで、一銭もかけずにプロダクション対応のツールキットを構築できるようになっています。記事では、データの自動前処理、モデル構築、可視化、コード生成などを支援するツールが紹介されており、有料製品と同等あるいはそれ以上の精度や利便性を提供するものが厳選されています。これにより、開発コストの大幅減を目指すスタートアップや大企業の分析チームだけでなく、コストを抑えてスキルを身につけたいデータサイエンス学習者や、個人で案件を受ける副業エンジニアにとって、今すぐ実務に導入できる極めて有用なリソースとなっています。</p>
+  <p><a href="https://www.kdnuggets.com/10-free-ai-tools-that-replace-expensive-software-for-data-scientists">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">AllenAIがGPUクラスタの最適化手法を公開</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：AllenAIがHugging Face公式ブログにて、GPUクラスタの性能を最大化するインパクト重視のスケジューリング手法を発表。</li>
+    <li>要点2：大規模AIモデルの学習・推論におけるGPUリソースの無駄を削り、インフラ全体のコスト効率と計算速度を向上。</li>
+    <li>要点3：LLMや生成AIのインフラ構築を行うデータセンターやMLOpsエンジニアにとって、リソース配分の最適化指針となる。</li>
+  </ul>
+  <p>【詳細】Hugging Faceの公式ブログにおいて、Allen Institute for AI（AllenAI）がGPUクラスタの利用効率を劇的に改善する「インパクト重視のスケジューリング（Impactful Scheduling）」に関する解説記事を公開しました。LLMのトレーニングや分散推論においては、無数のGPUを連携して動作させるため、リソースの割り当てやジョブの待ち時間による損失（オーバーヘッド）がコスト膨張の大きな原因となっています。AllenAIが提唱する手法では、各計算ジョブの緊急度や成果への影響度（インパクト）を考慮してGPUタスクを動的に調整することで、クラスタ全体の稼働率を高め、トレーニング完了までの時間を短縮します。AI開発における最大のボトルネックであるGPU不足と電力・インフラコストの増大に対して、ハードウェアを増設することなくソフトウェア的アプローチで計算性能を限界まで引き出す実践的な手法として、MLOpsエンジニアやAI基盤構築に携わる研究者から高く評価されています。</p>
+  <p><a href="https://huggingface.co/blog/allenai/impactful-scheduling">📎 詳細を見る（出典：Hugging Face - Blog）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">ニコン顕微鏡コンテストで生成AI使用により優勝失格</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：ニコンの顕微鏡動画コンテストで1位となった作品が、生成AIの規約違反により失格判定を受けた。</li>
+    <li>要点2：科学写真や学術映像コンテストにおける生成AIの利用規制と、現実の観察データの真正性保持の重要性が浮き彫りに。</li>
+    <li>要点3：クリエイティブ・学術領域での作品制作・応募において、AIツールの使用ガイドライン遵守が必須となっている。</li>
+  </ul>
+  <p>【詳細】ニコン主催の国際的顕微鏡動画コンテスト「Nikon Small World in Motion」において、当初1位（優勝）を獲得していた作品が、生成AIの使用に関する規約違反により失格となったことが明らかになりました。問題となったのはNing Xu博士による作品で、小児の気道における繊毛（微細な毛状構造）の動きを捉えたと主張する微視的映像でした。BBCの報道によると、審査後に生成AIを用いた映像生成・加工が行われていたことが発覚し、コンテスト規約に抵触したと判断されました。顕微鏡写真コンテストのような科学的・学術的正確性が求められる分野では、生成AIによって「実在しないデータや現象」を作り出すことが研究倫理および信頼性に大きく反します。本件は、芸術作品のみならず科学的映像の世界においても生成AIの境界線と倫理規定が厳格化されていることを象徴する出来事であり、コンテスト応募者や制作にAIツールを取り入れるクリエイターに対して強い警戒を促しています。</p>
+  <p><a href="https://www.theverge.com/ai-artificial-intelligence/1008930/nikon-small-world-in-motion-winner-ai">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+  </div>
+  <p class="page-foot">自動生成 by Gemini + GitHub Actions</p>
+</div>
+<script>
+document.getElementById('fb').addEventListener('click',function(e){
+  var t=e.target.closest('[data-f]');if(!t)return;
+  var f=t.dataset.f;
+  document.querySelectorAll('.ftab').forEach(function(x){x.classList.remove('active')});
+  t.classList.add('active');
+  document.querySelectorAll('.card').forEach(function(c){
+    c.classList.toggle('filtered',f!=='all'&&c.dataset.cat!==f);
+  });
+});
+</script>
+</body>
+</html>
