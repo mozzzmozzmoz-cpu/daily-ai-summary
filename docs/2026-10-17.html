@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Digest — 2026-10-17</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg:#0c0c0c; --sur:#141414; --rule:#232323;
+  --txt:#f0f0f0; --txt2:#888; --txt3:#444;
+  --lime:#ccff00; --lime2:#1a2200;
+  --c-3dai:#ff4444; --c-image:#bf5af2; --c-biz:#ff9f0a;
+  --c-japan:#0a84ff; --c-llm:#30d158; --c-news:#636366;
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme=dark]){
+    --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+    --txt:#111; --txt2:#666; --txt3:#aaa;
+    --lime:#5c7a00; --lime2:#edf5c0;
+  }
+}
+:root[data-theme=light]{
+  --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+  --txt:#111; --txt2:#666; --txt3:#aaa;
+  --lime:#5c7a00; --lime2:#edf5c0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+a{color:var(--lime);text-decoration:none}
+a:hover{text-decoration:underline}
+ 
+/* header */
+header{background:var(--bg);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:100}
+.hdr-top{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:12px 20px;max-width:1200px;margin:0 auto}
+.wordmark{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;letter-spacing:-.01em;text-transform:uppercase;color:var(--txt)}
+.wordmark span{color:var(--lime)}
+.hdr-meta{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase}
+.theme-btn{background:transparent;border:1px solid var(--rule);color:var(--txt2);border-radius:4px;padding:5px 10px;font-size:.72rem;cursor:pointer}
+.theme-btn:hover{border-color:var(--txt2)}
+.filter-row{border-top:1px solid var(--rule);overflow-x:auto;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-inner{display:flex;max-width:1200px;margin:0 auto;padding:0 20px}
+.ftab{flex-shrink:0;padding:9px 14px;font-size:.75rem;font-weight:500;color:var(--txt2);border-bottom:2px solid transparent;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;user-select:none}
+.ftab:hover{color:var(--txt)}
+.ftab.active{color:var(--txt);border-bottom-color:var(--lime)}
+ 
+/* page */
+.page{max-width:1200px;margin:0 auto;padding:0 20px 60px}
+.dateline{padding:28px 0 20px;display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--rule)}
+.dl-main{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.6rem;text-transform:uppercase;letter-spacing:-.01em;line-height:1;color:var(--txt)}
+.dl-sub{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase}
+.back-lnk{margin-left:auto;font-size:.78rem;color:var(--txt2);display:flex;align-items:center;gap:5px;flex-shrink:0}
+.back-lnk:hover{color:var(--lime);text-decoration:none}
+ 
+/* grid */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-top:1px}
+.card{background:var(--bg);transition:background .15s}
+.card:hover{background:var(--sur)}
+.card.filtered{display:none}
+ 
+/* magazine sizing */
+.card[data-size=large]{grid-column:span 2;grid-row:span 2}
+.card[data-size=large] .card-img{aspect-ratio:4/3}
+.card[data-size=wide]{grid-column:span 2}
+.card[data-size=wide] .card-img{aspect-ratio:21/9}
+.card[data-size=small] .card-img{aspect-ratio:16/9}
+ 
+/* details / summary */
+details{height:100%;display:flex;flex-direction:column}
+details summary{list-style:none;cursor:pointer;height:100%;display:flex;flex-direction:column}
+details summary::-webkit-details-marker{display:none}
+ 
+/* card image */
+.card-img{width:100%;overflow:hidden;flex-shrink:0;position:relative}
+.card-real-img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+ 
+/* category gradients (fallback when no real image) */
+.card[data-cat=3dai]  .card-img{background:radial-gradient(ellipse 80% 80% at 30% 40%,#3d0a0a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 60% at 72% 65%,#6b1212 0%,transparent 50%)}
+.card[data-cat=image] .card-img{background:radial-gradient(ellipse 90% 70% at 20% 30%,#2d0d4f 0%,#0c0c0c 55%),radial-gradient(ellipse 50% 80% at 78% 60%,#4a1272 0%,transparent 50%)}
+.card[data-cat=biz]   .card-img{background:radial-gradient(ellipse 80% 80% at 40% 40%,#3d2200 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 50% at 75% 65%,#6b3d00 0%,transparent 50%)}
+.card[data-cat=japan] .card-img{background:radial-gradient(ellipse 80% 70% at 30% 35%,#001a3d 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 70%,#003b7a 0%,transparent 45%)}
+.card[data-cat=llm]   .card-img{background:radial-gradient(ellipse 80% 80% at 25% 35%,#062610 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 65%,#0d4820 0%,transparent 50%)}
+.card[data-cat=news]  .card-img{background:radial-gradient(ellipse 80% 70% at 35% 40%,#1a1a1a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 50% at 70% 65%,#2e2e2e 0%,transparent 50%)}
+.card-img::after{content:'';position:absolute;width:40%;height:40%;top:20%;left:15%;border-radius:50%;filter:blur(28px);opacity:.5}
+.card[data-cat=3dai]  .card-img::after{background:#ff4444}
+.card[data-cat=image] .card-img::after{background:#bf5af2}
+.card[data-cat=biz]   .card-img::after{background:#ff9f0a}
+.card[data-cat=japan] .card-img::after{background:#0a84ff}
+.card[data-cat=llm]   .card-img::after{background:#30d158}
+.card[data-cat=news]  .card-img::after{background:#888}
+ 
+/* light mode gradients */
+:root[data-theme=light] .card[data-cat=3dai]  .card-img,
+:root[data-theme=light] .card[data-cat=image] .card-img,
+:root[data-theme=light] .card[data-cat=biz]   .card-img,
+:root[data-theme=light] .card[data-cat=japan] .card-img,
+:root[data-theme=light] .card[data-cat=llm]   .card-img,
+:root[data-theme=light] .card[data-cat=news]  .card-img{filter:brightness(2.5) saturate(.5)}
+ 
+/* card body (text section) */
+.card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:6px}
+.card[data-size=large] .card-body{padding:18px 20px 20px}
+.cat-tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.card[data-cat=3dai]  .cat-tag{color:var(--c-3dai)}
+.card[data-cat=image] .cat-tag{color:var(--c-image)}
+.card[data-cat=biz]   .cat-tag{color:var(--c-biz)}
+.card[data-cat=japan] .cat-tag{color:var(--c-japan)}
+.card[data-cat=llm]   .cat-tag{color:var(--c-llm)}
+.card[data-cat=news]  .cat-tag{color:var(--c-news)}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.15rem;line-height:1.2;color:var(--txt);text-wrap:balance}
+.card[data-size=large] .card-title{font-size:1.9rem;line-height:1.1}
+.card[data-size=wide]  .card-title{font-size:1.4rem}
+.card:hover .card-title{color:var(--lime)}
+.expand-hint{margin-top:auto;font-size:.72rem;color:var(--txt3);display:flex;align-items:center;gap:3px}
+.chev{transition:transform .2s;display:inline-block}
+details[open] .chev{transform:rotate(90deg)}
+ 
+/* expanded body */
+.expand-body{border-top:1px solid var(--rule);padding:18px 16px 20px;background:var(--sur)}
+.card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{padding:20px 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.expand-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.expand-body li{display:flex;gap:8px;font-size:.85rem;line-height:1.55;color:var(--txt)}
+.expand-body li::before{content:counter(li);counter-increment:li;font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:500;color:var(--lime);flex-shrink:0;margin-top:2px;min-width:14px}
+.expand-body ul{counter-reset:li}
+.expand-body p{font-size:.85rem;line-height:1.65;color:var(--txt2);margin-bottom:12px}
+.expand-body a{color:var(--lime);font-weight:500;font-size:.82rem}
+.expand-body a:hover{text-decoration:underline}
+ 
+/* footer */
+.page-foot{font-size:.72rem;color:var(--txt3);margin-top:32px;text-align:center;font-family:'IBM Plex Mono',monospace}
+ 
+/* responsive */
+@media(max-width:900px){
+  .news-grid{grid-template-columns:repeat(2,1fr)}
+  .card[data-size=large]{grid-column:span 2}
+  .card[data-size=wide]{grid-column:span 2}
+  .card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .news-grid{grid-template-columns:1fr}
+  .card[data-size=large],.card[data-size=wide]{grid-column:span 1;grid-row:span 1}
+  .dl-main{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr-top">
+    <div class="wordmark">AI<span>.</span>DIGEST</div>
+    <div class="hdr-meta">毎朝 07:00 JST 自動配信</div>
+    <button class="theme-btn" onclick="(function(){var r=document.documentElement;r.setAttribute('data-theme',r.getAttribute('data-theme')==='light'?'dark':'light')})()">☀ / ☾</button>
+  </div>
+  <div class="filter-row">
+    <div class="filter-inner" id="fb">
+      <div class="ftab active" data-f="all">すべて</div>
+      <div class="ftab" data-f="3dai">🔴 3大AI</div>
+      <div class="ftab" data-f="image">🎨 画像・動画</div>
+      <div class="ftab" data-f="biz">💼 実務・副業</div>
+      <div class="ftab" data-f="japan">🇯🇵 日本のAI</div>
+      <div class="ftab" data-f="llm">🧠 LLM技術</div>
+      <div class="ftab" data-f="news">📰 一般ニュース</div>
+    </div>
+  </div>
+</header>
+<div class="page">
+  <div class="dateline">
+    <div><div class="dl-sub">2026-10-17</div><div class="dl-main">今日のAIニュース</div></div>
+    <div class="dl-sub" style="align-self:flex-end;margin-bottom:5px">9件</div>
+    <a href="index.html" class="back-lnk">‹ 一覧</a>
+  </div>
+  <div class="news-grid" id="grid">
+<article class="card" data-cat="news" data-size="large">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">NVIDIAがArmベースの高性能PCチップ「RTX Spark」を発表</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：NVIDIAのArmベースSoC「RTX Spark N1X」搭載ノートPCのレビューと検証結果が公開された。</li>
+    <li>要点2：AppleやIntel、Qualcommに対抗し、Windows PCおよびArm AI PC市場の構造変化を加速させる。</li>
+    <li>要点3：AIのローカル処理能力が飛躍するため、エッジでの高精度AI開発や最新ハードウェア選定の指標となる。</li>
+  </ul>
+  <p>【詳細】NVIDIAの新SoC「RTX Spark N1X」を搭載したASUS、HP、Lenovoなどの次世代ノートPCの検証が行われ、その圧倒的なAI処理・グラフィックス性能が明らかになった。RTX Sparkは、ハイエンドなマルチコア構成とNVIDIA独自のGPUアーキテクチャを統合したArmベースのプロセッサであり、AppleのMシリーズやQualcommのSnapdragon X、Intel/AMDの最新X86プロセッサに対抗する「スーパーチップ」として位置づけられている。AIローカル推論速度の向上や省電力性能の両立により、オンデバイスAI市場におけるWindows PCの競争力を根本から塗り替える可能性がある。</p>
+  <p><a href="https://www.theverge.com/tech/1012748/nvidia-rtx-spark-windows-arm-laptops-asus-hp-lenovo-impressions">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">Metaの新規約でニュースサイトが無償でAI学習に利用可能に？</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：10月30日発効の新規約により、Metaプラットフォーム利用企業に関連するWebサイトをAI学習用に収集可能となる。</li>
+    <li>要点2：パブリッシャーの意図に反してニュースコンテンツが無償でAIモデル学習に利用される懸念が浮上。</li>
+    <li>要点3：自社メディアやオウンドメディアのデータ保護・規約確認および著作権管理の再設計が必要となる。</li>
+  </ul>
+  <p>【詳細】Metaが10月30日に改定する新しいビジネス利用規約において、自社サービスを利用する企業やメディアに関連する外部Webサイトのコンテンツを、AIモデルの「開発・改善・研究・学習」目的でクローリング・スクレイピングできる権利が含まれていることが報じられた。これにより、Meta上でコンテンツを発信するオンラインパブリッシャーは、明示的なライセンス契約なしに自社の記事データをMetaのAI学習用に無償利用されるリスクに晒されている。AIと著作権を巡る法規のグレーゾーンを突いた規約変更であり、今後のメディア業界とプラットフォーマー間の権利交渉やスクレイピング拒否設定（robots.txtなど）の議論に大きな影響を与える。</p>
+  <p><a href="https://www.theverge.com/tech/1012846/meta-business-terms-scrape-news-publishers">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">NVIDIAがインド系言語LLM向けに2.8兆トークンデータ公開</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：NVIDIAとHugging Faceがインド系言語の事前学習用に2.8兆トークンの巨大データセットを公開した。</li>
+    <li>要点2：多言語AIの精度向上とオープンソースなデータ生成パイプラインの確立を主導。</li>
+    <li>要点3：多言語対応のAIサービス構築や、新興国市場をターゲットとした副業・投資の有望領域となる。</li>
+  </ul>
+  <p>【詳細】NVIDIAとHugging Faceは、インド系言語（Indic languages）の事前学習スケーリングに関する包括的な研究とオープンデータ生成パイプラインを発表した。今回の取り組みでは、2.8兆トークンに及ぶ高品質な多言語テキストデータセットが構築されており、これまでデータ不足が課題とされていた非英語圏における大型言語モデル（LLM）の性能を飛躍的に向上させる。オープンソースとしてパイプライン自体も公開されるため、他言語や特定ドメインにおけるデータ合成・前処理の標準手法としての活用が期待される。人口規模の大きいインド市場向けAIアプリケーションの開発コストが大幅に低減し、グローバルAIビジネスの展開を後押しする。</p>
+  <p><a href="https://huggingface.co/blog/nvidia/scaling-indic-pretraining">📎 詳細を見る（出典：Hugging Face - Blog）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/kdn-chugani-agentic-rag-naive-rag-retrieval-system-feature.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">ブラジル金融大手ItaúがOpenAI技術で全顧客へ生成AIを展開</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：イタウ銀行が会話型AI「ia.i」と統制基盤「IARA」を全顧客・全社員へ展開した。</li>
+    <li>要点2：厳格に規制された金融セクターにおける大規模な生成AIファースト戦略の好事例。</li>
+    <li>要点3：セキュリティやガバナンスが重視される実務現場でのAI全社導入モデルとして参照可能。</li>
+  </ul>
+  <p>【詳細】ブラジル最大手の金融機関であるItaú（イタウ銀行）は、OpenAIの技術を活用した全社的な生成AI展開「AI First」戦略を発表した。顧客向け会話型インターフェース「ia.i」と、厳格なガバナンスとコンプライアンスを維持するためのプラットフォーム「IARA」を構築し、厳しい金融規制のもとで全顧客および従業員への生成AIの活用を実現している。個人情報の保護や金融リスク管理、回答精度の担保といった金融機関特有の課題をガバナンス層でクリアしつつ、顧客体験のパーソナライズと業務効率化を両立させた事例であり、今後のエンタープライズにおけるAI統合のロールモデルとなる。</p>
+  <p><a href="https://openai.com/index/itau-generative-ai">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/kdn-5-best-resources-to-learn-about-world-models-in-2026-feature.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">自律推論を行う「Agentic RAG」と従来型RAGの違いを解説</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：従来の固定的なNaive RAGから、自律的に判断・推論を行うAgentic RAGへの移行が進化。</li>
+    <li>要点2：検索精度の限界を克服し、複雑な業務フローを自動化する高度AIシステムの標準へ。</li>
+    <li>要点3：AIエンジニアや副業Web開発において、高単価な高度検索・分析案件の獲得に直結する。</li>
+  </ul>
+  <p>【詳細】情報検索拡張生成（RAG）の進化形として、従来の静的な検索パイプラインである「Naive RAG」と、AIエージェントが自律的に検索戦略や推論ルートを決定する「Agentic RAG」の比較解説が公開された。Naive RAGは単一のベクトル検索に依存するため、不正確な検索結果や文脈の欠落に弱い課題があった。これに対しAgentic RAGは、質問の分解、複数ソースの再検索、結果の検証と自己修復などの自律的ルーティングを行うことで、複雑な問い合わせに対する回答精度を大幅に向上させる。企業のナレッジ管理や高度な顧客対応システムの構築において、導入判断の基準となる重要な知見である。</p>
+  <p><a href="https://www.kdnuggets.com/agentic-rag-vs-naive-rag-when-your-retrieval-system-should-think-for-itself">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">Stack Overflow for AgentsがChatGPT連携で急拡大</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：2人のエンジニアがCodexで開発し、ChatGPT連携によりエージェント作成数が最大10倍に拡大した。</li>
+    <li>要点2：AIエージェント同士の知識共有インフラの出現と、AIによる開発自動化の実証。</li>
+    <li>要点3：Codex等のAI開発ツールを活用した小規模チームでの高速プロダクト開発・副業モデル。</li>
+  </ul>
+  <p>【詳細】わずか2人のエンジニアがOpenAIのCodexを活用して数週間で構築した「Stack Overflow for Agents」が、ChatGPTプラグインとの連携により爆発的な成長を遂げている。このサービスは、人間ではなくAIエージェント向けにエラー解決策やAPI利用法などのナレッジを提供するプラットフォームであり、プラグイン公開後にエージェントの作成数が最大10倍（10×）まで急増した。開発期間の短縮にAI自身が貢献しただけでなく、自律型AIエージェントが自ら知識を獲得・共有する新たなエコシステムの芽生えを示しており、今後のソフトウェア開発のあり方を大きく変える事例として注目を集めている。</p>
+  <p><a href="https://openai.com/index/stack-overflow-chatgpt-plugin">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">AI生成コードの理解度と所有感を測定する新ツールが登場</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：AI生成コードの把握度を測定するツール「CodeOwnership」が開発される。</li>
+    <li>要点2：AI任せのコーディングによる「コードのブラックボックス化」や技術的負債の問題を提示。</li>
+    <li>要点3：AIツール利用時のセキュリティチェックや、実務コードレビューの品質管理に活用可能。</li>
+  </ul>
+  <p>【詳細】AIプログラミング支援ツールの普及に伴い、「開発者がAIの書いたコードを本当に理解・所有できているか」を測定するオープンツール「CodeOwnership」が開発・検証された。制作者自らが自己の理解度を自信度4/5と評価したにもかかわらず、埋め込まれたバグの発見に8分以上かかっても見つけられなかった実験結果が報告されている。AIによる爆速開発の裏で、開発者がロジックを理解しないままコードが蓄積される「所有感の喪失」と保守性の低下が懸念されており、企業の開発チームにおける生成AIの利用ルール制定や、コードレビュープロセスの再設計を促す内容となっている。</p>
+  <p><a href="https://towardsdatascience.com/do-you-still-own-the-code-your-ai-wrote-i-built-codeownership-to-measure-it/">📎 詳細を見る（出典：Towards Data Science）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">2026年のトレンド「ワールドモデル」を学ぶおすすめ教材5選</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：次世代AIの重要概念である「ワールドモデル（世界モデル）」の最良リソース5選を発表。</li>
+    <li>要点2：LLMを超えた物理世界や環境のシミュレーション能力を持つAIへの技術シフトを示唆。</li>
+    <li>要点3：先端AIトレンドを早期にキャッチアップし、将来のAI投資やスキル習得に活かす。</li>
+  </ul>
+  <p>【詳細】AI分野における次の巨大な技術革新と目される「ワールドモデル（World Models）」について、2026年に向けて絶対に抑えておくべき学習リソース5選がまとめられた。ワールドモデルとは、テキスト処理を中心としたLLMとは異なり、世界や物理法則の構造的な仕組みを内部表現として理解・予測するAIアーキテクチャであり、ロボティクスや自動運転、自律型AIエージェントの核となる技術である。Soraなどの動画生成AIや物理シミュレーションAIの進化に伴い、概念の理解から最新論文、実装コードまでを学べる学習パスを提供し、次世代AIエンジニアとしてのキャリア形成や投資判断に役立つ情報となっている。</p>
+  <p><a href="https://www.kdnuggets.com/5-best-resources-to-learn-about-world-models-in-2026">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://media.wired.com/photos/6ad24f19ed303ecbe8441980/master/pass/GettyImages-2299989251.jpg" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">元高官とAIレアアース採掘スタートアップを巡る謎の騒動</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：元ホワイトハウス報道官がAIレアアース採掘スタートアップのアドバイザーとして虚偽掲載。</li>
+    <li>要点2：AIブームに乗じたスタートアップの怪しい実態や誇大宣伝のリスクを浮き彫りに。</li>
+    <li>要点3：AI関連銘柄への投資や未上場スタートアップ評価におけるデューデリジェンスの重要性。</li>
+  </ul>
+  <p>【詳細】元ホワイトハウス報道官のケイティ・ザカリア（Katie Zacharia）氏が、クリスティ・ノーム知事らと関連があると主張するAIレアアース（希土類）採掘スタートアップのアドバイザーリストに無断で掲載されていた怪奇な事件が報じられた。当人と企業側の両方が「実際には勤務したことはない」と認めるなど、混乱が生じている。AI技術による鉱物資源探査や自動採掘は投資家の関心が高い分野だが、こうしたネームバリューを不正利用した疑いのある事例は、急成長するAI業界における過熱感とコンプライアンスの不全を象徴している。個人投資家や事業会社におけるスタートアップ調査の重要性を警告している。</p>
+  <p><a href="https://www.wired.com/story/katie-zacharia-was-linked-to-an-ai-rare-earths-startup-its-even-weirder-than-it-sounds/">📎 詳細を見る（出典：Feed: Artificial Intelligence Latest）</a></p>
+    </div>
+  </details>
+</article>
+  </div>
+  <p class="page-foot">自動生成 by Gemini + GitHub Actions</p>
+</div>
+<script>
+document.getElementById('fb').addEventListener('click',function(e){
+  var t=e.target.closest('[data-f]');if(!t)return;
+  var f=t.dataset.f;
+  document.querySelectorAll('.ftab').forEach(function(x){x.classList.remove('active')});
+  t.classList.add('active');
+  document.querySelectorAll('.card').forEach(function(c){
+    c.classList.toggle('filtered',f!=='all'&&c.dataset.cat!==f);
+  });
+});
+</script>
+</body>
+</html>
