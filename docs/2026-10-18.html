@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Digest — 2026-10-18</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg:#0c0c0c; --sur:#141414; --rule:#232323;
+  --txt:#f0f0f0; --txt2:#888; --txt3:#444;
+  --lime:#ccff00; --lime2:#1a2200;
+  --c-3dai:#ff4444; --c-image:#bf5af2; --c-biz:#ff9f0a;
+  --c-japan:#0a84ff; --c-llm:#30d158; --c-news:#636366;
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme=dark]){
+    --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+    --txt:#111; --txt2:#666; --txt3:#aaa;
+    --lime:#5c7a00; --lime2:#edf5c0;
+  }
+}
+:root[data-theme=light]{
+  --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+  --txt:#111; --txt2:#666; --txt3:#aaa;
+  --lime:#5c7a00; --lime2:#edf5c0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+a{color:var(--lime);text-decoration:none}
+a:hover{text-decoration:underline}
+ 
+/* header */
+header{background:var(--bg);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:100}
+.hdr-top{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:12px 20px;max-width:1200px;margin:0 auto}
+.wordmark{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;letter-spacing:-.01em;text-transform:uppercase;color:var(--txt)}
+.wordmark span{color:var(--lime)}
+.hdr-meta{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase}
+.theme-btn{background:transparent;border:1px solid var(--rule);color:var(--txt2);border-radius:4px;padding:5px 10px;font-size:.72rem;cursor:pointer}
+.theme-btn:hover{border-color:var(--txt2)}
+.filter-row{border-top:1px solid var(--rule);overflow-x:auto;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-inner{display:flex;max-width:1200px;margin:0 auto;padding:0 20px}
+.ftab{flex-shrink:0;padding:9px 14px;font-size:.75rem;font-weight:500;color:var(--txt2);border-bottom:2px solid transparent;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;user-select:none}
+.ftab:hover{color:var(--txt)}
+.ftab.active{color:var(--txt);border-bottom-color:var(--lime)}
+ 
+/* page */
+.page{max-width:1200px;margin:0 auto;padding:0 20px 60px}
+.dateline{padding:28px 0 20px;display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--rule)}
+.dl-main{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.6rem;text-transform:uppercase;letter-spacing:-.01em;line-height:1;color:var(--txt)}
+.dl-sub{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase}
+.back-lnk{margin-left:auto;font-size:.78rem;color:var(--txt2);display:flex;align-items:center;gap:5px;flex-shrink:0}
+.back-lnk:hover{color:var(--lime);text-decoration:none}
+ 
+/* grid */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-top:1px}
+.card{background:var(--bg);transition:background .15s}
+.card:hover{background:var(--sur)}
+.card.filtered{display:none}
+ 
+/* magazine sizing */
+.card[data-size=large]{grid-column:span 2;grid-row:span 2}
+.card[data-size=large] .card-img{aspect-ratio:4/3}
+.card[data-size=wide]{grid-column:span 2}
+.card[data-size=wide] .card-img{aspect-ratio:21/9}
+.card[data-size=small] .card-img{aspect-ratio:16/9}
+ 
+/* details / summary */
+details{height:100%;display:flex;flex-direction:column}
+details summary{list-style:none;cursor:pointer;height:100%;display:flex;flex-direction:column}
+details summary::-webkit-details-marker{display:none}
+ 
+/* card image */
+.card-img{width:100%;overflow:hidden;flex-shrink:0;position:relative}
+.card-real-img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+ 
+/* category gradients (fallback when no real image) */
+.card[data-cat=3dai]  .card-img{background:radial-gradient(ellipse 80% 80% at 30% 40%,#3d0a0a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 60% at 72% 65%,#6b1212 0%,transparent 50%)}
+.card[data-cat=image] .card-img{background:radial-gradient(ellipse 90% 70% at 20% 30%,#2d0d4f 0%,#0c0c0c 55%),radial-gradient(ellipse 50% 80% at 78% 60%,#4a1272 0%,transparent 50%)}
+.card[data-cat=biz]   .card-img{background:radial-gradient(ellipse 80% 80% at 40% 40%,#3d2200 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 50% at 75% 65%,#6b3d00 0%,transparent 50%)}
+.card[data-cat=japan] .card-img{background:radial-gradient(ellipse 80% 70% at 30% 35%,#001a3d 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 70%,#003b7a 0%,transparent 45%)}
+.card[data-cat=llm]   .card-img{background:radial-gradient(ellipse 80% 80% at 25% 35%,#062610 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 65%,#0d4820 0%,transparent 50%)}
+.card[data-cat=news]  .card-img{background:radial-gradient(ellipse 80% 70% at 35% 40%,#1a1a1a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 50% at 70% 65%,#2e2e2e 0%,transparent 50%)}
+.card-img::after{content:'';position:absolute;width:40%;height:40%;top:20%;left:15%;border-radius:50%;filter:blur(28px);opacity:.5}
+.card[data-cat=3dai]  .card-img::after{background:#ff4444}
+.card[data-cat=image] .card-img::after{background:#bf5af2}
+.card[data-cat=biz]   .card-img::after{background:#ff9f0a}
+.card[data-cat=japan] .card-img::after{background:#0a84ff}
+.card[data-cat=llm]   .card-img::after{background:#30d158}
+.card[data-cat=news]  .card-img::after{background:#888}
+ 
+/* light mode gradients */
+:root[data-theme=light] .card[data-cat=3dai]  .card-img,
+:root[data-theme=light] .card[data-cat=image] .card-img,
+:root[data-theme=light] .card[data-cat=biz]   .card-img,
+:root[data-theme=light] .card[data-cat=japan] .card-img,
+:root[data-theme=light] .card[data-cat=llm]   .card-img,
+:root[data-theme=light] .card[data-cat=news]  .card-img{filter:brightness(2.5) saturate(.5)}
+ 
+/* card body (text section) */
+.card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:6px}
+.card[data-size=large] .card-body{padding:18px 20px 20px}
+.cat-tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.card[data-cat=3dai]  .cat-tag{color:var(--c-3dai)}
+.card[data-cat=image] .cat-tag{color:var(--c-image)}
+.card[data-cat=biz]   .cat-tag{color:var(--c-biz)}
+.card[data-cat=japan] .cat-tag{color:var(--c-japan)}
+.card[data-cat=llm]   .cat-tag{color:var(--c-llm)}
+.card[data-cat=news]  .cat-tag{color:var(--c-news)}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.15rem;line-height:1.2;color:var(--txt);text-wrap:balance}
+.card[data-size=large] .card-title{font-size:1.9rem;line-height:1.1}
+.card[data-size=wide]  .card-title{font-size:1.4rem}
+.card:hover .card-title{color:var(--lime)}
+.expand-hint{margin-top:auto;font-size:.72rem;color:var(--txt3);display:flex;align-items:center;gap:3px}
+.chev{transition:transform .2s;display:inline-block}
+details[open] .chev{transform:rotate(90deg)}
+ 
+/* expanded body */
+.expand-body{border-top:1px solid var(--rule);padding:18px 16px 20px;background:var(--sur)}
+.card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{padding:20px 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.expand-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.expand-body li{display:flex;gap:8px;font-size:.85rem;line-height:1.55;color:var(--txt)}
+.expand-body li::before{content:counter(li);counter-increment:li;font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:500;color:var(--lime);flex-shrink:0;margin-top:2px;min-width:14px}
+.expand-body ul{counter-reset:li}
+.expand-body p{font-size:.85rem;line-height:1.65;color:var(--txt2);margin-bottom:12px}
+.expand-body a{color:var(--lime);font-weight:500;font-size:.82rem}
+.expand-body a:hover{text-decoration:underline}
+ 
+/* footer */
+.page-foot{font-size:.72rem;color:var(--txt3);margin-top:32px;text-align:center;font-family:'IBM Plex Mono',monospace}
+ 
+/* responsive */
+@media(max-width:900px){
+  .news-grid{grid-template-columns:repeat(2,1fr)}
+  .card[data-size=large]{grid-column:span 2}
+  .card[data-size=wide]{grid-column:span 2}
+  .card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .news-grid{grid-template-columns:1fr}
+  .card[data-size=large],.card[data-size=wide]{grid-column:span 1;grid-row:span 1}
+  .dl-main{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr-top">
+    <div class="wordmark">AI<span>.</span>DIGEST</div>
+    <div class="hdr-meta">毎朝 07:00 JST 自動配信</div>
+    <button class="theme-btn" onclick="(function(){var r=document.documentElement;r.setAttribute('data-theme',r.getAttribute('data-theme')==='light'?'dark':'light')})()">☀ / ☾</button>
+  </div>
+  <div class="filter-row">
+    <div class="filter-inner" id="fb">
+      <div class="ftab active" data-f="all">すべて</div>
+      <div class="ftab" data-f="3dai">🔴 3大AI</div>
+      <div class="ftab" data-f="image">🎨 画像・動画</div>
+      <div class="ftab" data-f="biz">💼 実務・副業</div>
+      <div class="ftab" data-f="japan">🇯🇵 日本のAI</div>
+      <div class="ftab" data-f="llm">🧠 LLM技術</div>
+      <div class="ftab" data-f="news">📰 一般ニュース</div>
+    </div>
+  </div>
+</header>
+<div class="page">
+  <div class="dateline">
+    <div><div class="dl-sub">2026-10-18</div><div class="dl-main">今日のAIニュース</div></div>
+    <div class="dl-sub" style="align-self:flex-end;margin-bottom:5px">5件</div>
+    <a href="index.html" class="back-lnk">‹ 一覧</a>
+  </div>
+  <div class="news-grid" id="grid">
+<article class="card" data-cat="news" data-size="large">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">AIエージェントのWebアクセス拒否が急増、自律型AIに重大な障壁</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：OpenAIやMetaなどの自律型AIエージェントに対し、多くのWebサイトがアクセス遮断策を実施。</li>
+    <li>要点2：自動予約や購入等の自律タスクの実行が阻まれ、Web経済とAI利便性の対立が深刻化。</li>
+    <li>要点3：AI開発者やビジネス構築者は、API連携や許可制プロトコルへの移行を見据えた設計が必要。</li>
+  </ul>
+  <p>【詳細】OpenAI、Meta、Googleなどが推進する自律型AIエージェントは、ユーザーに代わってWeb上での検索、レストラン予約、メール整理、商品の購入などを自動化する最も注目される新技術である。しかし、Webサイト側がこれらの自律AIによるアクセスをブロックする動きを加速させている。Webサイト所有者は、サーバー負荷の上昇、広告収益の喪失、データ無断利用への不満から、AIエージェントを拒否する設定（robots.txtの変更やBot対策ツールの導入）を進めている。これにより、AIエージェントが「Webを自由に周遊してタスクを代行する」という当初のビジョンが崩壊するリスクが生じている。今後は、Webサイトとの対立ではなく、正規のAPI連携や認証プロトコルの確立、プラットフォーム間での収益分配モデルの構築が不可欠となる。AI関連ビジネスや副業でスクレイピングや自動化ツールに依存している事業者は、アクセス規制強化に伴うリスクを再評価する必要がある。</p>
+  <p><a href="https://www.theverge.com/ai-artificial-intelligence/1013195/ai-agents-blocked-web">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">Meta、ニュースサイト等のAI学習用無断スクレイピング規約を削除</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：反発を受け、Metaは商用利用規約からニュースサイト等の無断利用を示唆する文言を削除。</li>
+    <li>要点2：ビッグテックの学習データ収集に対する著作権保護とメディア側の権利主張が勝利した形。</li>
+    <li>要点3：データライセンス契約の市場が拡大し、メディア運営者やコンテンツ保持者に収益機会。</li>
+  </ul>
+  <p>【詳細】Metaは利用規約の改定を行い、ニュースサイトを含む外部Webサイトのコンテンツを自社のAIモデル学習や改善に利用可能と解釈できる文言を商用利用規約から削除した。この変更は、出版業界やニュースメディアからの強い反発や著作権問題への批判を受けた対応である。削除された文言には、特定のドメインやURLのコンテンツをMetaがAI提供や開発・改善のために使用できる旨が含まれていた。OpenAIやPerplexityなど他のAI企業もメディアとの法解釈やライセンス契約を巡り揺れており、ビッグテックが無断でWebデータをAIモデル学習に利用する時代が終わりを迎えつつあることを象徴している。今後は、合法的なデータ利用のためのライセンス契約締結や、高品質な独自データセットの価値が高まる。コンテンツ創出者やメディア事業者にとっては、AI企業に対するライセンス交渉力が向上し、自社データを活用した新たな収益化モデルを構築する大きな機会となる。</p>
+  <p><a href="https://www.theverge.com/tech/1013409/meta-removes-language-that-may-have-allowed-it-to-scrape-news-sites">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">AIによる複雑なヒトゲノム解読の限界、動的なDNAデータの不足が課題</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：ヒトゲノムは静的な暗号ではなく動的構造であり、現在のAIには学習データが大幅に不足。</li>
+    <li>要点2：医療・バイオAIの急速な発展期待に対し、実際のゲノム完全解読・疾患予測には限界が存在。</li>
+    <li>要点3：バイオインフォマティクス領域でのデータ収集・分析基盤の構築が今後の有望な投資・研究分野。</li>
+  </ul>
+  <p>【詳細】細胞内のDNAは単なる静的な文字列や指示書ではなく、立体的な折りたたみ構造や化学的修飾（エピジェネティクス）などにより複雑かつ動的に機能している。AlphaFoldなどのAI技術がタンパク質構造予測で大きな成果を上げたものの、ヒトゲノム全体の真の機能を解読するには、現在のAIモデルと研究データはまだ不十分である。研究者たちでさえゲノムの動的挙動の全体像を解明できておらず、AIに学習させるための決定的な高品質データセットが存在しないことが最大のネックとなっている。遺伝子変異が疾患にどう影響するかを正確に予測するには、単なる塩基配列データだけでなく、細胞の環境変化や時間経過に伴う動的データの統合が必要とされる。今後、ゲノムAIが真の実用化を迎えるには、実験データのさらなる蓄積と、生物学的メカニズムを組み込んだ新しいモデルアーキテクチャの開発が不可欠である。医療・バイオテック業界における投資や開発では、AIモデル自体だけでなく高品質な実験データの獲得・管理能力が重要となる。</p>
+  <p><a href="https://www.wired.com/story/why-ai-isnt-ready-to-tackle-our-convoluted-genomes/">📎 詳細を見る（出典：Feed: Artificial Intelligence Latest）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">LLM量子化の隠れた落とし穴、しきい値依存メトリクスの必要性を解説</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：従来の量子化ガイドで欠落していた「しきい値依存メトリクス」の重要性を指摘。</li>
+    <li>要点2：モデルの軽量化（量子化）時に生じる精度劣化を正確に検知し、エッジ実装の評価手法を改善。</li>
+    <li>要点3：ローカル環境やエッジデバイスへのLLM実装時に、モデル品質を維持・最適化する知見。</li>
+  </ul>
+  <p>【詳細】多くの量子化（Quantization）解説ガイドでは、パープレキシティなどの全体的な指標のみに依存しており、実際のモデル導入判定（ゲート判定）で不可欠な「しきい値依存の評価指標」が無視されている。モデルを4ビットや8ビット等に軽量化する際、平均的な性能指標が良好に見えても、特定の判定境界（しきい値）付近での出力精度が大きく劣化しているケースが少なくない。本稿では、この見落とされがちな落とし穴を明らかにすると共に、量子化ゲート判定を適切に行うために導入すべき2つの具体的な数値指標を提案している。これにより、モデル開発者やエンジニアは、軽量化による精度の歪みを正確に把握し、製品レベルでの予期せぬ動作不良を防ぐことが可能になる。特に、クラウド費用削減を目指してオープンLLMをオンプレミスやデバイス上に量子化してデプロイするエンジニアや事業者にとって、この評価手法の導入はシステムの安定性と応答品質を担保するための極めて実践的なガイドラインとなる。</p>
+  <p><a href="https://towardsdatascience.com/the-number-your-quantization-gate-doesnt-have/">📎 詳細を見る（出典：Towards Data Science）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://media.wired.com/photos/6acf63d6b06331734b2e70d7/master/pass/Physical%20Genome%20cr-Samuel%20Velasco%20and%20Hannah%20Waters_Quanta%20Magazine-Lede.jpg" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">脳波AIモデルの性能評価におけるデータ漏洩問題と被験者考慮の重要性</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：学習とテストに同一被験者の脳波（EEG）データを使うと、モデル評価が過剰に高くなる現象。</li>
+    <li>要点2：医療・ブレイン・マシン・インターフェース（BMI）分野におけるAIの汎用性評価手法を改訂。</li>
+    <li>要点3：ヘルスケアAIや生体データ分析アプリ開発において、正確な検証設計（クロスバリデーション）を提示。</li>
+  </ul>
+  <p>【詳細】脳波（EEG）データを用いた機械学習モデルの構築において、訓練データとテストデータの両方に同一被験者のデータが含まれている場合、モデルが個人特有のパターンを過剰適合（過学習）し、見かけ上の精度が著しく高くなってしまう「データ漏洩」問題が存在する。本研究では、被験者を考慮した評価手法（Participant-aware Evaluation）を導入することで、3つの主要な機械学習モデルの実際のパフォーマンスがどのように変化するかを検証した。実験の結果、被験者を厳密に分離したテストでは性能が大幅に低下し、現実の新規ユーザーに対する汎化性能がこれまでの評価手法では正しく測れていなかったことが露呈した。この知見は、脳波データを扱うBMI（Brain-Machine Interface）や睡眠分析、ヘルスケア系AIアプリの開発において極めて重要である。実務者やAI開発者は、個体差が大きい生体データを扱う際、被験者ごとのクロスバリデーションを厳格に適用しなければ、実用化段階で致命的な性能乖離を引き起こすリスクがある。</p>
+  <p><a href="https://towardsdatascience.com/when-eeg-models-see-the-same-people-in-training-and-testing/">📎 詳細を見る（出典：Towards Data Science）</a></p>
+    </div>
+  </details>
+</article>
+  </div>
+  <p class="page-foot">自動生成 by Gemini + GitHub Actions</p>
+</div>
+<script>
+document.getElementById('fb').addEventListener('click',function(e){
+  var t=e.target.closest('[data-f]');if(!t)return;
+  var f=t.dataset.f;
+  document.querySelectorAll('.ftab').forEach(function(x){x.classList.remove('active')});
+  t.classList.add('active');
+  document.querySelectorAll('.card').forEach(function(c){
+    c.classList.toggle('filtered',f!=='all'&&c.dataset.cat!==f);
+  });
+});
+</script>
+</body>
+</html>
