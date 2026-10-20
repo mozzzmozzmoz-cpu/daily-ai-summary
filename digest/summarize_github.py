@@ -14,14 +14,14 @@ PROMPT = """
 
 出力形式（リポジトリの数だけ繰り返す）:
 <details>
-  <summary><strong>#{rank} {name} — 一言タイトル（日本語・30字以内）</strong>
+  <summary><strong>#{{rank}} {{name}} — 一言タイトル（日本語・30字以内）</strong>
   <ul>
     <li>何ができるか：具体的な機能・用途</li>
     <li>なぜ注目：技術的特徴・ユニークな点</li>
     <li>活用ポイント：エンジニア・副業・自動化への応用</li>
   </ul>
   <p>【詳細】100〜150字で補足。</p>
-  <p><a href="URL">⭐ GitHubで見る（総スター: {total_stars} / 今週: {weekly_stars}）</a></p>
+  <p><a href="URL">⭐ GitHubで見る（総スター: {{total_stars}} / 今週: {{weekly_stars}}）</a></p>
 </details>
 
 ---
