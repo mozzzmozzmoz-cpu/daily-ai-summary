@@ -5,7 +5,7 @@ from google.genai import errors
 
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
-MODELS = ["gemini-3.8-flash", "gemini-2.5-flash"]
+MODELS = ["gemini-3.8-flash"]
 
 PROMPT = """
 あなたはGitHubトレンドを解説するエンジニア向けジャーナリストです。
@@ -43,7 +43,7 @@ def summarize_github(repos: list[dict]) -> str:
 
     for model in MODELS:
         print(f"  モデル試行: {model}")
-        for attempt in range(4):
+        for attempt in range(10):
             try:
                 response = client.models.generate_content(
                     model=model,
