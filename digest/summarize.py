@@ -6,6 +6,7 @@ from google.genai import errors
 
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
+MODELS = ["gemini-2.0-flash", "gemini-1.5-flash"]  # フォールバック順
 
 PROMPT = """
 あなたはAIテクノロジーの専門ジャーナリストです。
@@ -18,13 +19,13 @@ PROMPT = """
 
 出力形式（記事の数だけ繰り返す）:
 <details>
-  <summary><strong>{{category}} タイトル（日本語・35字以内）</strong></summary>
+  <summary><strong>{{category}} タイトル（日本語・35字以内）</strong>
   <ul>
     <li>要点1：具体的な数値・事実を含む</li>
     <li>要点2：意義・業界への影響</li>
     <li>要点3：実務・副業・投資への活用ポイント（あれば）</li>
   </ul>
-  <p>【詳細】500字程度で補足。要点で触れなかった背景・経緯・具体例・数値を加え、記事を読まなくても内容が把握できるレベルで書く。</p>
+  <p>【詳細】150〜200字で補足。要点で触れなかった背景・経緯・具体例・数値を加え、記事を読まなくても内容が把握できるレベルで書く。</p>
   <p><a href="元URL">📎 詳細を見る（出典：SOURCE）</a></p>
 </details>
 
@@ -39,19 +40,30 @@ def summarize(articles: list[dict]) -> str:
         f"URL: {a['url']}\nSource: {a['source']}\n{a['body']}"
         for i, a in enumerate(articles)
     )
-    for attempt in range(3):
-        try:
-            response = client.models.generate_content(
-                model="gemini-3.6-flash",
-                contents=PROMPT.format(articles=text),
-            )
-            html = response.text
-            html = re.sub(r'<details\s+open[^>]*>', '<details>', html)
-            return html
-        except errors.ServerError as e:
-            if attempt < 2:
-                wait = 30 * (attempt + 1)
-                print(f"  ⚠ Gemini 503, {wait}秒後にリトライ ({attempt+1}/3)...")
-                time.sleep(wait)
-            else:
-                raise
+    prompt = PROMPT.format(articles=text)
+
+    # モデルごとにリトライ
+    for model in MODELS:
+        print(f"  モデル試行: {model}")
+        for attempt in range(4):
+            try:
+                response = client.models.generate_content(
+                    model=model,
+                    contents=prompt,
+                )
+                html = response.text
+                html = re.sub(r'<details\s+open[^>]*>', '<details>', html)
+                print(f"  ✅ 成功: {model}")
+                return html
+            except errors.ServerError as e:
+                if attempt < 3:
+                    wait = 30 * (2 ** attempt)  # 30, 60, 120秒
+                    print(f"  ⚠ {model} 503, {wait}秒後にリトライ ({attempt+1}/4)...")
+                    time.sleep(wait)
+                else:
+                    print(f"  ✗ {model} 全リトライ失敗、次のモデルへ")
+            except Exception as e:
+                print(f"  ✗ {model} エラー: {e}")
+                break  # 503以外はすぐ次のモデルへ
+
+    raise RuntimeError("全モデルで生成失敗")
