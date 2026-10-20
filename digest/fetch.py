@@ -57,16 +57,24 @@ FEED_GROUPS = {
 SEEN_CACHE = "docs/seen_urls.json"
 
 def load_seen_urls() -> set:
-    if os.path.exists(SEEN_CACHE):
-        with open(SEEN_CACHE) as f:
-            return set(json.load(f))
-    return set()
+    if not os.path.exists(SEEN_CACHE):
+        return set()
+    with open(SEEN_CACHE) as f:
+        data = json.load(f)
+    # 旧形式（リスト）との互換性
+    if isinstance(data, list):
+        return set(data)
+    # 新形式: {"url": "YYYY-MM-DD"} — 7日以内のみ残す
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=7)).strftime("%Y-%m-%d")
+    return {url for url, date in data.items() if date >= cutoff}
 
-def save_seen_urls(urls: set):
-    url_list = list(urls)[-500:]
+def save_seen_urls(urls_with_dates: dict):
     os.makedirs("docs", exist_ok=True)
+    # 7日以内のみ保存
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=7)).strftime("%Y-%m-%d")
+    pruned = {url: date for url, date in urls_with_dates.items() if date >= cutoff}
     with open(SEEN_CACHE, "w") as f:
-        json.dump(url_list, f)
+        json.dump(pruned, f)
 
 def _extract_image(entry) -> str:
     for m in entry.get("media_content", []):
