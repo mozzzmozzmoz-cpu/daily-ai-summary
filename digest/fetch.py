@@ -93,10 +93,10 @@ def _extract_image(entry) -> str:
     return ""
 
 def fetch_recent(max_per_group: int = 3) -> list[dict]:
+    # load_seen_urls は set を返す
     published_seen = load_seen_urls()
     run_seen = set(published_seen)
-    cutoff = datetime.now(timezone.utc) - timedelta(hours=30)
-    articles = []
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
     for group, feeds in FEED_GROUPS.items():
         group_hits = []
@@ -128,5 +128,14 @@ def fetch_recent(max_per_group: int = 3) -> list[dict]:
         print(f"{group}: {len(taken)} 件")
 
     result = articles[:20]
-    save_seen_urls(published_seen | {a["url"] for a in result})
+    # 既存URL辞書に今日の分を追加
+    if os.path.exists(SEEN_CACHE):
+        with open(SEEN_CACHE) as f:
+            existing = json.load(f)
+        if isinstance(existing, list):
+            existing = {url: "2000-01-01" for url in existing}
+    else:
+        existing = {}
+    existing.update({a["url"]: today for a in result})
+    save_seen_urls(existing)
     return result
