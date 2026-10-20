@@ -45,7 +45,7 @@ def summarize(articles: list[dict]) -> str:
     # モデルごとにリトライ
     for model in MODELS:
         print(f"  モデル試行: {model}")
-        for attempt in range(4):
+        for attempt in range(10):
             try:
                 response = client.models.generate_content(
                     model=model,
