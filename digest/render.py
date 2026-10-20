@@ -336,14 +336,5 @@ def save_html(body: str, articles: list[dict] | None = None) -> None:
     )
     print(f"保存: {daily_path}")
  
-    # 2. Regenerate index
-    dated = sorted(Path("docs").glob("????-??-??.html"), reverse=True)
-    items = "\n".join(
-        f'    <li><a href="{f.name}">{f.stem} <span>›</span></a></li>'
-        for f in dated
-    )
-    Path("docs/index.html").write_text(
-        _INDEX_TMPL.format(css=_CSS, count=len(dated), items=items),
-        encoding="utf-8",
-    )
-    print(f"インデックス更新: {len(dated)} 件")
+    # 2. Regenerate index (タブ付き: AI News / Git Top 10)
+    build_index()
