@@ -5,8 +5,10 @@ import re
 from datetime import datetime, timezone, timedelta
 from urllib.parse import quote
 
+
 def _gnews(query: str) -> str:
     return f"https://news.google.com/rss/search?q={quote(query)}&hl=en&gl=US&ceid=US:en"
+
 
 FEED_GROUPS = {
     "🔴 3大AI": [
@@ -56,7 +58,9 @@ FEED_GROUPS = {
 
 SEEN_CACHE = "docs/seen_urls.json"
 
+
 def load_seen_urls() -> set:
+    """7日以内のURLのみ返す（旧形式リストにも対応）"""
     if not os.path.exists(SEEN_CACHE):
         return set()
     with open(SEEN_CACHE) as f:
@@ -65,16 +69,18 @@ def load_seen_urls() -> set:
     if isinstance(data, list):
         return set(data)
     # 新形式: {"url": "YYYY-MM-DD"} — 7日以内のみ残す
-    cutoff = (datetime.now(timezone.utc) - timedelta(days=7)).strftime("%Y-%m-%d")
-    return {url for url, date in data.items() if date >= cutoff}
+    cutoff_date = (datetime.now(timezone.utc) - timedelta(days=7)).strftime("%Y-%m-%d")
+    return {url for url, date in data.items() if date >= cutoff_date}
+
 
 def save_seen_urls(urls_with_dates: dict):
+    """7日以内のURLのみ保存"""
     os.makedirs("docs", exist_ok=True)
-    # 7日以内のみ保存
-    cutoff = (datetime.now(timezone.utc) - timedelta(days=7)).strftime("%Y-%m-%d")
-    pruned = {url: date for url, date in urls_with_dates.items() if date >= cutoff}
+    cutoff_date = (datetime.now(timezone.utc) - timedelta(days=7)).strftime("%Y-%m-%d")
+    pruned = {url: date for url, date in urls_with_dates.items() if date >= cutoff_date}
     with open(SEEN_CACHE, "w") as f:
         json.dump(pruned, f)
+
 
 def _extract_image(entry) -> str:
     for m in entry.get("media_content", []):
@@ -92,11 +98,13 @@ def _extract_image(entry) -> str:
         return m.group(1)
     return ""
 
+
 def fetch_recent(max_per_group: int = 3) -> list[dict]:
-    # load_seen_urls は set を返す
     published_seen = load_seen_urls()
     run_seen = set(published_seen)
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    cutoff = datetime.now(timezone.utc) - timedelta(hours=30)
+    articles = []
 
     for group, feeds in FEED_GROUPS.items():
         group_hits = []
@@ -128,7 +136,8 @@ def fetch_recent(max_per_group: int = 3) -> list[dict]:
         print(f"{group}: {len(taken)} 件")
 
     result = articles[:20]
-    # 既存URL辞書に今日の分を追加
+
+    # seen_urls を更新（新形式: url -> date）
     if os.path.exists(SEEN_CACHE):
         with open(SEEN_CACHE) as f:
             existing = json.load(f)
@@ -138,4 +147,5 @@ def fetch_recent(max_per_group: int = 3) -> list[dict]:
         existing = {}
     existing.update({a["url"]: today for a in result})
     save_seen_urls(existing)
+
     return result
