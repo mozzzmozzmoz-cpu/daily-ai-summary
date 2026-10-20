@@ -5,7 +5,7 @@ from google.genai import errors
 
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
-MODELS = ["gemini-2.0-flash", "gemini-1.5-flash"]
+MODELS = ["gemini-3.8-flash", "gemini-2.5-flash"]
 
 PROMPT = """
 あなたはGitHubトレンドを解説するエンジニア向けジャーナリストです。
