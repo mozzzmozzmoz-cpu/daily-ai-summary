@@ -1,6 +1,7 @@
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
 import re
+from digest.build_index import build_index
  
 JST = timezone(timedelta(hours=9))
  
