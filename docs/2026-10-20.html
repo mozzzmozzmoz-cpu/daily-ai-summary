@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Digest — 2026-10-20</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg:#0c0c0c; --sur:#141414; --rule:#232323;
+  --txt:#f0f0f0; --txt2:#888; --txt3:#444;
+  --lime:#ccff00; --lime2:#1a2200;
+  --c-3dai:#ff4444; --c-image:#bf5af2; --c-biz:#ff9f0a;
+  --c-japan:#0a84ff; --c-llm:#30d158; --c-news:#636366;
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme=dark]){
+    --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+    --txt:#111; --txt2:#666; --txt3:#aaa;
+    --lime:#5c7a00; --lime2:#edf5c0;
+  }
+}
+:root[data-theme=light]{
+  --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+  --txt:#111; --txt2:#666; --txt3:#aaa;
+  --lime:#5c7a00; --lime2:#edf5c0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+a{color:var(--lime);text-decoration:none}
+a:hover{text-decoration:underline}
+ 
+/* header */
+header{background:var(--bg);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:100}
+.hdr-top{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:12px 20px;max-width:1200px;margin:0 auto}
+.wordmark{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;letter-spacing:-.01em;text-transform:uppercase;color:var(--txt)}
+.wordmark span{color:var(--lime)}
+.hdr-meta{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase}
+.theme-btn{background:transparent;border:1px solid var(--rule);color:var(--txt2);border-radius:4px;padding:5px 10px;font-size:.72rem;cursor:pointer}
+.theme-btn:hover{border-color:var(--txt2)}
+.filter-row{border-top:1px solid var(--rule);overflow-x:auto;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-inner{display:flex;max-width:1200px;margin:0 auto;padding:0 20px}
+.ftab{flex-shrink:0;padding:9px 14px;font-size:.75rem;font-weight:500;color:var(--txt2);border-bottom:2px solid transparent;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;user-select:none}
+.ftab:hover{color:var(--txt)}
+.ftab.active{color:var(--txt);border-bottom-color:var(--lime)}
+ 
+/* page */
+.page{max-width:1200px;margin:0 auto;padding:0 20px 60px}
+.dateline{padding:28px 0 20px;display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--rule)}
+.dl-main{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.6rem;text-transform:uppercase;letter-spacing:-.01em;line-height:1;color:var(--txt)}
+.dl-sub{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase}
+.back-lnk{margin-left:auto;font-size:.78rem;color:var(--txt2);display:flex;align-items:center;gap:5px;flex-shrink:0}
+.back-lnk:hover{color:var(--lime);text-decoration:none}
+ 
+/* grid */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-top:1px}
+.card{background:var(--bg);transition:background .15s}
+.card:hover{background:var(--sur)}
+.card.filtered{display:none}
+ 
+/* magazine sizing */
+.card[data-size=large]{grid-column:span 2;grid-row:span 2}
+.card[data-size=large] .card-img{aspect-ratio:4/3}
+.card[data-size=wide]{grid-column:span 2}
+.card[data-size=wide] .card-img{aspect-ratio:21/9}
+.card[data-size=small] .card-img{aspect-ratio:16/9}
+ 
+/* details / summary */
+details{height:100%;display:flex;flex-direction:column}
+details summary{list-style:none;cursor:pointer;height:100%;display:flex;flex-direction:column}
+details summary::-webkit-details-marker{display:none}
+ 
+/* card image */
+.card-img{width:100%;overflow:hidden;flex-shrink:0;position:relative}
+.card-real-img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+ 
+/* category gradients (fallback when no real image) */
+.card[data-cat=3dai]  .card-img{background:radial-gradient(ellipse 80% 80% at 30% 40%,#3d0a0a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 60% at 72% 65%,#6b1212 0%,transparent 50%)}
+.card[data-cat=image] .card-img{background:radial-gradient(ellipse 90% 70% at 20% 30%,#2d0d4f 0%,#0c0c0c 55%),radial-gradient(ellipse 50% 80% at 78% 60%,#4a1272 0%,transparent 50%)}
+.card[data-cat=biz]   .card-img{background:radial-gradient(ellipse 80% 80% at 40% 40%,#3d2200 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 50% at 75% 65%,#6b3d00 0%,transparent 50%)}
+.card[data-cat=japan] .card-img{background:radial-gradient(ellipse 80% 70% at 30% 35%,#001a3d 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 70%,#003b7a 0%,transparent 45%)}
+.card[data-cat=llm]   .card-img{background:radial-gradient(ellipse 80% 80% at 25% 35%,#062610 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 65%,#0d4820 0%,transparent 50%)}
+.card[data-cat=news]  .card-img{background:radial-gradient(ellipse 80% 70% at 35% 40%,#1a1a1a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 50% at 70% 65%,#2e2e2e 0%,transparent 50%)}
+.card-img::after{content:'';position:absolute;width:40%;height:40%;top:20%;left:15%;border-radius:50%;filter:blur(28px);opacity:.5}
+.card[data-cat=3dai]  .card-img::after{background:#ff4444}
+.card[data-cat=image] .card-img::after{background:#bf5af2}
+.card[data-cat=biz]   .card-img::after{background:#ff9f0a}
+.card[data-cat=japan] .card-img::after{background:#0a84ff}
+.card[data-cat=llm]   .card-img::after{background:#30d158}
+.card[data-cat=news]  .card-img::after{background:#888}
+ 
+/* light mode gradients */
+:root[data-theme=light] .card[data-cat=3dai]  .card-img,
+:root[data-theme=light] .card[data-cat=image] .card-img,
+:root[data-theme=light] .card[data-cat=biz]   .card-img,
+:root[data-theme=light] .card[data-cat=japan] .card-img,
+:root[data-theme=light] .card[data-cat=llm]   .card-img,
+:root[data-theme=light] .card[data-cat=news]  .card-img{filter:brightness(2.5) saturate(.5)}
+ 
+/* card body (text section) */
+.card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:6px}
+.card[data-size=large] .card-body{padding:18px 20px 20px}
+.cat-tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.card[data-cat=3dai]  .cat-tag{color:var(--c-3dai)}
+.card[data-cat=image] .cat-tag{color:var(--c-image)}
+.card[data-cat=biz]   .cat-tag{color:var(--c-biz)}
+.card[data-cat=japan] .cat-tag{color:var(--c-japan)}
+.card[data-cat=llm]   .cat-tag{color:var(--c-llm)}
+.card[data-cat=news]  .cat-tag{color:var(--c-news)}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.15rem;line-height:1.2;color:var(--txt);text-wrap:balance}
+.card[data-size=large] .card-title{font-size:1.9rem;line-height:1.1}
+.card[data-size=wide]  .card-title{font-size:1.4rem}
+.card:hover .card-title{color:var(--lime)}
+.expand-hint{margin-top:auto;font-size:.72rem;color:var(--txt3);display:flex;align-items:center;gap:3px}
+.chev{transition:transform .2s;display:inline-block}
+details[open] .chev{transform:rotate(90deg)}
+ 
+/* expanded body */
+.expand-body{border-top:1px solid var(--rule);padding:18px 16px 20px;background:var(--sur)}
+.card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{padding:20px 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.expand-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.expand-body li{display:flex;gap:8px;font-size:.85rem;line-height:1.55;color:var(--txt)}
+.expand-body li::before{content:counter(li);counter-increment:li;font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:500;color:var(--lime);flex-shrink:0;margin-top:2px;min-width:14px}
+.expand-body ul{counter-reset:li}
+.expand-body p{font-size:.85rem;line-height:1.65;color:var(--txt2);margin-bottom:12px}
+.expand-body a{color:var(--lime);font-weight:500;font-size:.82rem}
+.expand-body a:hover{text-decoration:underline}
+ 
+/* footer */
+.page-foot{font-size:.72rem;color:var(--txt3);margin-top:32px;text-align:center;font-family:'IBM Plex Mono',monospace}
+ 
+/* responsive */
+@media(max-width:900px){
+  .news-grid{grid-template-columns:repeat(2,1fr)}
+  .card[data-size=large]{grid-column:span 2}
+  .card[data-size=wide]{grid-column:span 2}
+  .card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .news-grid{grid-template-columns:1fr}
+  .card[data-size=large],.card[data-size=wide]{grid-column:span 1;grid-row:span 1}
+  .dl-main{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr-top">
+    <div class="wordmark">AI<span>.</span>DIGEST</div>
+    <div class="hdr-meta">毎朝 07:00 JST 自動配信</div>
+    <button class="theme-btn" onclick="(function(){var r=document.documentElement;r.setAttribute('data-theme',r.getAttribute('data-theme')==='light'?'dark':'light')})()">☀ / ☾</button>
+  </div>
+  <div class="filter-row">
+    <div class="filter-inner" id="fb">
+      <div class="ftab active" data-f="all">すべて</div>
+      <div class="ftab" data-f="3dai">🔴 3大AI</div>
+      <div class="ftab" data-f="image">🎨 画像・動画</div>
+      <div class="ftab" data-f="biz">💼 実務・副業</div>
+      <div class="ftab" data-f="japan">🇯🇵 日本のAI</div>
+      <div class="ftab" data-f="llm">🧠 LLM技術</div>
+      <div class="ftab" data-f="news">📰 一般ニュース</div>
+    </div>
+  </div>
+</header>
+<div class="page">
+  <div class="dateline">
+    <div><div class="dl-sub">2026-10-20</div><div class="dl-main">今日のAIニュース</div></div>
+    <div class="dl-sub" style="align-self:flex-end;margin-bottom:5px">8件</div>
+    <a href="index.html" class="back-lnk">‹ 一覧</a>
+  </div>
+  <div class="news-grid" id="grid">
+<article class="card" data-cat="news" data-size="large">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">CoreWeaveの巨額債務問題がAI業界全体の金融リスクに波及</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：CoreWeaveの社債利回りが国債より1,000bp以上高騰しディストレスト（破綻懸念）水準に達した。</li>
+    <li>要点2：GPU担保のプライベート・クレジット拡大が「AI景気の金融バブル」として業界全体のリスクとして浮上。</li>
+    <li>要点3：AIスタートアップやインフラ投資家は資金繰り悪化やネオクラウド破綻リスクを注視すべき。</li>
+  </ul>
+  <p>【詳細】GPUクラウドプロバイダーとして急成長を遂げたCoreWeaveの信用リスクが高まり、AI業界全体への金融的波及が懸念されている。同社の社債は利回りが米国債を10%（1000ベーシスポイント）以上上回るディストレスト債券状態に突入。チャマス・パリハピティヤ氏ら有名投資家も、GPUを担保にしたプライベート・クレジット（民間融資）によるAIインフラ構築が金融バブル化していると警告を発した。ビッグテックによる巨額投資に支えられてきたGPU貸出事業だが、供給過多や需要の一巡により、資金調達コストの高騰がネオクラウド企業の経営を直接圧迫。AI需要自体の持続可能性や市場バリュエーションの健全性が問われる深刻な局面に直面している。</p>
+  <p><a href="https://www.theverge.com/ai-artificial-intelligence/1014045/coreweave-stock-debt-sector-ai">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">Claude Haiku 5.5登場！90%低価格化と1Mトークン対応</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：従来比で定価を90%削減しつつ、100万トークンの長文コンテキストウィンドウに対応した。</li>
+    <li>要点2：適応型思考（Adaptive Thinking）により、安価・高速なサブエージェント構造の構築が可能に。</li>
+    <li>要点3：分類・抽出・大量自動化ワークフローをPython APIで格安運用し、AI副業や業務自動化の粗利を極大化。</li>
+  </ul>
+  <p>【詳細】Anthropicが発表したClaude Haiku 5.5（モデル進化版）は、AI開発のコスト構造を劇的に変化させる。定価を最大90%削減した圧倒的なコストパフォーマンスを誇りながら、100万トークンに及ぶ広大なコンテキストウィンドウをサポート。さらに複雑な推論を段階的に行う「適応型思考」を搭載したことで、従来の軽量モデルでは困難だった複雑なテキスト抽出やデータ分類、複数エージェントを連携させるサブエージェント型の高速ワークフロー開発が現実的になった。APIを用いたPythonでの実装手法も整備され、AIネイティブな新規プロダクト開発や大容量データ処理のランニングコストを大幅に引き下げ、企業の業務効率化や副業でのAI自動化ビジネスの採算性を大幅に引き上げる。</p>
+  <p><a href="https://www.kdnuggets.com/claude-haiku-5-5-whats-new-and-how-to-use-it-for-fast-cheap-ai-workflows">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/KDN-Shittu-Claude-Haiku-5.5-Whats-New-and-How-to-Use-It-for-Fast-Cheap-AI-Workflows-scaled.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">AIデータセンター急増により米国で化石燃料インフラ建設が急拡大</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：米国で過去10年で最大規模となる化石燃料発電インフラの新規建設が進行している。</li>
+    <li>要点2：AIデータセンター・工場・EVによる電力需要爆発に再エネ供給が追いつかない危機的状況を露呈。</li>
+    <li>要点3：エネルギー関連銘柄への投資機会と同時に、データセンター設置企業の電力コスト増大リスクを考慮すべき。</li>
+  </ul>
+  <p>【詳細】米国において過去10年で最も活発な化石燃料インフラの建設が進んでいることが最新レポートで明らかになった。この背景には、AIデータセンターの急増、ハイテク工場の国内回帰、電気自動車（EV）の普及による記録的な電力需要の伸びが存在する。これまで推進されてきた再生可能エネルギーの供給成長スピードが需要の拡大ペースに追いつかず、電力網（グリッド）のパンクを避けるために火力発電など化石燃料への依存を再拡大せざるを得ない事態に陥っている。この状況はクリーンエネルギー政策や脱炭素目標の大きな障害となる一方で、電力インフラ整備や代替エネルギー技術を手掛ける企業にとって巨大なビジネスチャンスを生み出している。</p>
+  <p><a href="https://www.theverge.com/science/1013954/fossil-fuel-power-infrastructure-data-centers-report">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/kdn-chugani-langchain-llamaindex-building-scratch-feature.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">OpenAIがCOBOL等マイナー言語のAI移植・コード性能を飛躍</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：SQLiteやCOBOL移行など低リソースプログラミング言語に特化した新たなAI評価指標を導入。</li>
+    <li>要点2：レガシーシステムのモダン言語化や少数言語開発でのChatGPTコーディング精度が大幅向上。</li>
+    <li>要点3：レガシーシステム刷新案件を受託するITベンダーやエンジニアの副業・実務効率が格段に向上。</li>
+  </ul>
+  <p>【詳細】OpenAIは、マイナーなプログラミング言語やレガシー言語（低リソース言語）におけるChatGPTのコーディング支援能力を飛躍的に強化したと発表した。ソフトウェアエンジニアリング、SQLite、さらには金融や行政機関に根強く残るCOBOLからのシステム移行に焦点を当てた新しい評価ベンチマークを構築・適用。従来、AIコード生成はPythonやJavaScriptなど大量のデータが存在する主流言語に偏っていたが、本改善により学習データが少ない言語での補完・翻訳・リファクタリングの精度が著しく高まった。これにより、莫大なコストと期間がかかっていたCOBOL等のレガシーシステムからモダン環境への移行プロジェクトが劇的に加速し、IT業界全体の実務生産性とレガシー脱却に大改革をもたらす。</p>
+  <p><a href="https://openai.com/index/low-resource-programming-languages">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/kdn-7-checks-to-run-before-trusting-ai-generated-code-feature.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">TorchNeuronでAWS TrainiumでのHFモデル実行が容易に</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：TorchNeuronの最適化により、AWS Trainium上でHugging Faceモデルの高速実行が可能に。</li>
+    <li>要点2：NVIDIA依存からの脱却（脱CUDA）を促進し、クラウドAIインフラの学習・推論コストを削減。</li>
+    <li>要点3：クラウドエンジニアやAI開発者はAWSインフラを活用したモデル運用でAPI・サーバー費用を削減可能。</li>
+  </ul>
+  <p>【詳細】Hugging FaceとAWSは、専用AIチップ「AWS Trainium」上でHugging Faceのモデルを極めて容易かつ効率的に実行・学習させるためのツールセット「TorchNeuron」の最新アップデートを発表した。従来、独自アクセラレータ上での深層学習モデル最適化には複雑なコンパイル作業やコード修正が必要であったが、TorchNeuronの連携強化により、標準的なPyTorchコードから最小限の手間でTrainiumへデプロイ可能となった。現在市場を独占するNVIDIA製GPUの供給不足や価格高騰に対し、AWSのカスタムシリコンを活用したコストパフォーマンスの高いオルタナティブを提供することで、AIモデルの運用コスト削減と脱NVIDIA化を強力に後押しする。</p>
+  <p><a href="https://huggingface.co/blog/hf-torchneuron">📎 詳細を見る（出典：Hugging Face - Blog）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">LangChain vs LlamaIndex vs 自作の選定基準</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：LLMアプリ開発における主要3選択肢の最適化ポイントとアーキテクチャの違いを徹底比較。</li>
+    <li>要点2：データ検索（RAG）重視かエージェント制御重視かに応じた最適な技術選定基準を定義。</li>
+    <li>要点3：開発目的と運用保守性を見極めたフレームワーク選定により、初期開発・運用の無駄を回避。</li>
+  </ul>
+  <p>【詳細】大規模言語モデル（LLM）アプリケーション開発において、LangChain、LlamaIndex、あるいはフレームワークを使わずに自作（スクラッチ開発）するかの選択が開発者の大きな課題となっている。KDnuggetsの最新解説記事では、「システムが何を最も最適化しようとしているか」という根本的な問いをもとに明確な指針を示している。データ検索やRAGパイプラインの構築・高度化にはLlamaIndexが優れ、複雑なマルチステップやツール呼び出しを行うエージェント構築にはLangChainが適している。一方で、オーバースペックによるブラックボックス化や依存ライブラリの急激な変更を避けるため、シンプルなユースケースではスクラッチ開発が最適な場合も多く、目的に応じた適切な技術選定がプロジェクト成功のカギを握る。</p>
+  <p><a href="https://www.kdnuggets.com/langchain-vs-llamaindex-vs-building-from-scratch-heres-what-i-suggest">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">AI生成コードを安全に採用するための7つの厳格チェック項目</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：AIによるコーディング自動化時代において、開発者が実施すべき7つのコード検証プロセスを提示。</li>
+    <li>要点2：生成コードの盲信によるセキュリティホールやロジックエラー等の潜在的障害リスクを防止。</li>
+    <li>要点3：エンジニアや副業Web開発者は本チェックリストの導入で、品質担保と開発スピードを両立。</li>
+  </ul>
+  <p>【詳細】AIツールによってコード記述の単価と時間は極めて安価になったが、その生成物の正確性と安全性を検証する人間の責任は以前にも増して高まっている。KDnuggetsが提示する「AI生成コードを信頼する前に実行すべき7つのチェック」は、エッジケースの動作確認、脆弱性スキャン、不要なライブラリ依存の排除、メモリ効率の確認など、AI特有の問題点を炙り出す実践的な検証リストである。AIが出力した「一見正しく動いているように見えて潜在的バグを孕んだコード」をそのまま本番環境に投入するリスクを防ぎ、AIネイティブ時代におけるソフトウェア開発プロセスの品質保証ガイドラインとして実務で即座に活用できる内容となっている。</p>
+  <p><a href="https://www.kdnuggets.com/7-checks-to-run-before-trusting-ai-generated-code">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">米州知事が語るAIの光と影：寿命100歳実現か核級の脅威か</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：イリノイ州知事がAIによる医療革新と、核兵器に匹敵する社会的危険性の両面について言及。</li>
+    <li>要点2：州レベルでのプライバシー保護、データセンター誘致、AI規制を巡る政治的再編の動きが加速。</li>
+    <li>要点3：米国でのAI規制法案やデータセンターインフラ施策の動向は、関連事業の地域選定や規律に直結。</li>
+  </ul>
+  <p>【詳細】イリノイ州のJB・プリツカー知事がポッドキャストインタビューに応じ、AI技術がもたらす巨大な可能性とリスクについて見解を語った。知事は、AIが医療や生命科学を飛躍させ人間の寿命を100歳まで延ばす可能性があると期待を寄せる一方で、ディープフェイクやデータプライバシーの侵害、失業リスクなどは「核兵器に匹敵する社会的脅威」となり得ると警告。連邦政府の法整備が遅れる中、各州政府がデータセンターの誘致施策とプライバシー規制のバランスをどう取るかという政治的判断に直面している現状を明かした。AIを巡る政治的・法的な包囲網の形成は、AI企業の事業展開やインフラ投資に直接影響を与える重要トピックとなっている。</p>
+  <p><a href="https://www.theverge.com/podcast/1012839/pritzker-ai-privacy-data-centers-flock-congress-laws">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+  </div>
+  <p class="page-foot">自動生成 by Gemini + GitHub Actions</p>
+</div>
+<script>
+document.getElementById('fb').addEventListener('click',function(e){
+  var t=e.target.closest('[data-f]');if(!t)return;
+  var f=t.dataset.f;
+  document.querySelectorAll('.ftab').forEach(function(x){x.classList.remove('active')});
+  t.classList.add('active');
+  document.querySelectorAll('.card').forEach(function(c){
+    c.classList.toggle('filtered',f!=='all'&&c.dataset.cat!==f);
+  });
+});
+</script>
+</body>
+</html>
