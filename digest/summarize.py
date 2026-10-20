@@ -6,7 +6,7 @@ from google.genai import errors
 
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
-MODELS = ["gemini-3.8-flash", "gemini-2.5-flash"]  # フォールバック順
+MODELS = ["gemini-3.8-flash", "gemini-3.8-flash"]  # フォールバック順
 
 PROMPT = """
 あなたはAIテクノロジーの専門ジャーナリストです。
