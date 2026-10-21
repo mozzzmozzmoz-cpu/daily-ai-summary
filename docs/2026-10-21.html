@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Digest — 2026-10-21</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg:#0c0c0c; --sur:#141414; --rule:#232323;
+  --txt:#f0f0f0; --txt2:#888; --txt3:#444;
+  --lime:#ccff00; --lime2:#1a2200;
+  --c-3dai:#ff4444; --c-image:#bf5af2; --c-biz:#ff9f0a;
+  --c-japan:#0a84ff; --c-llm:#30d158; --c-news:#636366;
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme=dark]){
+    --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+    --txt:#111; --txt2:#666; --txt3:#aaa;
+    --lime:#5c7a00; --lime2:#edf5c0;
+  }
+}
+:root[data-theme=light]{
+  --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+  --txt:#111; --txt2:#666; --txt3:#aaa;
+  --lime:#5c7a00; --lime2:#edf5c0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+a{color:var(--lime);text-decoration:none}
+a:hover{text-decoration:underline}
+ 
+/* header */
+header{background:var(--bg);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:100}
+.hdr-top{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:12px 20px;max-width:1200px;margin:0 auto}
+.wordmark{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;letter-spacing:-.01em;text-transform:uppercase;color:var(--txt)}
+.wordmark span{color:var(--lime)}
+.hdr-meta{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase}
+.theme-btn{background:transparent;border:1px solid var(--rule);color:var(--txt2);border-radius:4px;padding:5px 10px;font-size:.72rem;cursor:pointer}
+.theme-btn:hover{border-color:var(--txt2)}
+.filter-row{border-top:1px solid var(--rule);overflow-x:auto;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-inner{display:flex;max-width:1200px;margin:0 auto;padding:0 20px}
+.ftab{flex-shrink:0;padding:9px 14px;font-size:.75rem;font-weight:500;color:var(--txt2);border-bottom:2px solid transparent;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;user-select:none}
+.ftab:hover{color:var(--txt)}
+.ftab.active{color:var(--txt);border-bottom-color:var(--lime)}
+ 
+/* page */
+.page{max-width:1200px;margin:0 auto;padding:0 20px 60px}
+.dateline{padding:28px 0 20px;display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--rule)}
+.dl-main{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.6rem;text-transform:uppercase;letter-spacing:-.01em;line-height:1;color:var(--txt)}
+.dl-sub{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase}
+.back-lnk{margin-left:auto;font-size:.78rem;color:var(--txt2);display:flex;align-items:center;gap:5px;flex-shrink:0}
+.back-lnk:hover{color:var(--lime);text-decoration:none}
+ 
+/* grid */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-top:1px}
+.card{background:var(--bg);transition:background .15s}
+.card:hover{background:var(--sur)}
+.card.filtered{display:none}
+ 
+/* magazine sizing */
+.card[data-size=large]{grid-column:span 2;grid-row:span 2}
+.card[data-size=large] .card-img{aspect-ratio:4/3}
+.card[data-size=wide]{grid-column:span 2}
+.card[data-size=wide] .card-img{aspect-ratio:21/9}
+.card[data-size=small] .card-img{aspect-ratio:16/9}
+ 
+/* details / summary */
+details{height:100%;display:flex;flex-direction:column}
+details summary{list-style:none;cursor:pointer;height:100%;display:flex;flex-direction:column}
+details summary::-webkit-details-marker{display:none}
+ 
+/* card image */
+.card-img{width:100%;overflow:hidden;flex-shrink:0;position:relative}
+.card-real-img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+ 
+/* category gradients (fallback when no real image) */
+.card[data-cat=3dai]  .card-img{background:radial-gradient(ellipse 80% 80% at 30% 40%,#3d0a0a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 60% at 72% 65%,#6b1212 0%,transparent 50%)}
+.card[data-cat=image] .card-img{background:radial-gradient(ellipse 90% 70% at 20% 30%,#2d0d4f 0%,#0c0c0c 55%),radial-gradient(ellipse 50% 80% at 78% 60%,#4a1272 0%,transparent 50%)}
+.card[data-cat=biz]   .card-img{background:radial-gradient(ellipse 80% 80% at 40% 40%,#3d2200 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 50% at 75% 65%,#6b3d00 0%,transparent 50%)}
+.card[data-cat=japan] .card-img{background:radial-gradient(ellipse 80% 70% at 30% 35%,#001a3d 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 70%,#003b7a 0%,transparent 45%)}
+.card[data-cat=llm]   .card-img{background:radial-gradient(ellipse 80% 80% at 25% 35%,#062610 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 65%,#0d4820 0%,transparent 50%)}
+.card[data-cat=news]  .card-img{background:radial-gradient(ellipse 80% 70% at 35% 40%,#1a1a1a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 50% at 70% 65%,#2e2e2e 0%,transparent 50%)}
+.card-img::after{content:'';position:absolute;width:40%;height:40%;top:20%;left:15%;border-radius:50%;filter:blur(28px);opacity:.5}
+.card[data-cat=3dai]  .card-img::after{background:#ff4444}
+.card[data-cat=image] .card-img::after{background:#bf5af2}
+.card[data-cat=biz]   .card-img::after{background:#ff9f0a}
+.card[data-cat=japan] .card-img::after{background:#0a84ff}
+.card[data-cat=llm]   .card-img::after{background:#30d158}
+.card[data-cat=news]  .card-img::after{background:#888}
+ 
+/* light mode gradients */
+:root[data-theme=light] .card[data-cat=3dai]  .card-img,
+:root[data-theme=light] .card[data-cat=image] .card-img,
+:root[data-theme=light] .card[data-cat=biz]   .card-img,
+:root[data-theme=light] .card[data-cat=japan] .card-img,
+:root[data-theme=light] .card[data-cat=llm]   .card-img,
+:root[data-theme=light] .card[data-cat=news]  .card-img{filter:brightness(2.5) saturate(.5)}
+ 
+/* card body (text section) */
+.card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:6px}
+.card[data-size=large] .card-body{padding:18px 20px 20px}
+.cat-tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.card[data-cat=3dai]  .cat-tag{color:var(--c-3dai)}
+.card[data-cat=image] .cat-tag{color:var(--c-image)}
+.card[data-cat=biz]   .cat-tag{color:var(--c-biz)}
+.card[data-cat=japan] .cat-tag{color:var(--c-japan)}
+.card[data-cat=llm]   .cat-tag{color:var(--c-llm)}
+.card[data-cat=news]  .cat-tag{color:var(--c-news)}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.15rem;line-height:1.2;color:var(--txt);text-wrap:balance}
+.card[data-size=large] .card-title{font-size:1.9rem;line-height:1.1}
+.card[data-size=wide]  .card-title{font-size:1.4rem}
+.card:hover .card-title{color:var(--lime)}
+.expand-hint{margin-top:auto;font-size:.72rem;color:var(--txt3);display:flex;align-items:center;gap:3px}
+.chev{transition:transform .2s;display:inline-block}
+details[open] .chev{transform:rotate(90deg)}
+ 
+/* expanded body */
+.expand-body{border-top:1px solid var(--rule);padding:18px 16px 20px;background:var(--sur)}
+.card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{padding:20px 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.expand-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.expand-body li{display:flex;gap:8px;font-size:.85rem;line-height:1.55;color:var(--txt)}
+.expand-body li::before{content:counter(li);counter-increment:li;font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:500;color:var(--lime);flex-shrink:0;margin-top:2px;min-width:14px}
+.expand-body ul{counter-reset:li}
+.expand-body p{font-size:.85rem;line-height:1.65;color:var(--txt2);margin-bottom:12px}
+.expand-body a{color:var(--lime);font-weight:500;font-size:.82rem}
+.expand-body a:hover{text-decoration:underline}
+ 
+/* footer */
+.page-foot{font-size:.72rem;color:var(--txt3);margin-top:32px;text-align:center;font-family:'IBM Plex Mono',monospace}
+ 
+/* responsive */
+@media(max-width:900px){
+  .news-grid{grid-template-columns:repeat(2,1fr)}
+  .card[data-size=large]{grid-column:span 2}
+  .card[data-size=wide]{grid-column:span 2}
+  .card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .news-grid{grid-template-columns:1fr}
+  .card[data-size=large],.card[data-size=wide]{grid-column:span 1;grid-row:span 1}
+  .dl-main{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr-top">
+    <div class="wordmark">AI<span>.</span>DIGEST</div>
+    <div class="hdr-meta">毎朝 07:00 JST 自動配信</div>
+    <button class="theme-btn" onclick="(function(){var r=document.documentElement;r.setAttribute('data-theme',r.getAttribute('data-theme')==='light'?'dark':'light')})()">☀ / ☾</button>
+  </div>
+  <div class="filter-row">
+    <div class="filter-inner" id="fb">
+      <div class="ftab active" data-f="all">すべて</div>
+      <div class="ftab" data-f="3dai">🔴 3大AI</div>
+      <div class="ftab" data-f="image">🎨 画像・動画</div>
+      <div class="ftab" data-f="biz">💼 実務・副業</div>
+      <div class="ftab" data-f="japan">🇯🇵 日本のAI</div>
+      <div class="ftab" data-f="llm">🧠 LLM技術</div>
+      <div class="ftab" data-f="news">📰 一般ニュース</div>
+    </div>
+  </div>
+</header>
+<div class="page">
+  <div class="dateline">
+    <div><div class="dl-sub">2026-10-21</div><div class="dl-main">今日のAIニュース</div></div>
+    <div class="dl-sub" style="align-self:flex-end;margin-bottom:5px">10件</div>
+    <a href="index.html" class="back-lnk">‹ 一覧</a>
+  </div>
+  <div class="news-grid" id="grid">
+<article class="card" data-cat="3dai" data-size="large">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">OpenAIがバイオ企業買収 創薬R&DをAIで加速へ</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：OpenAIがライフサイエンスR&D支援のOrchestra Bio買収を発表。</li>
+    <li>要点2：バイオ医薬品チームの創薬・新治療法開発プロセスをAIで大幅に加速。</li>
+    <li>要点3：バイオテック×生成AI領域への投資拡大と商用連携が加速する可能性。</li>
+  </ul>
+  <p>【詳細】OpenAIは、ライフサイエンス分野の研究開発に特化したAIソリューションを提供するOrchestra Bioの買収を発表した。バイオテクノロジーおよび製薬企業における複雑なデータ解析や臨床試験設計などのR&D業務をAIで効率化し、革新的な医薬品開発期間の短縮を目指す。汎用AIモデルから専門領域への直接的な事業展開を強化する動きであり、バイオテック産業における競争構造に大きな変化をもたらす。（193字）</p>
+  <p><a href="https://openai.com/index/openai-to-acquire-orchestra-bio">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">車載Geminiに個人最適化機能 Google各アプリと連携</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Android Auto等の車載システム向けGeminiにPersonal Intelligenceを導入。</li>
+    <li>要点2：Gmailやカレンダー、マップ等の情報を横断的に参照し運転中に提示。</li>
+    <li>要点3：移動中のスケジュール管理や情報確認など、車内業務の効率化に寄与。</li>
+  </ul>
+  <p>【詳細】Googleは、車載プラットフォーム「Android Auto」および「Google built-in」搭載車両向けにGemini AIの個人最適化機能を展開すると発表した。これにより、車内からGmail、Googleカレンダー、マップ、フォト、YouTubeなどのデータと連携可能になる。例えば運転中に最新のフライト状況を尋ねるだけで即座に回答を得られるなど、車内でのハンズフリーなタスク遂行が大きく進化する。（195字）</p>
+  <p><a href="https://www.theverge.com/tech/1014999/google-gemini-ai-cars-android-auto">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">Metaの対話共有機能停止 ネット上にチャット流出</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：MetaがAIアシスタント「Muse」の対話共有機能を一時停止。</li>
+    <li>要点2：公開DNSレコードから6,800件以上の対話URLが閲覧可能な状態だった。</li>
+    <li>要点3：生成AIの共有リンク経由の情報漏洩リスクに対するセキュリティ対策が急務。</li>
+  </ul>
+  <p>【詳細】Metaは、AIアシスタント「Muse」でユーザーが会話履歴を外部共有できる機能を一時停止した。セキュリティ企業Clarocの調査により、公開DNSレコードを経由して6,800件を超える共有チャットURLがネット上で誰でも閲覧できる状態になっていたことが判明したためだ。社内情報や機密データをプロンプトに入力・共有するリスクが改めて浮き彫りとなり、企業や開発者には厳格な利用規程の再徹底が求められる。（195字）</p>
+  <p><a href="https://www.theverge.com/tech/1014627/meta-muse-ai-sharing-ai-chats">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/kdn-chugani-roadmap-becoming-ai-product-manager-2026-feature.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">主要3大LLMのAPI価格差が最大20倍に拡大</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Claude、ChatGPT、Gemini間のAPI利用価格差が最大20倍に到達。</li>
+    <li>要点2：高性能化競争の一方で、低価格モデルの普及により価格乖離が顕著に。</li>
+    <li>要点3：開発案件や副業ツール制作においてAPIコストの大幅最適化が可能。</li>
+  </ul>
+  <p>【詳細】2026年におけるClaude、ChatGPT、Geminiの価格体系比較において、ベンダー間および各社モデル間のAPIコスト差が最大20倍に拡大していることが明らかになった。推論能力の進化に伴い最上位モデルが高付加価値化する一方で、Gemini Flashなど軽量・高速モデルの値下げ競争が激化している。企業や個人開発者は用途に応じてモデルを使い分けることで、運用コストを劇的に削減できる。（188字）</p>
+  <p><a href="https://news.google.com/rss/articles/CBMickFVX3lxTE5aM0NfWWpkX3o0eWlQV1BPVU1lZk9zLWN6eUJ6dHRhZDNobWdnVzlkcGM4RGh3ajNYMUF5Wld3TnJxYXJnbEEzd1FuektKUkJtVWlKQnVod0F0MnVGcXh6ZVA5Z1VVNkwtVzgtVTdtNWhqdw?oc=5">📎 詳細を見る（出典："OpenAI ChatGPT Claude Gemini new update" - Google News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/kdn-5-docker-containers-for-devs-feature.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">サム・アルトマン氏への虐待訴訟 連邦地裁が棄却</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：米連邦地裁が実妹アン・アルトマン氏によるサム・アルトマン氏への訴訟を棄却。</li>
+    <li>要点2：原告側が過去1年間にわたり指定された医療鑑定等に出席しなかったことが理由。</li>
+    <li>要点3：OpenAIトップを取り巻く重大な法的リスクが解消され経営不安が後退。</li>
+  </ul>
+  <p>【詳細】米連邦地方裁判所のザカリー・ブルーストーン判事は、OpenAIのCEOサム・アルトマン氏が幼少期に性的虐待を行ったとして実妹アン氏が提起していた民事訴訟を棄却した。判事によると、原告側が過去1年以上にわたり独立した医療検査や手続きに出頭しなかったことが棄却の直接的な理由とされている。OpenAIの事業拡大や資金調達を巡る経営陣の風評リスクが一つ解消され、経営の安定化に向けた好材料となる。（193字）</p>
+  <p><a href="https://www.theverge.com/ai-artificial-intelligence/1014976/sam-altman-ann-altman-lawsuit-dismissed">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">ChatGPT導入で店舗の現金照合時間を94%削減</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Schlotzsky’s加盟店が現金照合時間を94%、価格改定作業を95%削減。</li>
+    <li>要点2：業務フロー自動化により最大10万ドルのキャッシュフロー創出見込み。</li>
+    <li>要点3：飲食・小売など中小ビジネスにおけるバックオフィス業務のAI自動化に直結。</li>
+  </ul>
+  <p>【詳細】飲食チェーン「Schlotzsky’s」や「Cinnabon」を展開する独立系フランチャイズ加盟店が、ChatGPT Enterpriseを活用した業務効率化に成功した。従来膨大な手作業を要していた日々の現金照合時間を94%短縮したほか、メニューの価格改定作業時間を95%削減した。さらに構築した自動化ワークフローにより、10万ドルのキャッシュフロー改善効果を見込んでおり、店舗運営DXの成功事例として注目される。（197字）</p>
+  <p><a href="https://openai.com/index/ted-taylor-restaurant">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="llm" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🧠 LLM・モデル技術</div>
+        <div class="card-title">文書解析AI「OXR」OSS化 3指標でSOTA達成</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：次世代ドキュメントパーサー「OXR」がオープンソースとして公開。</li>
+    <li>要点2：主要3つのベンチマークで首位を獲得し、精度と速度の両面でSOTAを達成。</li>
+    <li>要点3：高精度なRAG構築や帳票解析パイプラインの内製化・コスト削減に有用。</li>
+  </ul>
+  <p>【詳細】高度なドキュメントパーサー「OXR」がオープンソース化され、文書解析における主要3つのベンチマークテストで1位を獲得した。業界初となるRSI技術を搭載し、従来のOCRやパーサーを大幅に上回る解析精度と処理速度を実現している。複雑な表組みや非構造化PDFの高速抽出が可能になるため、LLMと連携した社内RAGシステムの構築や、バックオフィス帳票処理の自動化基盤として即座に導入・活用が期待できる。（196字）</p>
+  <p><a href="https://news.google.com/rss/articles/CBMizAFBVV95cUxPSEx2WmVKY0JOTEFoQVJieHBHb1dfV2I4WE13cjQwVERjb2tyU1dxSElPYUI0bERZbzZWODg0WkdnSEZUYW9SMTJRa3pBU0otU01QRGxGYXM1aFdQemtEemE2NDV1REZNUzE5dFo4NDVRT2ZYblhWNW9xT1ZtVndudTJ0ZVNBNElFaldQcGR3MGIzS3JMcHlVV2xLeERZUEZPQ2U0QWZZRE5xNEpVdVJldXZna3RmUk4yblBWYkJvUGdleVFFRGRzZ0RsbTA?oc=5">📎 詳細を見る（出典："new LLM model released 2026 benchmark SOTA" - Google News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">2026年版AIプロダクトマネージャー育成指針</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：2026年に向けたAIプロダクトマネージャー（AI PM）の4段階ロードマップ提示。</li>
+    <li>要点2：技術的理解、モデル評価スキル、ガバナンスリテラシーの習得体系を網羅。</li>
+    <li>要点3：キャリアアップや高単価なAIコンサル・PM案件獲得の学習指針として有用。</li>
+  </ul>
+  <p>【詳細】急速に需要が高まるAIプロダクトマネージャーの成功要件をまとめた、4フェーズからなる構造的ロードマップが公開された。単なるプロダクト開発力だけでなく、LLMのアーキテクチャ理解、モデル精度の定量的評価、法規制や倫理ガバナンスへの対応能力が必須スキルとして体系化されている。AI導入を推進する組織のリーダーや、受託・副業でAI実装案件を手がけるエンジニアにとって実践的な指針となる。（190字）</p>
+  <p><a href="https://www.kdnuggets.com/the-roadmap-to-becoming-an-ai-product-manager-in-2026">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">データ漏洩を防ぐ開発者向けDockerコンテナ5選</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：JWTデコードやAPI検証等をローカル実行する自前Dockerツール5選を紹介。</li>
+    <li>要点2：無料のオンライン便利サイト経由での機密データ・トークン漏洩を防止。</li>
+    <li>要点3：社内セキュリティポリシー遵守とローカル開発環境の安全性強化に寄与。</li>
+  </ul>
+  <p>【詳細】開発者が日常的に利用しがちな無料Web便利ツール（JWTデコード、データ変換、ファイル変換、APIテスト、図面描画など）による情報漏洩リスクを防ぐため、セルフホスト可能なDockerコンテナ5選が紹介された。パブリックな外部サイトにトークンや社内データを送信せず、ローカル環境で完結して処理することで、セキュリティを担保しながら開発作業の効率化と安全な運用体制を低コストで両立できる。（195字）</p>
+  <p><a href="https://www.kdnuggets.com/5-docker-containers-for-devs">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">DINOv3特徴量で合成データから実環境へ転移学習</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：凍結したDINOv3特徴量を用い、合成データでカード検出・領域分割を学習。</li>
+    <li>要点2：少量の教師データで実環境への高い汎化性能を実現する新手法を実証。</li>
+    <li>要点3：データ収集コストを抑えた画像認識モデル構築や副業開発に応用可能。</li>
+  </ul>
+  <p>【詳細】事前学習モデル「DINOv3」の固定特徴量を活用し、手続き型生成（プロシージャル生成）された合成データのみで実画像向けのカード検出およびセグメンテーションモデルを学習させる手法が解説された。実画像のアノテーションコストを大幅に削減しつつ、合成データ特有のギャップを埋めて高精度な転移を実現する。低予算でのコンピュータビジョン開発や、データ収集が困難なエッジAI開発において極めて実用的な知見である。（196字）</p>
+  <p><a href="https://towardsdatascience.com/synthetic-to-real-transfer-with-frozen-dinov3-features/">📎 詳細を見る（出典：Towards Data Science）</a></p>
+    </div>
+  </details>
+</article>
+  </div>
+  <p class="page-foot">自動生成 by Gemini + GitHub Actions</p>
+</div>
+<script>
+document.getElementById('fb').addEventListener('click',function(e){
+  var t=e.target.closest('[data-f]');if(!t)return;
+  var f=t.dataset.f;
+  document.querySelectorAll('.ftab').forEach(function(x){x.classList.remove('active')});
+  t.classList.add('active');
+  document.querySelectorAll('.card').forEach(function(c){
+    c.classList.toggle('filtered',f!=='all'&&c.dataset.cat!==f);
+  });
+});
+</script>
+</body>
+</html>
