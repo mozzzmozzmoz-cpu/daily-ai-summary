@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GitHub Top 10 — 10月22日</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a; --surface: #141414; --border: #2a2a2a;
+    --text: #e8e8e8; --muted: #888; --accent: #ff4444;
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #f5f5f5; --surface: #fff; --border: #e0e0e0; --text: #111; --muted: #666; }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', system-ui, sans-serif; }
+  header {
+    border-bottom: 3px solid var(--accent); padding: 16px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  header h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em;
+  }
+  header h1 span { color: var(--accent); }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .date-badge {
+    font-size: 0.75rem; color: var(--muted);
+    padding: 4px 10px; border: 1px solid var(--border); border-radius: 4px;
+  }
+  .back-link { color: var(--muted); font-size: 0.85rem; text-decoration: none; }
+  .back-link:hover { color: var(--text); }
+  main { max-width: 800px; margin: 0 auto; padding: 24px; }
+  .repo-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px; margin-bottom: 16px;
+    transition: border-color 0.15s;
+  }
+  .repo-card:hover { border-color: var(--accent); }
+  .rank {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2.2rem; font-weight: 800; color: var(--accent);
+    line-height: 1; margin-bottom: 6px;
+  }
+  .repo-name {
+    font-size: 1.1rem; font-weight: 700;
+    color: var(--text); text-decoration: none;
+  }
+  .repo-name:hover { color: var(--accent); }
+  .repo-meta {
+    display: flex; gap: 14px; margin-top: 6px;
+    font-size: 0.8rem; color: var(--muted); align-items: center; flex-wrap: wrap;
+  }
+  .lang { display: flex; align-items: center; gap: 4px; }
+  .lang-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .stars { color: #f1c40f; }
+  .weekly { color: #2ecc71; font-weight: 600; }
+  .repo-desc { margin: 10px 0 0; font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
+  .summary-block { margin-top: 14px; }
+  .summary-block details {}
+  .summary-block summary {
+    cursor: pointer; font-weight: 600; font-size: 0.9rem;
+    list-style: none; padding: 8px 0; display: flex; align-items: flex-start; gap: 6px;
+  }
+  .summary-block summary::-webkit-details-marker { display: none; }
+  .summary-block summary::before { content: "▶"; color: var(--accent); font-size: 0.65rem; margin-top: 3px; flex-shrink: 0; }
+  .summary-block details[open] summary::before { content: "▼"; }
+  .summary-block ul { margin: 8px 0 8px 20px; font-size: 0.87rem; line-height: 1.75; }
+  .summary-block ul li { margin-bottom: 4px; }
+  .summary-block p { font-size: 0.87rem; line-height: 1.7; margin-top: 8px; color: var(--muted); }
+  .summary-block a { color: var(--accent); text-decoration: none; }
+  .summary-block a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<header>
+  <h1>⭐ GitHub <span>Top 10</span></h1>
+  <div class="header-right">
+    <span class="date-badge">10月22日 週間</span>
+    <a href="../index.html" class="back-link">← Archive</a>
+  </div>
+</header>
+<main>
+
+<div class="repo-card">
+  <div class="rank">#1</div>
+  <div class="repo-header">
+    <a href="https://github.com/morluto/rea" target="_blank" rel="noopener" class="repo-name">morluto/rea</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 357,699</span>
+      <span class="weekly">📈 129,417 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Reverse engineer anything with agents, from app behavior down to native binaries.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#1 morluto/rea — AIで挑む自動リバースエンジニアリング（23字）</strong></summary>
+  <ul>
+    <li>何ができるか：アプリの挙動監視からネイティブバイナリの解析までを自律型AIエージェントで自動実行する。</li>
+    <li>なぜ注目：未知のプロトコルや機械語レベルの解析をAIが推論・解読する革新的アプローチで圧倒的スターを獲得。</li>
+    <li>活用ポイント：レガシーバイナリの仕様復元、マルウェア調査、非公開APIの通信解析などの工数を大幅に圧縮可能。</li>
+  </ul>
+  <p>【詳細】従来の静的・動的解析ツールとLLMエージェントをシームレスに結合し、難解なバイナリからコードロジックや振る舞い仕様を自動抽出します。リバースエンジニアの膨大な手作業を代替し、セキュリティ診断や互換性向上に寄与する次世代の解析インフラとして脚光を浴びています。</p>
+  <p><a href="https://github.com/morluto/rea">⭐ GitHubで見る（総スター: 357,699 / 今週: 129,417）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#2</div>
+  <div class="repo-header">
+    <a href="https://github.com/anthropics/claude-plugins-official" target="_blank" rel="noopener" class="repo-name">anthropics/claude-plugins-official</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+      <span class="stars">⭐ 43,634</span>
+      <span class="weekly">📈 5,703 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Official, Anthropic-managed directory of high quality Claude Code Plugins.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#2 anthropics/claude-plugins-official — Claude Code公式プラグイン集（20字）</strong></summary>
+  <ul>
+    <li>何ができるか：Anthropic公式がキュレーションするClaude Code向けの高品質プラグイン群を提供。</li>
+    <li>なぜ注目：公式管理のディレクトリとして標準規格を提示し、Claude Codeのエコシステム拡大を加速させている点。</li>
+    <li>活用ポイント：開発ツールやCI/CD、SaaSとの連携をプラグインで追加し、ターミナル作業を強力に自動化。</li>
+  </ul>
+  <p>【詳細】Anthropicが直々にメンテする公式プラグインレポジトリです。ターミナル上で自律動作するClaude Codeに対し、外部データソース接続や独自ワークフローを追加するための安全で検証済みなモジュールが揃っており、開発基盤としての信頼性と拡張性を底上げします。</p>
+  <p><a href="https://github.com/anthropics/claude-plugins-official">⭐ GitHubで見る（総スター: 43,634 / 今週: 5,703）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#3</div>
+  <div class="repo-header">
+    <a href="https://github.com/K-Dense-AI/scientific-agent-skills" target="_blank" rel="noopener" class="repo-name">K-Dense-AI/scientific-agent-skills</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+      <span class="stars">⭐ 53,578</span>
+      <span class="weekly">📈 4,719 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Turn any AI agent into an AI Scientist. The #1 Agent Skills library for science, used by 250,000+ scientists worldwide. 177 ready-to-use validated skills plus 100+ scientific databases covering biology, chemistry, medicine, and drug discovery. Compatible with Cursor, Claude Code, Codex, Pi, Antigravity, and the open Agent Skills standard.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#3 K-Dense-AI/scientific-agent-skills — AIを科学研究者に変えるスキル基盤（20字）</strong></summary>
+  <ul>
+    <li>何ができるか：177種の検証済みスキルと100以上の学術DBをAIに接続し、自律的な科学研究を実現。</li>
+    <li>なぜ注目：バイオ、化学、創薬、医療に特化し、CursorやClaude Code等の主要規格と即座に互換する点。</li>
+    <li>活用ポイント：論文探索や化合物データ解析、文献レビューの自動化により、研究開発・副業リサーチを爆速化。</li>
+  </ul>
+  <p>【詳細】世界25万人以上の研究者が利用する科学特化型エージェントスキルライブラリです。PubChemやUniProtなど主要な学術データベースと連携し、仮説生成からデータ解析までをLLMが遂行可能。Agent Skills標準規格に準拠しており、既存のAIエディタにも即座に導入できます。</p>
+  <p><a href="https://github.com/K-Dense-AI/scientific-agent-skills">⭐ GitHubで見る（総スター: 53,578 / 今週: 4,719）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#4</div>
+  <div class="repo-header">
+    <a href="https://github.com/ruvnet/ruflo" target="_blank" rel="noopener" class="repo-name">ruvnet/ruflo</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 78,211</span>
+      <span class="weekly">📈 3,590 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">🌊 The original agent harness. Deploy intelligent multi-player swarms, coordinate autonomous workflows, and build conversational AI systems. Features adaptive memory, self-learning intelligence, federation, vector RAG integration, and native Claude Code / Codex / Hermes and many more Integrated</p>
+  <div class="summary-block"><details>
+  <summary><strong>#4 ruvnet/ruflo — 自律型マルチエージェント協調基盤（19字）</strong></summary>
+  <ul>
+    <li>何ができるか：複数エージェントのスワーム展開、自律型ワークフロー連携、対話AIシステムの統合制御。</li>
+    <li>なぜ注目：適応型メモリ、自己学習機能、ベクトルRAG、Claude CodeやCodexとのネイティブ接続を備える点。</li>
+    <li>活用ポイント：複数エージェントが分担してコード生成、テスト、デプロイを行うフルオート開発基盤の構築。</li>
+  </ul>
+  <p>【詳細】自律型AIエージェントの群れ（スワーム）を束ねるオーケストレーション基盤です。エージェント間の協調やメモリ共有、フェデレーションに対応し、単一モデルでは困難な長期かつ複雑な業務パイプラインを安定して実行。実践的なエンタープライズ自動化の土台として評価されています。</p>
+  <p><a href="https://github.com/ruvnet/ruflo">⭐ GitHubで見る（総スター: 78,211 / 今週: 3,590）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#5</div>
+  <div class="repo-header">
+    <a href="https://github.com/android/skills" target="_blank" rel="noopener" class="repo-name">android/skills</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#F18E33"></span>Kotlin</span>
+      <span class="stars">⭐ 9,147</span>
+      <span class="weekly">📈 1,332 stars this week</span>
+    </div>
+  </div>
+  
+  <div class="summary-block"><details>
+  <summary><strong>#5 android/skills — 公式Android開発支援AIスキル集（20字）</strong></summary>
+  <ul>
+    <li>何ができるか：Android開発における頻出パターンや定型タスクをAIエージェントに自律実行させる。</li>
+    <li>なぜ注目：GoogleのAndroid公式チームが手掛けるKotlin製Agent Skillsリポジトリである点。</li>
+    <li>活用ポイント：Composeコードの生成、ボイラープレートの自動削減、ベストプラクティスに沿った設計補助。</li>
+  </ul>
+  <p>【詳細】GoogleのAndroidチームが公開した公式スキル集です。公式推奨のアーキテクチャや最新API仕様をAIに正確に理解させ、コーディングエージェントが高品質なKotlin/Androidコードを自律生成できるよう支援。Androidエンジニア必携の開発ブースターです。</p>
+  <p><a href="https://github.com/android/skills">⭐ GitHubで見る（総スター: 9,147 / 今週: 1,332）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#6</div>
+  <div class="repo-header">
+    <a href="https://github.com/NationalSecurityAgency/ghidra" target="_blank" rel="noopener" class="repo-name">NationalSecurityAgency/ghidra</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#b07219"></span>Java</span>
+      <span class="stars">⭐ 92,626</span>
+      <span class="weekly">📈 5,769 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Ghidra is a software reverse engineering (SRE) framework</p>
+  <div class="summary-block"><details>
+  <summary><strong>#6 NationalSecurityAgency/ghidra — NSA発の定番リバースエンジニアリング（22字）</strong></summary>
+  <ul>
+    <li>何ができるか：多種多様なCPUアーキテクチャのバイナリを逆アセンブル・逆コンパイルして解析する。</li>
+    <li>なぜ注目：米国家安全保障局（NSA）が完全公開した実績豊富なGUI・SREフレームワーク。</li>
+    <li>活用ポイント：セキュリティ診断、脆弱性検証、ファームウェア解析やバイナリ調査の副業・実務への活用。</li>
+  </ul>
+  <p>【詳細】NSAが開発した世界最高水準のオープンソース・ソフトウェアリバースエンジニアリングツールです。高機能なデコンパイラと拡張可能なスクリプト環境を備え、x86、ARM、MIPSなど多彩なプラットフォームに対応。セキュリティエンジニアのデファクトスタンダードです。</p>
+  <p><a href="https://github.com/NationalSecurityAgency/ghidra">⭐ GitHubで見る（総スター: 92,626 / 今週: 5,769）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#7</div>
+  <div class="repo-header">
+    <a href="https://github.com/debpalash/VoiceStudio" target="_blank" rel="noopener" class="repo-name">debpalash/VoiceStudio</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+      <span class="stars">⭐ 80,389</span>
+      <span class="weekly">📈 15,125 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">VoiceStudio is the open-source, fully-local ElevenLabs alternative — voice cloning, voice design, video dubbing, dictation, transcription & audiobook creation in 646 languages.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#7 debpalash/VoiceStudio — 完全ローカルの多言語音声生成スタジオ（21字）</strong></summary>
+  <ul>
+    <li>何ができるか：646言語対応の音声クローン、動画吹き替え、書き起こし、オーディオブック作成をローカル完結。</li>
+    <li>なぜ注目：ElevenLabsに匹敵する多機能をAPI課金なし・完全プライベートなローカル環境で提供する点。</li>
+    <li>活用ポイント：YouTube等の多言語動画ローカライズやナレーション生成の自動化、副業コンテンツ制作。</li>
+  </ul>
+  <p>【詳細】商用音声サービス「ElevenLabs」のOSS代替を目指すオールインワン音声スタジオです。声質クローンから自然な音声合成、動画吹き替え、文字起こしまで640以上の言語に対応。データが外部に流出しないため、機密音声の加工や商用制作ワークフローの自動化に最適です。</p>
+  <p><a href="https://github.com/debpalash/VoiceStudio">⭐ GitHubで見る（総スター: 80,389 / 今週: 15,125）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#8</div>
+  <div class="repo-header">
+    <a href="https://github.com/mksglu/context-mode" target="_blank" rel="noopener" class="repo-name">mksglu/context-mode</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 31,651</span>
+      <span class="weekly">📈 2,968 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Context window optimization for AI coding agents. Sandboxes tool output (98% reduction), persists session memory, and enforces routing across 17 platforms via MCP + hooks.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#8 mksglu/context-mode — AI文脈消費を98%削減する最適化器（22字）</strong></summary>
+  <ul>
+    <li>何ができるか：ツール出力をサンドボックス化してトークンを98%削減し、セッション履歴を効率的に永続化。</li>
+    <li>なぜ注目：MCPとフック連携で17以上のAIプラットフォームに対応し、コンテキスト溢れを根本解決する点。</li>
+    <li>活用ポイント：ClaudeやCursorのAPIコストを劇的に抑えつつ、大規模コードベースの長大タスクを破綻なく継続。</li>
+  </ul>
+  <p>【詳細】AIコーディングエージェントのコンテキストウィンドウ最適化エンジンです。実行ログやファイル出力などの長大なテキストを仮想化・圧縮してコンテキスト消費を98%削減。MCP経由で各種エージェントに導入でき、トークン課金の削減と推論精度の維持を両立させます。</p>
+  <p><a href="https://github.com/mksglu/context-mode">⭐ GitHubで見る（総スター: 31,651 / 今週: 2,968）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#9</div>
+  <div class="repo-header">
+    <a href="https://github.com/heygen-com/hyperframes" target="_blank" rel="noopener" class="repo-name">heygen-com/hyperframes</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 69,201</span>
+      <span class="weekly">📈 5,740 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Write HTML. Render video. Built for agents.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#9 heygen-com/hyperframes — HTML記述から動画を出力するAI向け基盤（23字）</strong></summary>
+  <ul>
+    <li>何ができるか：HTML/CSSのコードを直接解釈し、高品質な動画フレームとして高速レンダリングする。</li>
+    <li>なぜ注目：動画生成大手のHeyGen製。AIエージェントにとって扱いやすいWeb標準構文で動画を構築できる点。</li>
+    <li>活用ポイント：SNS向けショート広告や解説動画のプログラマブルな自動生成、動画量産パイプラインの構築。</li>
+  </ul>
+  <p>【詳細】動画生成プラットフォームHeyGenが公開したエージェント向け動画レンダラーです。AIが最も得意とするHTMLやCSSのスタイリングとアニメーション構文をそのまま動画に変換。動画編集ソフト不要で、コードからの自律的な動画生成・自動配信フローを構築可能です。</p>
+  <p><a href="https://github.com/heygen-com/hyperframes">⭐ GitHubで見る（総スター: 69,201 / 今週: 5,740）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#10</div>
+  <div class="repo-header">
+    <a href="https://github.com/cursor/plugins" target="_blank" rel="noopener" class="repo-name">cursor/plugins</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 13,396</span>
+      <span class="weekly">📈 2,049 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Cursor plugin specification and official plugins</p>
+  <div class="summary-block"><details>
+  <summary><strong>#10 cursor/plugins — Cursor公式のプラグイン仕様＆カタログ（22字）</strong></summary>
+  <ul>
+    <li>何ができるか：AIエディタCursor向けプラグインの仕様定義と、公式提供の拡張機能群を利用・開発可能。</li>
+    <li>なぜ注目：Cursorがプラグインアーキテクチャを正式オープン化し、エコシステムの急速な拡大が始まった点。</li>
+    <li>活用ポイント：社内ツールや独自DBをCursorに組み込み、開発者体験のカスタマイズや独自拡張の配布が可能。</li>
+  </ul>
+  <p>【詳細】急成長を続けるAIエディタ「Cursor」の公式プラグイン仕様および公式プラグイン群です。外部APIや独自ツールをCursorのAIとシームレスに結合できる規格が整備され、自社専用のカスタム開発環境構築やコミュニティ向けプラグイン開発の参入が活発化しています。</p>
+  <p><a href="https://github.com/cursor/plugins">⭐ GitHubで見る（総スター: 13,396 / 今週: 2,049）</a></p>
+</details></div>
+</div>
+</main>
+</body>
+</html>
