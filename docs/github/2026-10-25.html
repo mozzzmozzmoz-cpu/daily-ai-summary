@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GitHub Top 10 — 10月25日</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a; --surface: #141414; --border: #2a2a2a;
+    --text: #e8e8e8; --muted: #888; --accent: #ff4444;
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #f5f5f5; --surface: #fff; --border: #e0e0e0; --text: #111; --muted: #666; }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', system-ui, sans-serif; }
+  header {
+    border-bottom: 3px solid var(--accent); padding: 16px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  header h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em;
+  }
+  header h1 span { color: var(--accent); }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .date-badge {
+    font-size: 0.75rem; color: var(--muted);
+    padding: 4px 10px; border: 1px solid var(--border); border-radius: 4px;
+  }
+  .back-link { color: var(--muted); font-size: 0.85rem; text-decoration: none; }
+  .back-link:hover { color: var(--text); }
+  main { max-width: 800px; margin: 0 auto; padding: 24px; }
+  .repo-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px; margin-bottom: 16px;
+    transition: border-color 0.15s;
+  }
+  .repo-card:hover { border-color: var(--accent); }
+  .rank {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2.2rem; font-weight: 800; color: var(--accent);
+    line-height: 1; margin-bottom: 6px;
+  }
+  .repo-name {
+    font-size: 1.1rem; font-weight: 700;
+    color: var(--text); text-decoration: none;
+  }
+  .repo-name:hover { color: var(--accent); }
+  .repo-meta {
+    display: flex; gap: 14px; margin-top: 6px;
+    font-size: 0.8rem; color: var(--muted); align-items: center; flex-wrap: wrap;
+  }
+  .lang { display: flex; align-items: center; gap: 4px; }
+  .lang-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .stars { color: #f1c40f; }
+  .weekly { color: #2ecc71; font-weight: 600; }
+  .repo-desc { margin: 10px 0 0; font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
+  .summary-block { margin-top: 14px; }
+  .summary-block details {}
+  .summary-block summary {
+    cursor: pointer; font-weight: 600; font-size: 0.9rem;
+    list-style: none; padding: 8px 0; display: flex; align-items: flex-start; gap: 6px;
+  }
+  .summary-block summary::-webkit-details-marker { display: none; }
+  .summary-block summary::before { content: "▶"; color: var(--accent); font-size: 0.65rem; margin-top: 3px; flex-shrink: 0; }
+  .summary-block details[open] summary::before { content: "▼"; }
+  .summary-block ul { margin: 8px 0 8px 20px; font-size: 0.87rem; line-height: 1.75; }
+  .summary-block ul li { margin-bottom: 4px; }
+  .summary-block p { font-size: 0.87rem; line-height: 1.7; margin-top: 8px; color: var(--muted); }
+  .summary-block a { color: var(--accent); text-decoration: none; }
+  .summary-block a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<header>
+  <h1>⭐ GitHub <span>Top 10</span></h1>
+  <div class="header-right">
+    <span class="date-badge">10月25日 週間</span>
+    <a href="../index.html" class="back-link">← Archive</a>
+  </div>
+</header>
+<main>
+
+<div class="repo-card">
+  <div class="rank">#1</div>
+  <div class="repo-header">
+    <a href="https://github.com/cloudflare/security-audit-skill" target="_blank" rel="noopener" class="repo-name">cloudflare/security-audit-skill</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#f1e05a"></span>JavaScript</span>
+      <span class="stars">⭐ 46,822</span>
+      <span class="weekly">📈 12,680 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">A coding-agent skill for multi-phase security audits with independently verified, machine-readable findings</p>
+  <div class="summary-block"><details>
+  <summary><strong>#1 cloudflare/security-audit-skill — AIコーディング向け多段階セキュリティ監査ツール</strong></summary>
+  <ul>
+    <li>何ができるか：コーディングエージェント向けに多段階のセキュリティ監査を実施し、機械可読な脆弱性レポートを生成。</li>
+    <li>なぜ注目：Cloudflare公式によるツールで、独立検証プロセスを備え、誤検知を減らし実用的な修正案を提供。</li>
+    <li>活用ポイント：CI/CDパイプラインやPRレビューに組み込み、開発段階での脆弱性検知と修正を自動化可能。</li>
+  </ul>
+  <p>【詳細】Cloudflareが公開したコーディングエージェント向けセキュリティ監査スキル。静的解析にとどまらず、複数フェーズの検証を経て機械可読な形式で脆弱性を出力します。CI/CD連携やClaude Code等のAIエージェントと統合することで、開発初期からのセキュアコーディングを大幅に加速できます。</p>
+  <p><a href="https://github.com/cloudflare/security-audit-skill">⭐ GitHubで見る（総スター: 46,822 / 今週: 12,680 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#2</div>
+  <div class="repo-header">
+    <a href="https://github.com/ruvnet/ruflo" target="_blank" rel="noopener" class="repo-name">ruvnet/ruflo</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 79,278</span>
+      <span class="weekly">📈 3,241 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">🌊 The original agent harness. Deploy intelligent multi-player swarms, coordinate autonomous workflows, and build conversational AI systems. Features adaptive memory, self-learning intelligence, federation, vector RAG integration, and native Claude Code / Codex / Hermes and many more Integrated</p>
+  <div class="summary-block"><details>
+  <summary><strong>#2 ruvnet/ruflo — 自律型マルチエージェント協調オーケストレーション基盤</strong></summary>
+  <ul>
+    <li>何ができるか：複数AIエージェントの群（スウォーム）を展開・統括し、自律的なワークフローや会話型システムを構築。</li>
+    <li>なぜ注目：適応型メモリ、自己学習機能、Claude CodeやCodex等とのネイティブ連携を備えた高機能ハーネス。</li>
+    <li>活用ポイント：複雑な受託開発やデータ処理パイプラインを複数エージェントで分業・自動化し業務効率化。</li>
+  </ul>
+  <p>【詳細】複数の自律型エージェントを束ねて協調動作させるエージェントハーネス。ベクトルRAGや適応型メモリを内蔵し、Claude Codeなど主要AIツールとシームレスに連携します。分散タスクの並行処理や自己学習型ワークフローの構築により、高度なビジネス自動化基盤を迅速に立ち上げ可能です。</p>
+  <p><a href="https://github.com/ruvnet/ruflo">⭐ GitHubで見る（総スター: 79,278 / 今週: 3,241 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#3</div>
+  <div class="repo-header">
+    <a href="https://github.com/anthropics/knowledge-work-plugins" target="_blank" rel="noopener" class="repo-name">anthropics/knowledge-work-plugins</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+      <span class="stars">⭐ 32,972</span>
+      <span class="weekly">📈 2,631 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Open source repository of plugins primarily intended for knowledge workers to use in Claude Cowork</p>
+  <div class="summary-block"><details>
+  <summary><strong>#3 anthropics/knowledge-work-plugins — Claude向けナレッジワーカー特化オープンソース拡張機能群</strong></summary>
+  <ul>
+    <li>何ができるか：Claude Cowork等の環境で知識労働者が業務効率化を図るための各種公式プラグインを提供。</li>
+    <li>なぜ注目：Anthropic公式リポジトリであり、ビジネス文書作成や調査業務の自動化に直結するプラグインが揃う点。</li>
+    <li>活用ポイント：日常の調査・分析・資料作成ワークフローをテンプレート化し、オフィスワークの大幅な工数削減に活用。</li>
+  </ul>
+  <p>【詳細】Anthropicが公開したナレッジワーカー向け公式プラグイン集。Claudeの協調作業環境「Claude Cowork」などに対応し、日常のドキュメント作成やデータ分析、情報収集を強力にサポートします。Pythonベースでカスタマイズが容易であり、自社業務に合わせた独自プラグインの開発基盤としても有用です。</p>
+  <p><a href="https://github.com/anthropics/knowledge-work-plugins">⭐ GitHubで見る（総スター: 32,972 / 今週: 2,631 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#4</div>
+  <div class="repo-header">
+    <a href="https://github.com/anomalyco/opencode" target="_blank" rel="noopener" class="repo-name">anomalyco/opencode</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 221,510</span>
+      <span class="weekly">📈 6,857 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">The open source coding agent.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#4 anomalyco/opencode — 完全オープンソースの次世代自律型コーディングエージェント</strong></summary>
+  <ul>
+    <li>何ができるか：コードベース全体の文脈を理解し、機能実装・バグ修正・リファクタリングを自律的に実行。</li>
+    <li>なぜ注目：プロプライエタリなツールに依存せず、セルフホスト可能で高度なコーディング支援を実現する点。</li>
+    <li>活用ポイント：社内リポジトリに安全に導入し、日常の定型コード生成や単体テスト自動化による開発スピード向上。</li>
+  </ul>
+  <p>【詳細】オープンソースで開発が進む自律型コーディングエージェント。独自の開発環境やオンプレミス環境でセキュアに動作させることができ、コードの生成から修正までを一貫して自動化します。ベンダーロックインを回避しながら、最新のAIペアプログラミング環境をチーム全体に低コストで導入可能です。</p>
+  <p><a href="https://github.com/anomalyco/opencode">⭐ GitHubで見る（総スター: 221,510 / 今週: 6,857 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#5</div>
+  <div class="repo-header">
+    <a href="https://github.com/stablyai/orca" target="_blank" rel="noopener" class="repo-name">stablyai/orca</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 105,775</span>
+      <span class="weekly">📈 9,828 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Orca is the place for working with a fleet of agents (e.g. Grok Bot, Claude Code). Run any coding agent with your own subscription. Available on desktop, mobile and remote runtime.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#5 stablyai/orca — 複数コーディングAIエージェントの一括統合運用基盤</strong></summary>
+  <ul>
+    <li>何ができるか：Claude CodeやGrok Botなど複数のコーディングエージェントを単一環境で一括管理・実行。</li>
+    <li>なぜ注目：自身のサブスク契約を利用し、デスクトップ、モバイル、リモート環境を横断してエージェント群を操作可能。</li>
+    <li>活用ポイント：タスクに応じて最適なエージェントを切り替え・並行稼働させ、開発や副業案件の作業効率を最大化。</li>
+  </ul>
+  <p>【詳細】多様なコーディングエージェントを束ねて運用できる統合プラットフォーム。自前のAPIキーやサブスクリプションを流用でき、PCだけでなくモバイル端末やリモート環境からもエージェント群に指示を出せます。複数エージェントに並行してタスクを割り振ることで、開発フローの劇的な省力化を実現します。</p>
+  <p><a href="https://github.com/stablyai/orca">⭐ GitHubで見る（総スター: 105,775 / 今週: 9,828 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#6</div>
+  <div class="repo-header">
+    <a href="https://github.com/heygen-com/hyperframes" target="_blank" rel="noopener" class="repo-name">heygen-com/hyperframes</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 72,135</span>
+      <span class="weekly">📈 5,633 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Write HTML. Render video. Built for agents.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#6 heygen-com/hyperframes — HTMLコードから動画をレンダリングするAIエージェント向け基盤</strong></summary>
+  <ul>
+    <li>何ができるか：HTML/CSSの記法でレイアウトを定義し、プログラム制御で高品質な動画を自動レンダリング。</li>
+    <li>なぜ注目：AIエージェントが動画を生成・編集しやすいように設計された、HeyGen発のコードベース動画生成技術。</li>
+    <li>活用ポイント：SNS向けショート動画やプロモーション映像の量産自動化、パーソナライズ動画生成サービスの構築。</li>
+  </ul>
+  <p>【詳細】HTMLを記述する感覚で動画をプログラマブルに生成・レンダリングできるフレームワーク。AIエージェントとの連携を前提に設計されており、テキスト指示からHTML経由で動画を自動構築できます。動画広告の大量バッチ生成や動的なパーソナライズド動画配信など、動画自動化ビジネスに極めて有用です。</p>
+  <p><a href="https://github.com/heygen-com/hyperframes">⭐ GitHubで見る（総スター: 72,135 / 今週: 5,633 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#7</div>
+  <div class="repo-header">
+    <a href="https://github.com/android/skills" target="_blank" rel="noopener" class="repo-name">android/skills</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#F18E33"></span>Kotlin</span>
+      <span class="stars">⭐ 9,713</span>
+      <span class="weekly">📈 1,317 stars this week</span>
+    </div>
+  </div>
+  
+  <div class="summary-block"><details>
+  <summary><strong>#7 android/skills — Android公式のAIエージェント向け開発スキル集</strong></summary>
+  <ul>
+    <li>何ができるか：AIコーディングエージェントがAndroidアプリ開発のベストプラクティスに沿って支援する機能群。</li>
+    <li>なぜ注目：Google Android公式による、エージェントがAndroid開発を正確に行うためのプロンプト・ルール集。</li>
+    <li>活用ポイント：CursorやClaude等のエージェントに読み込ませ、Jetpack Compose等の高品質なAndroidコードを即座に生成。</li>
+  </ul>
+  <p>【詳細】GoogleのAndroid公式チームが提供する、AIコーディング支援ツール向けのスキルセット集。最新のAndroidアーキテクチャやJetpackライブラリのベストプラクティスをAIに教育・適用します。Androidアプリ開発におけるAIエージェントの推論精度を大幅に高め、品質の高い実装を迅速に行えます。</p>
+  <p><a href="https://github.com/android/skills">⭐ GitHubで見る（総スター: 9,713 / 今週: 1,317 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#8</div>
+  <div class="repo-header">
+    <a href="https://github.com/Graphify-Labs/graphify" target="_blank" rel="noopener" class="repo-name">Graphify-Labs/graphify</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+      <span class="stars">⭐ 135,210</span>
+      <span class="weekly">📈 6,868 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Turn any codebase, with its docs, SQL schemas, configs, and PDFs, into a queryable knowledge graph. A /graphify skill for Claude Code, Cursor, Codex, and Gemini CLI: local deterministic AST parsing, every edge explained, no vector store.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#8 Graphify-Labs/graphify — コードベースを即座にナレッジグラフ化する解析スキル</strong></summary>
+  <ul>
+    <li>何ができるか：ソースコード、ドキュメント、SQLスキーマなどをベクトルDB不要で決定論的に知識グラフ化。</li>
+    <li>なぜ注目：決定論的AST解析により全エッジの関係性を明示し、Claude CodeやCursor等のCLIから高精度クエリ可能。</li>
+    <li>活用ポイント：大規模・レガシーなコードベースの依存関係や影響範囲の把握、仕様調査を瞬時に完了させ工数削減。</li>
+  </ul>
+  <p>【詳細】コードベースや関連文書をベクトル検索に頼らず、AST解析を用いて確定的なナレッジグラフへと変換するツール。Claude CodeやCursorと連携し、各モジュールやDBスキーマの依存関係を構造的に問い合わせ可能です。複雑な既存システムの仕様理解やリファクタリングの影響調査を劇的に効率化します。</p>
+  <p><a href="https://github.com/Graphify-Labs/graphify">⭐ GitHubで見る（総スター: 135,210 / 今週: 6,868 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#9</div>
+  <div class="repo-header">
+    <a href="https://github.com/akitaonrails/ai-memory" target="_blank" rel="noopener" class="repo-name">akitaonrails/ai-memory</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#dea584"></span>Rust</span>
+      <span class="stars">⭐ 13,511</span>
+      <span class="weekly">📈 3,541 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Solution for long term memory for agent coding CLIs and to facilitate handoff between different agent vendors</p>
+  <div class="summary-block"><details>
+  <summary><strong>#9 akitaonrails/ai-memory — 複数AIエージェント間で記憶を共有するRust製長期メモリ</strong></summary>
+  <ul>
+    <li>何ができるか：CLIベースのコーディングエージェント向けに長期記憶を提供し、異なるツール間での文脈引き継ぎを実現。</li>
+    <li>なぜ注目：Rust製で高速・軽量に動作し、ベンダーが異なるエージェント同士でもコンテキストを失わずに連携可能。</li>
+    <li>活用ポイント：作業セッションの中断・再開や、Claude Codeから他ツールへのスムーズなタスク移行で手戻りを撲滅。</li>
+  </ul>
+  <p>【詳細】CLIコーディングエージェント向けに長期記憶を提供するRust製の軽量ソリューション。作業コンテキストを永続化し、異なるAIエージェントベンダー間でもセッションや開発の文脈をスムーズに引き継げます。セッション跨ぎでのコンテキスト消失を防ぎ、継続的な大規模開発タスクの安定稼働に貢献します。</p>
+  <p><a href="https://github.com/akitaonrails/ai-memory">⭐ GitHubで見る（総スター: 13,511 / 今週: 3,541 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#10</div>
+  <div class="repo-header">
+    <a href="https://github.com/Comfy-Org/ComfyUI" target="_blank" rel="noopener" class="repo-name">Comfy-Org/ComfyUI</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+      <span class="stars">⭐ 142,926</span>
+      <span class="weekly">📈 4,648 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">The most powerful and modular diffusion model GUI, api and backend with a graph/nodes interface. The fastest local inference engine in the world.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#10 Comfy-Org/ComfyUI — ノードベースで柔軟に構築できる最速の画像・動画生成GUI</strong></summary>
+  <ul>
+    <li>何ができるか：ノードを繋ぐUI上でStable Diffusion等の画像・動画生成パイプラインを視覚的かつ高速に構築。</li>
+    <li>なぜ注目：世界最速クラスの推論速度と高度なモジュール性を誇り、APIとしても機能するデファクトスタンダード。</li>
+    <li>活用ポイント：画像生成・動画生成パイプラインをAPI化し、Webサービスや副業コンテンツ制作の自動化に活用。</li>
+  </ul>
+  <p>【詳細】画像や動画の拡散モデルをノード接続方式で自在に構築・制御できる強力なGUI環境兼バックエンド基盤。高速なローカル推論と圧倒的な拡張性を誇り、オープンソース画像生成の業界標準となっています。APIとしても柔軟に動作するため、自社サービスへのAI画像・動画生成機能の組み込みに最適です。</p>
+  <p><a href="https://github.com/Comfy-Org/ComfyUI">⭐ GitHubで見る（総スター: 142,926 / 今週: 4,648 stars this week）</a></p>
+</details></div>
+</div>
+</main>
+</body>
+</html>
