@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GitHub Top 10 — 10月30日</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a; --surface: #141414; --border: #2a2a2a;
+    --text: #e8e8e8; --muted: #888; --accent: #ff4444;
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #f5f5f5; --surface: #fff; --border: #e0e0e0; --text: #111; --muted: #666; }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', system-ui, sans-serif; }
+  header {
+    border-bottom: 3px solid var(--accent); padding: 16px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  header h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em;
+  }
+  header h1 span { color: var(--accent); }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .date-badge {
+    font-size: 0.75rem; color: var(--muted);
+    padding: 4px 10px; border: 1px solid var(--border); border-radius: 4px;
+  }
+  .back-link { color: var(--muted); font-size: 0.85rem; text-decoration: none; }
+  .back-link:hover { color: var(--text); }
+  main { max-width: 800px; margin: 0 auto; padding: 24px; }
+  .repo-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px; margin-bottom: 16px;
+    transition: border-color 0.15s;
+  }
+  .repo-card:hover { border-color: var(--accent); }
+  .rank {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2.2rem; font-weight: 800; color: var(--accent);
+    line-height: 1; margin-bottom: 6px;
+  }
+  .repo-name {
+    font-size: 1.1rem; font-weight: 700;
+    color: var(--text); text-decoration: none;
+  }
+  .repo-name:hover { color: var(--accent); }
+  .repo-meta {
+    display: flex; gap: 14px; margin-top: 6px;
+    font-size: 0.8rem; color: var(--muted); align-items: center; flex-wrap: wrap;
+  }
+  .lang { display: flex; align-items: center; gap: 4px; }
+  .lang-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .stars { color: #f1c40f; }
+  .weekly { color: #2ecc71; font-weight: 600; }
+  .repo-desc { margin: 10px 0 0; font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
+  .summary-block { margin-top: 14px; }
+  .summary-block details {}
+  .summary-block summary {
+    cursor: pointer; font-weight: 600; font-size: 0.9rem;
+    list-style: none; padding: 8px 0; display: flex; align-items: flex-start; gap: 6px;
+  }
+  .summary-block summary::-webkit-details-marker { display: none; }
+  .summary-block summary::before { content: "▶"; color: var(--accent); font-size: 0.65rem; margin-top: 3px; flex-shrink: 0; }
+  .summary-block details[open] summary::before { content: "▼"; }
+  .summary-block ul { margin: 8px 0 8px 20px; font-size: 0.87rem; line-height: 1.75; }
+  .summary-block ul li { margin-bottom: 4px; }
+  .summary-block p { font-size: 0.87rem; line-height: 1.7; margin-top: 8px; color: var(--muted); }
+  .summary-block a { color: var(--accent); text-decoration: none; }
+  .summary-block a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<header>
+  <h1>⭐ GitHub <span>Top 10</span></h1>
+  <div class="header-right">
+    <span class="date-badge">10月30日 週間</span>
+    <a href="../index.html" class="back-link">← Archive</a>
+  </div>
+</header>
+<main>
+
+<div class="repo-card">
+  <div class="rank">#1</div>
+  <div class="repo-header">
+    <a href="https://github.com/cloudflare/security-audit-skill" target="_blank" rel="noopener" class="repo-name">cloudflare/security-audit-skill</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#f1e05a"></span>JavaScript</span>
+      <span class="stars">⭐ 52,886</span>
+      <span class="weekly">📈 14,320 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">A coding-agent skill for multi-phase security audits with independently verified, machine-readable findings</p>
+  <div class="summary-block"><details>
+  <summary><strong>#1 cloudflare/security-audit-skill — AIエージェント向け多段階セキュリティ診断スキル</strong></summary>
+  <ul>
+    <li>何ができるか：コーディングエージェントに自律的かつ多段階のセキュリティ監査を実行させ、検証済みレポートを出力する。</li>
+    <li>なぜ注目：Cloudflare公式。脆弱性の誤検知を低減する独立検証ロジックと、機械可読な監査レポート形式を標準化。</li>
+    <li>活用ポイント：CI/CDパイプラインやプルリクエスト自動チェックへの組み込み、コード監査の自動化。</li>
+  </ul>
+  <p>【詳細】Cloudflareが公開した本ツールは、コーディングエージェントが自律的に多段階セキュリティレビューを実行するスキルです。構文解析だけでなく実行検証を挟むことで誤検知を削減し、脆弱性検出から修正提案まで機械可読なフォーマットで出力。PRレビューの完全自動化などDevSecOps基盤に直結します。</p>
+  <p><a href="https://github.com/cloudflare/security-audit-skill">⭐ GitHubで見る（総スター: 52,886 / 今週: 14,320）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#2</div>
+  <div class="repo-header">
+    <a href="https://github.com/php/php-src" target="_blank" rel="noopener" class="repo-name">php/php-src</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#555555"></span>C</span>
+      <span class="stars">⭐ 41,724</span>
+      <span class="weekly">📈 960 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">The PHP Interpreter</p>
+  <div class="summary-block"><details>
+  <summary><strong>#2 php/php-src — Webを支えるPHP公式のコアインタプリタ実装</strong></summary>
+  <ul>
+    <li>何ができるか：PHP言語のコアランタイム、パーサー、標準ライブラリ、Zend Engineの開発・メンテナンス。</li>
+    <li>なぜ注目：長年Webを支え続ける基盤。最新版におけるJIT強化や型システムの近代化、パフォーマンス改善の継続的進化。</li>
+    <li>活用ポイント：内部構造の学習、カスタム拡張機能（C言語）の開発、高負荷システムの低レイヤー最適化。</li>
+  </ul>
+  <p>【詳細】Web開発の根幹を支えるPHPの公式インタプリタ実装です。近年はJITコンパイラの継続的な改善や厳格な型安全性の強化、非同期処理対応などモダン言語としての進化を加速させています。低レイヤーの挙動理解やC言語による拡張モジュール開発、フレームワークのパフォーマンス限界を突き詰める開発者に必須のリポジトリです。</p>
+  <p><a href="https://github.com/php/php-src">⭐ GitHubで見る（総スター: 41,724 / 今週: 960）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#3</div>
+  <div class="repo-header">
+    <a href="https://github.com/AgriciDaniel/claude-seo" target="_blank" rel="noopener" class="repo-name">AgriciDaniel/claude-seo</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+      <span class="stars">⭐ 24,017</span>
+      <span class="weekly">📈 4,110 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Universal SEO skill for Claude Code. 26 sub-skills + 19 sub-agents covering technical SEO, E-E-A-T, schema, GEO/AEO, agent readiness (Lighthouse Agentic Browsing, WebMCP, llms.txt), backlinks, local SEO, e-commerce, international SEO, Google APIs, and PDF/Excel reporting. 9 optional extensions for live SEO data.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#3 AgriciDaniel/claude-seo — Claude CodeをSEO分析基盤に変える包括スキル</strong></summary>
+  <ul>
+    <li>何ができるか：テクニカルSEO、E-E-A-T、構造化データ、GEO/AEO、Agent対応監査など26のサブスキルと19のエージェントを提供。</li>
+    <li>なぜ注目：llms.txtやWebMCPなどAIエージェント時代（GEO/AEO）の最新規格に対応し、Google API連携も網羅。</li>
+    <li>活用ポイント：自社サイトや受託開発でのSEO診断レポート（PDF/Excel）自動生成、新規サイトの最適化自動化。</li>
+  </ul>
+  <p>【詳細】Claude Codeを本格的なSEO専門家に変える超包括的ツールキットです。従来のテクニカルSEOやE-E-A-T対応に加え、LLMやエージェントクローラー向けのGEO/AEO最適化（llms.txt等）に対応。API連携からレポート出力まで網羅し、メディア運営や受託診断を一気に自動化できます。</p>
+  <p><a href="https://github.com/AgriciDaniel/claude-seo">⭐ GitHubで見る（総スター: 24,017 / 今週: 4,110）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#4</div>
+  <div class="repo-header">
+    <a href="https://github.com/pbakaus/impeccable" target="_blank" rel="noopener" class="repo-name">pbakaus/impeccable</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#dea584"></span>Rust</span>
+      <span class="stars">⭐ 95,388</span>
+      <span class="weekly">📈 9,713 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">The design vocabulary for your coding agent. Steer with polish and bolder, review with critique and audit, catch AI slop before it ships.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#4 pbakaus/impeccable — AIによる安っぽいUI生成を防ぐデザイン語彙・監査ツール</strong></summary>
+  <ul>
+    <li>何ができるか：コーディングエージェントに「洗練（polish）」「大胆（bolder）」などの意図を与え、AI特有の野暮ったさを排除・監査。</li>
+    <li>なぜ注目：AI生成コードのUI品質（AI Slop）問題に正面から挑み、デザイン批評・監査の専用語彙体系をRust製ツールで提供。</li>
+    <li>活用ポイント：個人開発や受託でのフロントエンド生成時のデザイン品質担保、UIレビュープロセスの自動化。</li>
+  </ul>
+  <p>【詳細】「AIが生成した安っぽいUI（AI Slop）」を撲滅するためのデザイン特化スキルです。Rustで高速に動作し、プロンプト上で「polish（洗練）」や「critique（批評）」といった語彙を通じてデザインの質を段階的に引き上げます。フロントエンドの機械的生成から脱却し、商業水準の洗練されたUIを自動で導き出します。</p>
+  <p><a href="https://github.com/pbakaus/impeccable">⭐ GitHubで見る（総スター: 95,388 / 今週: 9,713）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#5</div>
+  <div class="repo-header">
+    <a href="https://github.com/multica-ai/andrej-karpathy-skills" target="_blank" rel="noopener" class="repo-name">multica-ai/andrej-karpathy-skills</a>
+    <div class="repo-meta">
+      
+      <span class="stars">⭐ 226,458</span>
+      <span class="weekly">📈 4,250 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">A single CLAUDE.md file to improve Claude Code behavior, derived from Andrej Karpathy's observations on LLM coding pitfalls.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#5 multica-ai/andrej-karpathy-skills — Karpathy流の教訓を凝縮したClaude Code改善設定</strong></summary>
+  <ul>
+    <li>何ができるか：単一のCLAUDE.mdファイルを配置するだけで、LLMのコーディング時の悪癖や落とし穴を抑止・行動改善。</li>
+    <li>なぜ注目：元OpenAI/TeslaのAndrej Karpathy氏が指摘した「LLMコーディングの落とし穴」を直接プロンプト規範化。</li>
+    <li>活用ポイント：日々のCursorやClaude Code環境に配置し、ハルシネーションや不適切なコード書き換えを激減させる。</li>
+  </ul>
+  <p>【詳細】元OpenAIの研究者Andrej Karpathy氏が提唱した「LLMコーディングの落とし穴」を回避するためのルールを1枚のCLAUDE.mdに集約。無駄なコード書き換えやコンテキスト過負荷を防ぎ、Claude Codeの推論精度を最大化します。既存プロジェクトのルートに配置するだけで即座に開発体験が向上します。</p>
+  <p><a href="https://github.com/multica-ai/andrej-karpathy-skills">⭐ GitHubで見る（総スター: 226,458 / 今週: 4,250）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#6</div>
+  <div class="repo-header">
+    <a href="https://github.com/TauricResearch/TradingAgents" target="_blank" rel="noopener" class="repo-name">TauricResearch/TradingAgents</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+      <span class="stars">⭐ 118,340</span>
+      <span class="weekly">📈 5,557 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">TradingAgents: Multi-Agents LLM Financial Trading Framework</p>
+  <div class="summary-block"><details>
+  <summary><strong>#6 TauricResearch/TradingAgents — LLMマルチエージェント協働型の金融トレーディング基盤</strong></summary>
+  <ul>
+    <li>何ができるか：市場分析、リスク評価、執行戦略などを異なる専門LLMエージェントが分担・協働して自動取引シミュレーションを行う。</li>
+    <li>なぜ注目：単一モデルの判断に頼らず、複数の金融特化ロール（リサーチ、リスク管理、執行など）の合議制で意思決定。</li>
+    <li>活用ポイント：アルゴリズム取引の研究、金融データの自動要約・売買シグナル検証、ファンド運用の自動化実証。</li>
+  </ul>
+  <p>【詳細】金融市場の分析から取引判断までを複数の特化型LLMエージェントに分担させる次世代フレームワークです。ファンダメンタルズ分析、テクニカル分析、リスク管理などの専門エージェントが協調して合議制で意思決定を行います。単一モデルでは困難だった複雑な投資戦略のバックテストや自動化研究を加速させます。</p>
+  <p><a href="https://github.com/TauricResearch/TradingAgents">⭐ GitHubで見る（総スター: 118,340 / 今週: 5,557）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#7</div>
+  <div class="repo-header">
+    <a href="https://github.com/hugohe3/ppt-master" target="_blank" rel="noopener" class="repo-name">hugohe3/ppt-master</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+      <span class="stars">⭐ 70,847</span>
+      <span class="weekly">📈 4,980 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">AI turns documents or topics into real, native PowerPoint decks—with native shapes, transitions and animations, data-backed charts and tables on demand, audio narration from speaker notes, and support for your own .pptx templates. · by Hugo He</p>
+  <div class="summary-block"><details>
+  <summary><strong>#7 hugohe3/ppt-master — 原稿やトピックから本格的なPowerPointを自動生成</strong></summary>
+  <ul>
+    <li>何ができるか：AIがテキストから図形・アニメーション・グラフ・音声ナレーション付きのネイティブ.pptxファイルを自動生成。</li>
+    <li>なぜ注目：画像貼り付けのスライドではなく、ネイティブ図形や自前テンプレート（.pptx）を保持した編集可能な成果物を出力。</li>
+    <li>活用ポイント：社内プレゼン資料作成の半自動化、ウェビナー用スライドの爆速作成、提案書作成の副業効率化。</li>
+  </ul>
+  <p>【詳細】ドキュメントや指定テーマから、編集可能な高品質PowerPoint（.pptx）を自動生成するツールです。単なる画像埋め込みではなく、ネイティブな図形、表、アニメーション、ノートに基づく音声ナレーションまで統合。既存の社内テンプレートも引き継げるため、提案書やプレゼン資料の作成工数を劇的に削減します。</p>
+  <p><a href="https://github.com/hugohe3/ppt-master">⭐ GitHubで見る（総スター: 70,847 / 今週: 4,980）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#8</div>
+  <div class="repo-header">
+    <a href="https://github.com/obra/superpowers" target="_blank" rel="noopener" class="repo-name">obra/superpowers</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#89e051"></span>Shell</span>
+      <span class="stars">⭐ 308,574</span>
+      <span class="weekly">📈 4,894 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">An agentic skills framework & software development methodology that works.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#8 obra/superpowers — 開発手法とエージェント連携を統合した実践的フレームワーク</strong></summary>
+  <ul>
+    <li>何ができるか：自律型AIエージェントの能力（スキル）をモジュール化し、現場で機能するソフトウェア開発手法を提供。</li>
+    <li>なぜ注目：単なるプロンプト集にとどまらず、エージェントが自律的にタスクを遂行・テスト・納品できるプロセスをShell中心に設計。</li>
+    <li>活用ポイント：個人開発・受託案件での要件定義から実装・検証までのワークフロー自動化、Agentic運用の標準化。</li>
+  </ul>
+  <p>【詳細】コーディングエージェントを現場で確実に機能させるための手法とツール群を体系化したフレームワークです。シェルスクリプトをベースに、要件定義から実装、テスト、レビューまでの反復サイクルをエージェントに厳格に規律づけます。単発のコード生成を超え、実用的な自律開発パイプラインの構築を支援します。</p>
+  <p><a href="https://github.com/obra/superpowers">⭐ GitHubで見る（総スター: 308,574 / 今週: 4,894）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#9</div>
+  <div class="repo-header">
+    <a href="https://github.com/anthropics/knowledge-work-plugins" target="_blank" rel="noopener" class="repo-name">anthropics/knowledge-work-plugins</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+      <span class="stars">⭐ 33,855</span>
+      <span class="weekly">📈 2,504 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Open source repository of plugins primarily intended for knowledge workers to use in Claude Cowork</p>
+  <div class="summary-block"><details>
+  <summary><strong>#9 anthropics/knowledge-work-plugins — 知的生産を加速するClaude公式ナレッジワーク拡張集</strong></summary>
+  <ul>
+    <li>何ができるか：Claude Cowork等のナレッジワーカー向け環境で動作する業務特化型拡張機能（データ処理・文書作成等）。</li>
+    <li>なぜ注目：Anthropic公式リポジトリ。オフィス業務やナレッジワークのワークフローに直結するプラグイン仕様をオープンソース化。</li>
+    <li>活用ポイント：社内ナレッジの検索・整理自動化、リサーチ業務の省力化、独自の企業向けClaude拡張の開発。</li>
+  </ul>
+  <p>【詳細】Anthropicが公開したナレッジワーカー向けClaude拡張機能の公式オープンソースリポジトリです。ドキュメント分析、リサーチ、タスク管理など日々の知的労働をClaudeとシームレスに連携させるプラグインが揃っています。Claudeを活用した自社専用の業務自動化ツール開発の青写真としても極めて有用です。</p>
+  <p><a href="https://github.com/anthropics/knowledge-work-plugins">⭐ GitHubで見る（総スター: 33,855 / 今週: 2,504）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#10</div>
+  <div class="repo-header">
+    <a href="https://github.com/Leonxlnx/taste-skill" target="_blank" rel="noopener" class="repo-name">Leonxlnx/taste-skill</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#f1e05a"></span>JavaScript</span>
+      <span class="stars">⭐ 105,574</span>
+      <span class="weekly">📈 4,359 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Agent skills that give coding agents taste: art direction, reference images and a browser check instead of generic AI pages</p>
+  <div class="summary-block"><details>
+  <summary><strong>#10 Leonxlnx/taste-skill — コーディングエージェントに美的センスを授ける拡張機能</strong></summary>
+  <ul>
+    <li>何ができるか：アートディレクション指示、参考画像の解釈、ブラウザ検証を行い、陳腐なAI生成デザインを脱却させる。</li>
+    <li>なぜ注目：AIが陥りがちな典型的なデザインから脱却するため、視覚的フィードバックループ（ブラウザ検証等）を強制。</li>
+    <li>活用ポイント：LP作成、ポートフォリオ構築、個人開発アプリのフロントエンドデザイン向上、モックアップの品質底上げ。</li>
+  </ul>
+  <p>【詳細】AIが生成する没個性なWebデザインを打破し、美的センスを注入するためのエージェントスキルです。参照画像からのスタイル抽出やアートディレクションの明示、ブラウザ検証による視覚チェックを強制することで、AI特有の野暮ったいレイアウトを排除。洗練されたランディングページやUIを素早く生み出せます。</p>
+  <p><a href="https://github.com/Leonxlnx/taste-skill">⭐ GitHubで見る（総スター: 105,574 / 今週: 4,359）</a></p>
+</details></div>
+</div>
+</main>
+</body>
+</html>
