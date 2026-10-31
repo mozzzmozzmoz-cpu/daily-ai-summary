@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Digest — 2026-10-31</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg:#0c0c0c; --sur:#141414; --rule:#232323;
+  --txt:#f0f0f0; --txt2:#888; --txt3:#444;
+  --lime:#ccff00; --lime2:#1a2200;
+  --c-3dai:#ff4444; --c-image:#bf5af2; --c-biz:#ff9f0a;
+  --c-japan:#0a84ff; --c-llm:#30d158; --c-news:#636366;
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme=dark]){
+    --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+    --txt:#111; --txt2:#666; --txt3:#aaa;
+    --lime:#5c7a00; --lime2:#edf5c0;
+  }
+}
+:root[data-theme=light]{
+  --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+  --txt:#111; --txt2:#666; --txt3:#aaa;
+  --lime:#5c7a00; --lime2:#edf5c0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+a{color:var(--lime);text-decoration:none}
+a:hover{text-decoration:underline}
+ 
+/* header */
+header{background:var(--bg);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:100}
+.hdr-top{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:12px 20px;max-width:1200px;margin:0 auto}
+.wordmark{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;letter-spacing:-.01em;text-transform:uppercase;color:var(--txt)}
+.wordmark span{color:var(--lime)}
+.hdr-meta{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase}
+.theme-btn{background:transparent;border:1px solid var(--rule);color:var(--txt2);border-radius:4px;padding:5px 10px;font-size:.72rem;cursor:pointer}
+.theme-btn:hover{border-color:var(--txt2)}
+.filter-row{border-top:1px solid var(--rule);overflow-x:auto;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-inner{display:flex;max-width:1200px;margin:0 auto;padding:0 20px}
+.ftab{flex-shrink:0;padding:9px 14px;font-size:.75rem;font-weight:500;color:var(--txt2);border-bottom:2px solid transparent;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;user-select:none}
+.ftab:hover{color:var(--txt)}
+.ftab.active{color:var(--txt);border-bottom-color:var(--lime)}
+ 
+/* page */
+.page{max-width:1200px;margin:0 auto;padding:0 20px 60px}
+.dateline{padding:28px 0 20px;display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--rule)}
+.dl-main{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.6rem;text-transform:uppercase;letter-spacing:-.01em;line-height:1;color:var(--txt)}
+.dl-sub{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase}
+.back-lnk{margin-left:auto;font-size:.78rem;color:var(--txt2);display:flex;align-items:center;gap:5px;flex-shrink:0}
+.back-lnk:hover{color:var(--lime);text-decoration:none}
+ 
+/* grid */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-top:1px}
+.card{background:var(--bg);transition:background .15s}
+.card:hover{background:var(--sur)}
+.card.filtered{display:none}
+ 
+/* magazine sizing */
+.card[data-size=large]{grid-column:span 2;grid-row:span 2}
+.card[data-size=large] .card-img{aspect-ratio:4/3}
+.card[data-size=wide]{grid-column:span 2}
+.card[data-size=wide] .card-img{aspect-ratio:21/9}
+.card[data-size=small] .card-img{aspect-ratio:16/9}
+ 
+/* details / summary */
+details{height:100%;display:flex;flex-direction:column}
+details summary{list-style:none;cursor:pointer;height:100%;display:flex;flex-direction:column}
+details summary::-webkit-details-marker{display:none}
+ 
+/* card image */
+.card-img{width:100%;overflow:hidden;flex-shrink:0;position:relative}
+.card-real-img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+ 
+/* category gradients (fallback when no real image) */
+.card[data-cat=3dai]  .card-img{background:radial-gradient(ellipse 80% 80% at 30% 40%,#3d0a0a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 60% at 72% 65%,#6b1212 0%,transparent 50%)}
+.card[data-cat=image] .card-img{background:radial-gradient(ellipse 90% 70% at 20% 30%,#2d0d4f 0%,#0c0c0c 55%),radial-gradient(ellipse 50% 80% at 78% 60%,#4a1272 0%,transparent 50%)}
+.card[data-cat=biz]   .card-img{background:radial-gradient(ellipse 80% 80% at 40% 40%,#3d2200 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 50% at 75% 65%,#6b3d00 0%,transparent 50%)}
+.card[data-cat=japan] .card-img{background:radial-gradient(ellipse 80% 70% at 30% 35%,#001a3d 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 70%,#003b7a 0%,transparent 45%)}
+.card[data-cat=llm]   .card-img{background:radial-gradient(ellipse 80% 80% at 25% 35%,#062610 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 65%,#0d4820 0%,transparent 50%)}
+.card[data-cat=news]  .card-img{background:radial-gradient(ellipse 80% 70% at 35% 40%,#1a1a1a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 50% at 70% 65%,#2e2e2e 0%,transparent 50%)}
+.card-img::after{content:'';position:absolute;width:40%;height:40%;top:20%;left:15%;border-radius:50%;filter:blur(28px);opacity:.5}
+.card[data-cat=3dai]  .card-img::after{background:#ff4444}
+.card[data-cat=image] .card-img::after{background:#bf5af2}
+.card[data-cat=biz]   .card-img::after{background:#ff9f0a}
+.card[data-cat=japan] .card-img::after{background:#0a84ff}
+.card[data-cat=llm]   .card-img::after{background:#30d158}
+.card[data-cat=news]  .card-img::after{background:#888}
+ 
+/* light mode gradients */
+:root[data-theme=light] .card[data-cat=3dai]  .card-img,
+:root[data-theme=light] .card[data-cat=image] .card-img,
+:root[data-theme=light] .card[data-cat=biz]   .card-img,
+:root[data-theme=light] .card[data-cat=japan] .card-img,
+:root[data-theme=light] .card[data-cat=llm]   .card-img,
+:root[data-theme=light] .card[data-cat=news]  .card-img{filter:brightness(2.5) saturate(.5)}
+ 
+/* card body (text section) */
+.card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:6px}
+.card[data-size=large] .card-body{padding:18px 20px 20px}
+.cat-tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.card[data-cat=3dai]  .cat-tag{color:var(--c-3dai)}
+.card[data-cat=image] .cat-tag{color:var(--c-image)}
+.card[data-cat=biz]   .cat-tag{color:var(--c-biz)}
+.card[data-cat=japan] .cat-tag{color:var(--c-japan)}
+.card[data-cat=llm]   .cat-tag{color:var(--c-llm)}
+.card[data-cat=news]  .cat-tag{color:var(--c-news)}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.15rem;line-height:1.2;color:var(--txt);text-wrap:balance}
+.card[data-size=large] .card-title{font-size:1.9rem;line-height:1.1}
+.card[data-size=wide]  .card-title{font-size:1.4rem}
+.card:hover .card-title{color:var(--lime)}
+.expand-hint{margin-top:auto;font-size:.72rem;color:var(--txt3);display:flex;align-items:center;gap:3px}
+.chev{transition:transform .2s;display:inline-block}
+details[open] .chev{transform:rotate(90deg)}
+ 
+/* expanded body */
+.expand-body{border-top:1px solid var(--rule);padding:18px 16px 20px;background:var(--sur)}
+.card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{padding:20px 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.expand-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.expand-body li{display:flex;gap:8px;font-size:.85rem;line-height:1.55;color:var(--txt)}
+.expand-body li::before{content:counter(li);counter-increment:li;font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:500;color:var(--lime);flex-shrink:0;margin-top:2px;min-width:14px}
+.expand-body ul{counter-reset:li}
+.expand-body p{font-size:.85rem;line-height:1.65;color:var(--txt2);margin-bottom:12px}
+.expand-body a{color:var(--lime);font-weight:500;font-size:.82rem}
+.expand-body a:hover{text-decoration:underline}
+ 
+/* footer */
+.page-foot{font-size:.72rem;color:var(--txt3);margin-top:32px;text-align:center;font-family:'IBM Plex Mono',monospace}
+ 
+/* responsive */
+@media(max-width:900px){
+  .news-grid{grid-template-columns:repeat(2,1fr)}
+  .card[data-size=large]{grid-column:span 2}
+  .card[data-size=wide]{grid-column:span 2}
+  .card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .news-grid{grid-template-columns:1fr}
+  .card[data-size=large],.card[data-size=wide]{grid-column:span 1;grid-row:span 1}
+  .dl-main{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr-top">
+    <div class="wordmark">AI<span>.</span>DIGEST</div>
+    <div class="hdr-meta">毎朝 07:00 JST 自動配信</div>
+    <button class="theme-btn" onclick="(function(){var r=document.documentElement;r.setAttribute('data-theme',r.getAttribute('data-theme')==='light'?'dark':'light')})()">☀ / ☾</button>
+  </div>
+  <div class="filter-row">
+    <div class="filter-inner" id="fb">
+      <div class="ftab active" data-f="all">すべて</div>
+      <div class="ftab" data-f="3dai">🔴 3大AI</div>
+      <div class="ftab" data-f="image">🎨 画像・動画</div>
+      <div class="ftab" data-f="biz">💼 実務・副業</div>
+      <div class="ftab" data-f="japan">🇯🇵 日本のAI</div>
+      <div class="ftab" data-f="llm">🧠 LLM技術</div>
+      <div class="ftab" data-f="news">📰 一般ニュース</div>
+    </div>
+  </div>
+</header>
+<div class="page">
+  <div class="dateline">
+    <div><div class="dl-sub">2026-10-31</div><div class="dl-main">今日のAIニュース</div></div>
+    <div class="dl-sub" style="align-self:flex-end;margin-bottom:5px">9件</div>
+    <a href="index.html" class="back-lnk">‹ 一覧</a>
+  </div>
+  <div class="news-grid" id="grid">
+<article class="card" data-cat="news" data-size="large">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">大手AI各社、Webスクレイピング拒否の新共通規格を導入</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：OpenAI、Google、Microsoft、Anthropicの4大企業が共同でオプトアウト新標準の採用を表明。</li>
+    <li>要点2：個別のクローラー毎ではなく、単一の標準シグナルで複数社への学習拒否を一括設定可能に。</li>
+    <li>要点3：メディア運営者はrobots.txt等の単一設定でコンテンツ保護の工数を劇的に削減可能。</li>
+  </ul>
+  <p>【詳細】AI各社ごとに異なるオプトアウト記述が必要だった従来の手法を刷新し、統一的なポリシートークンを用いて学習用収集を一括で拒否できる枠組みが整備された。著作権やコンテンツ無断利用に対する批判が高まる中、業界大手が足並みを揃えてパブリッシャーの権利保護に乗り出した形だ。Web運営側は設定管理の手間を大幅に削減できる一方、AI開発側も合意形成を通じた健全なデータ収集プロセスの確立を目指す。</p>
+  <p><a href="https://www.theverge.com/tech/1023763/openai-google-microsoft-ai-scraping-standard-opt-out">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">OpenAI、Web管理者の学習拒否意思を示す共有規格を尊重</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：OpenAIがrobots.txtに基づく共通シグナルに対応し、Webサイト側の学習拒否を遵守すると発表。</li>
+    <li>要点2：個別対応だったAI各社へのクローリング制限を一元化し、Web管理者の権利行使を容易化。</li>
+    <li>要点3：企業サイトや自社メディア保有者は、最小限の記述でデータ流出と無断学習を防止可能。</li>
+  </ul>
+  <p>【詳細】AIの学習データ収集においてWebパブリッシャーの意向を正確に反映させるため、OpenAIは業界共通のrobots.txt仕様に準拠する方針を明確にした。これまで各AI企業ごとに固有のユーザーエージェントを拒否設定する必要があり管理が煩雑だったが、共通化により透明性と制御性が高まる。AI開発の倫理的基盤を強化し、著作権者との摩擦を緩和しつつ継続的なデータ収集エコシステムを維持する狙いがある。</p>
+  <p><a href="https://openai.com/index/helping-websites-express-ai-training-preferences">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">アップル、中国向けApple Intelligence提供へ</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：AppleがiOSの次期アップデートを通じて中国本土でApple Intelligenceを展開予定と発表。</li>
+    <li>要点2：現地当局の厳格な規制をクリアし、世界最大規模のスマートフォン市場で独自AIを正式展開。</li>
+    <li>要点3：中国市場でのiPhone売上反転が期待され、関連部品サプライチェーンや株式市場に好材料。</li>
+  </ul>
+  <p>【詳細】中国市場では現地規制により欧米製生成AIの導入が難航していたが、Appleは中国版ニュースルームで正式リリースを予告した。まずは開発者向けベータ版から順次機能を開放し、年内の一般配信を視野に入れる。現地大手テック企業とのローカルLLM提携などを通じた規制適合が焦点となっており、競合ひしめく中国ハイエンドスマートフォン市場におけるiPhoneの競争力維持に向けた極めて重要な布石となる。</p>
+  <p><a href="https://www.theverge.com/tech/1023974/apple-intelligence-china-ios-27-3">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/KDN-Shittu-Vibe-Coding-Gaming-Tutorial-scaled.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">アルトマン氏「RAMは個人の机上よりデータセンターにあるべき」</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：OpenAIのサム・アルトマンCEOが世界的なRAM不足を受け「PCよりクラウドへ回すべき」と発言。</li>
+    <li>要点2：オンデバイスAI推進のハードウェア市場に対し、クラウド集約型アーキテクチャの優位性を強調。</li>
+    <li>要点3：データセンター向け半導体・メモリ銘柄への需要継続を示唆し、投資判断の材料に。</li>
+  </ul>
+  <p>【詳細】ポッドキャスト番組に出演したアルトマン氏は、半導体サプライチェーンの逼迫に言及し、限られたメモリ資源を個人のデスクトップPCに分散配置する非効率性を批判した。AI処理の巨大化に伴い、超高帯域メモリを集約したクラウドサーバーで推論を行う方がリソース効率が高いという見解を示す。ローカル環境でのLLM実行を推進するPCメーカーやチップ開発企業との間で、今後の計算資源配分を巡る議論を呼んでいる。</p>
+  <p><a href="https://www.theverge.com/ai-artificial-intelligence/1023820/sam-altman-ram-shortage-cloud-servers">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/Rosidi-Silent-Data-Errors-That-Survive-Every-Cleaning-Pipeline-1.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">OpenAI、AI学習におけるフェアユースの公益性を主張</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：OpenAIが裁判所提出書類を引用し、AI訓練におけるフェアユース（公正利用）の正当性を強調。</li>
+    <li>要点2：クリエイター、法学者、障害者支援団体などの支持意見を基に、AIが社会革新に寄与すると主張。</li>
+    <li>要点3：生成AI関連の法規動向を注視するAI開発者や投資家にとって、知財訴訟リスクの指針に。</li>
+  </ul>
+  <p>【詳細】著作権訴訟が激化する中、OpenAIは学術関係者やアクセシビリティ擁護者など多様な専門家による法廷助言書を公開した。著作物の学習利用は公正利用の範囲内であり、イノベーション促進や障害者支援ツールの開発など広範な公共の利益に資すると論陣を張る。著作権侵害を訴える権利者側との対立が深まる中、AI技術の発展と既存の著作権法解釈の整合性を巡る司法判断に大きな影響を与える極めて重要な主張となっている。</p>
+  <p><a href="https://openai.com/index/fair-use-benefits-everyone">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">OpenAI、ChatGPTの安全性強化と青少年保護策を発表</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：ChatGPTにおける暴力防止機能の拡充、早期介入システムの導入、安全レポート公開を表明。</li>
+    <li>要点2：未成年ユーザーの利用急増に伴い、精神的危害や危険コンテンツへの接触を未然に防止。</li>
+    <li>要点3：教育機関や企業導入において、安全基準を満たしたAI活用の信頼性担保に直結。</li>
+  </ul>
+  <p>【詳細】OpenAIはコミュニティの安全性に関する定期レポートの公表を約束するとともに、若年層ユーザーを保護する新たなセーフガードを導入した。暴力的な表現や自傷行為などの危険シグナルを検知した際の介入プロセスの迅速化を図り、保護者や教育関係者が安心して利用できる環境を整備する。各国の規制当局による未成年保護の監視が厳格化する中、プラットフォームとしての説明責任と安全対策を先んじて強化した格好だ。</p>
+  <p><a href="https://openai.com/index/community-safety-report-and-new-protections-for-teens">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">自然言語で名作ゲームを開発する「バイブコーディング」実践</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：コードを手打ちせず自然言語指示のみで「ブロック崩し」を一からAI構築するワークフローを紹介。</li>
+    <li>要点2：AIエージェントが生成・実行・デバッグを自律反復する次世代プログラミング手法が定着。</li>
+    <li>要点3：非エンジニアでも副業での簡易アプリ開発や社内業務自動化ツールを短時間で試作可能に。</li>
+  </ul>
+  <p>【詳細】自然言語による「バイブス（感覚）」の指示だけでAIがコーディングから動作確認、エラー修正までを一括して代行する開発スタイルが注目を集めている。本記事ではレトロゲームの名作を題材に、AIアシスタントへ段階的にプロンプトを与えることで仕様変更や機能追加を実現する具体例を解説。従来の構文記述に縛られないアプローチは、ソフトウェア開発の参入障壁を劇的に下げ、迅速なプロトタイプ作成を強力に後押しする。</p>
+  <p><a href="https://www.kdnuggets.com/vibe-coding-a-classic-game-building-breakout-step-by-step-with-an-ai-assistant">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">データクレンジングをすり抜ける4つの「見えない欠陥」</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Null値検査、重複排除、スキーマ検証をすべてパスしてしまう4種類の潜伏バグを特定。</li>
+    <li>要点2：高品質と誤認されたデータが機械学習モデルの予測精度を静かに破壊するリスクを警告。</li>
+    <li>要点3：データエンジニアや分析業務において、パイプラインのテスト設計改善と監査基準見直しに直結。</li>
+  </ul>
+  <p>【詳細】一般的な自動クリーニング工程では検知できない、論理的矛盾や形式上正常に見える異常値を詳解している。日付フォーマットの暗黙の変換ミスや、統計的分布の歪みを伴うデフォルト値の混入など、スキーマテストをすり抜ける具体的な4つの事例を提示。これらはモデル学習時に深刻なバイアスや性能低下を引き起こすため、単なる文法検証を超えたドメイン知識に基づく検証ロジックをデータ基盤に組み込む重要性を説いている。</p>
+  <p><a href="https://www.kdnuggets.com/silent-data-errors-that-survive-every-cleaning-pipeline">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">LLMが「1から10」で7を選ぶ理由を数学的に検証</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：「1〜10で数字を選んで」と指示するとLLMが高確率で7を返す現象の背景を数学的に分析。</li>
+    <li>要点2：ネット上の俗説「勾配降下法の影響」を排し、人間由来の訓練データ偏向を定量的に解明。</li>
+    <li>要点3：プロンプト設計時にAIの暗黙的バイアスを把握し、乱数生成や公平なサンプリングに活用。</li>
+  </ul>
+  <p>【詳細】SNS上で「LLMが7を選ぶのは勾配降下法の特性」という誤った言説が拡散したことを受け、数理的視点からメカニズムを再検証した。実際には人間が無意識に7を選びやすい心理バイアスが学習テキスト全体に濃縮されており、モデルがその確率分布を忠実に再現しているに過ぎないことを証明。LLMの出力特性を客観的に評価する上で、アルゴリズムの内部構造だけでなく学習データの統計的性質を理解する重要性を示唆している。</p>
+  <p><a href="https://towardsdatascience.com/pick-a-number-between-1-and-10/">📎 詳細を見る（出典：Towards Data Science）</a></p>
+    </div>
+  </details>
+</article>
+  </div>
+  <p class="page-foot">自動生成 by Gemini + GitHub Actions</p>
+</div>
+<script>
+document.getElementById('fb').addEventListener('click',function(e){
+  var t=e.target.closest('[data-f]');if(!t)return;
+  var f=t.dataset.f;
+  document.querySelectorAll('.ftab').forEach(function(x){x.classList.remove('active')});
+  t.classList.add('active');
+  document.querySelectorAll('.card').forEach(function(c){
+    c.classList.toggle('filtered',f!=='all'&&c.dataset.cat!==f);
+  });
+});
+</script>
+</body>
+</html>
