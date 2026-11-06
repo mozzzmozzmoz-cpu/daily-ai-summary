@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GitHub Top 10 — 11月6日</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a; --surface: #141414; --border: #2a2a2a;
+    --text: #e8e8e8; --muted: #888; --accent: #ff4444;
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #f5f5f5; --surface: #fff; --border: #e0e0e0; --text: #111; --muted: #666; }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', system-ui, sans-serif; }
+  header {
+    border-bottom: 3px solid var(--accent); padding: 16px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  header h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em;
+  }
+  header h1 span { color: var(--accent); }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .date-badge {
+    font-size: 0.75rem; color: var(--muted);
+    padding: 4px 10px; border: 1px solid var(--border); border-radius: 4px;
+  }
+  .back-link { color: var(--muted); font-size: 0.85rem; text-decoration: none; }
+  .back-link:hover { color: var(--text); }
+  main { max-width: 800px; margin: 0 auto; padding: 24px; }
+  .repo-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px; margin-bottom: 16px;
+    transition: border-color 0.15s;
+  }
+  .repo-card:hover { border-color: var(--accent); }
+  .rank {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2.2rem; font-weight: 800; color: var(--accent);
+    line-height: 1; margin-bottom: 6px;
+  }
+  .repo-name {
+    font-size: 1.1rem; font-weight: 700;
+    color: var(--text); text-decoration: none;
+  }
+  .repo-name:hover { color: var(--accent); }
+  .repo-meta {
+    display: flex; gap: 14px; margin-top: 6px;
+    font-size: 0.8rem; color: var(--muted); align-items: center; flex-wrap: wrap;
+  }
+  .lang { display: flex; align-items: center; gap: 4px; }
+  .lang-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .stars { color: #f1c40f; }
+  .weekly { color: #2ecc71; font-weight: 600; }
+  .repo-desc { margin: 10px 0 0; font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
+  .summary-block { margin-top: 14px; }
+  .summary-block details {}
+  .summary-block summary {
+    cursor: pointer; font-weight: 600; font-size: 0.9rem;
+    list-style: none; padding: 8px 0; display: flex; align-items: flex-start; gap: 6px;
+  }
+  .summary-block summary::-webkit-details-marker { display: none; }
+  .summary-block summary::before { content: "▶"; color: var(--accent); font-size: 0.65rem; margin-top: 3px; flex-shrink: 0; }
+  .summary-block details[open] summary::before { content: "▼"; }
+  .summary-block ul { margin: 8px 0 8px 20px; font-size: 0.87rem; line-height: 1.75; }
+  .summary-block ul li { margin-bottom: 4px; }
+  .summary-block p { font-size: 0.87rem; line-height: 1.7; margin-top: 8px; color: var(--muted); }
+  .summary-block a { color: var(--accent); text-decoration: none; }
+  .summary-block a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<header>
+  <h1>⭐ GitHub <span>Top 10</span></h1>
+  <div class="header-right">
+    <span class="date-badge">11月6日 週間</span>
+    <a href="../index.html" class="back-link">← Archive</a>
+  </div>
+</header>
+<main>
+
+<div class="repo-card">
+  <div class="rank">#1</div>
+  <div class="repo-header">
+    <a href="https://github.com/thedotmack/claude-mem" target="_blank" rel="noopener" class="repo-name">thedotmack/claude-mem</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 113,572</span>
+      <span class="weekly">📈 9,318 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Persistent Context Across Sessions for Every Agent – Captures everything your agent does during sessions, compresses it with AI, and injects relevant context back into future sessions. Works with Claude Code, OpenClaw, Codex, Gemini, Hermes, Copilot, OpenCode + More</p>
+  <div class="summary-block"><details>
+  <summary><strong>#1 thedotmack/claude-mem — AIエージェント間の記憶を引き継ぐ長期記憶基盤</strong></summary>
+  <ul>
+    <li>何ができるか：セッション横断でAIの作業履歴を記録・圧縮し、次回セッションへ関連文脈として自動注入</li>
+    <li>なぜ注目：Claude CodeやCursorなど多数のツールに対応し、エージェントの健忘症問題を解消</li>
+    <li>活用ポイント：開発コンテキストを再説明する手間を省き、長期プロジェクトのコーディングを自動化</li>
+  </ul>
+  <p>【詳細】開発セッション中のAIエージェントの操作や対話履歴を自動収集し、AIによって効率的に圧縮・構造化して永続化します。次回起動時に必要なコンテキストのみを賢く引き継ぐため、トークン消費を抑えつつ一貫した指示や前提条件の保持を実現。複数エージェントを横断した開発作業の効率を大幅に引き上げます。（146字）</p>
+  <p><a href="https://github.com/thedotmack/claude-mem">⭐ GitHubで見る（総スター: 113,572 / 今週: 9,318）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#2</div>
+  <div class="repo-header">
+    <a href="https://github.com/Nutlope/hallmark" target="_blank" rel="noopener" class="repo-name">Nutlope/hallmark</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#563d7c"></span>CSS</span>
+      <span class="stars">⭐ 48,805</span>
+      <span class="weekly">📈 6,994 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Anti-AI-slop design skill for Claude Code, Cursor, and Codex.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#2 Nutlope/hallmark — AI特有の手抜きデザインを防ぐデザインスキル</strong></summary>
+  <ul>
+    <li>何ができるか：Claude CodeやCursorなどのAIエージェントに対し、洗練されたUI/UXルールを適用</li>
+    <li>なぜ注目：AI生成物特有の安っぽさ（AI-slop）を排除し、高品質なフロントエンド実装を担保</li>
+    <li>活用ポイント：個人開発や副業でプロ級のUIを最短で実装し、デザインレビューの手間を削減</li>
+  </ul>
+  <p>【詳細】AIコーディングアシスタントが生成しがちな汎用的で魅力に欠けるUI（AI slop）を抑止するためのデザインルール集です。Claude CodeやCursor等のスキル・プロンプトとして組み込むことで、色使いや余白、タイポグラフィの品質を底上げし、商用レベルのUIコードを初手から出力させることができます。（148字）</p>
+  <p><a href="https://github.com/Nutlope/hallmark">⭐ GitHubで見る（総スター: 48,805 / 今週: 6,994）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#3</div>
+  <div class="repo-header">
+    <a href="https://github.com/pingdotgg/t3code" target="_blank" rel="noopener" class="repo-name">pingdotgg/t3code</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 48,393</span>
+      <span class="weekly">📈 16,235 stars this week</span>
+    </div>
+  </div>
+  
+  <div class="summary-block"><details>
+  <summary><strong>#3 pingdotgg/t3code — モダンスタック向け次世代Web開発ツールキット</strong></summary>
+  <ul>
+    <li>何ができるか：フルスタックTypeScript開発を加速する最新アーキテクチャテンプレートとCLI群</li>
+    <li>なぜ注目：Theo氏率いるコミュニティ発で、実践的かつ最先端のベストプラクティスが凝縮</li>
+    <li>活用ポイント：新規サービスの初期構築や受託・副業案件の立ち上げ工数を劇的に短縮</li>
+  </ul>
+  <p>【詳細】T3 Stackの思想を受け継ぎ、TypeScriptによるモダンなWebアプリケーション開発を極限まで効率化するプロジェクトです。最新のフレームワークや開発規約に準拠した構成があらかじめ用意されており、ボイラープレートの記述を最小限に抑え、本質的なプロダクトロジックの実装に即座に集中できます。（146字）</p>
+  <p><a href="https://github.com/pingdotgg/t3code">⭐ GitHubで見る（総スター: 48,393 / 今週: 16,235）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#4</div>
+  <div class="repo-header">
+    <a href="https://github.com/anthropics/skills" target="_blank" rel="noopener" class="repo-name">anthropics/skills</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+      <span class="stars">⭐ 187,775</span>
+      <span class="weekly">📈 3,072 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Public repository for Agent Skills</p>
+  <div class="summary-block"><details>
+  <summary><strong>#4 anthropics/skills — Anthropic公式のClaude向けエージェントスキル集</strong></summary>
+  <ul>
+    <li>何ができるか：Claudeに特定ドメインのツール実行やデータ処理能力を付与する公式スキル集</li>
+    <li>なぜ注目：Anthropic公式リポジトリとして、高品質かつ安全なエージェント拡張仕様を提供</li>
+    <li>活用ポイント：業務自動化スクリプトや社内ワークフローへの高度なClaudeエージェント組み込み</li>
+  </ul>
+  <p>【詳細】Claudeが外部ツールやデータソースと円滑に連携し、自律的なタスク実行を行うためのスキル定義をまとめた公式リポジトリです。標準化されたインターフェースにより、開発者は独自の拡張機能を容易に追加可能。業務システムの自動化やデータパイプライン処理など、実践的なユースケースに即座に対応できます。（148字）</p>
+  <p><a href="https://github.com/anthropics/skills">⭐ GitHubで見る（総スター: 187,775 / 今週: 3,072）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#5</div>
+  <div class="repo-header">
+    <a href="https://github.com/HKUDS/DeepTutor" target="_blank" rel="noopener" class="repo-name">HKUDS/DeepTutor</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+      <span class="stars">⭐ 55,484</span>
+      <span class="weekly">📈 6,229 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">DeepTutor: Lifelong Personalized Tutoring.https://deeptutor.info/.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#5 HKUDS/DeepTutor — 生涯学習を支えるパーソナライズ型AI家庭教師</strong></summary>
+  <ul>
+    <li>何ができるか：学習者の理解度や進捗に応じた最適な教材提示と個別指導を自律提供</li>
+    <li>なぜ注目：香港大学DSラボ開発による、長期的な記憶と教育理論を統合した高度な推薦機構</li>
+    <li>活用ポイント：エンジニアのスキル習得や資格学習の計画策定・理解度チェックの完全自動化</li>
+  </ul>
+  <p>【詳細】単なる質疑応答にとどまらず、学習者の習熟度や弱点を長期的に追跡・分析するオープンソースのパーソナルAIチューターです。対話を通じて個別の学習ロードマップを自動生成し、理解が浅い概念を重点的に解説・出題することで、効率的な自己学習やリスキリングを包括的にバックアップします。（142字）</p>
+  <p><a href="https://github.com/HKUDS/DeepTutor">⭐ GitHubで見る（総スター: 55,484 / 今週: 6,229）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#6</div>
+  <div class="repo-header">
+    <a href="https://github.com/max-sixty/worktrunk" target="_blank" rel="noopener" class="repo-name">max-sixty/worktrunk</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#dea584"></span>Rust</span>
+      <span class="stars">⭐ 11,530</span>
+      <span class="weekly">📈 1,802 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Worktrunk is a CLI for Git worktree management, designed for parallel AI agent workflows</p>
+  <div class="summary-block"><details>
+  <summary><strong>#6 max-sixty/worktrunk — AI並行開発に最適化したGit worktree運用CLI</strong></summary>
+  <ul>
+    <li>何ができるか：Git worktreeの作成・切り替え・破棄を高速かつシンプルに管理</li>
+    <li>なぜ注目：Rust製で超高速に動作し、複数AIエージェントの同時作業によるブランチ衝突を防止</li>
+    <li>活用ポイント：複数タスクを異なるエージェントへ並行して振る舞わせる自動化パイプライン構築</li>
+  </ul>
+  <p>【詳細】複数のAIエージェントに並行して別タスクをコーディングさせる環境を想定し、Git worktreeの操作を直感的にしたCLIツールです。エージェントごとの作業ディレクトリを瞬時に分離・管理できるため、作業ブランチの切り替えミスや競合を防ぎ、マルチエージェント開発基盤を安全に整えられます。（147字）</p>
+  <p><a href="https://github.com/max-sixty/worktrunk">⭐ GitHubで見る（総スター: 11,530 / 今週: 1,802）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#7</div>
+  <div class="repo-header">
+    <a href="https://github.com/milind-soni/OpenMausBot" target="_blank" rel="noopener" class="repo-name">milind-soni/OpenMausBot</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 13,410</span>
+      <span class="weekly">📈 5,580 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Open-source Grok Bot alternative with a virtual machine that bots can use</p>
+  <div class="summary-block"><details>
+  <summary><strong>#7 milind-soni/OpenMausBot — 仮想マシン環境を備えたオープン版Grok Bot代替</strong></summary>
+  <ul>
+    <li>何ができるか：隔離された仮想マシン上でボットが安全にコード実行やブラウジングを代行</li>
+    <li>なぜ注目：Grok Botライクな実行機能をセルフホスト可能にし、自由なカスタマイズを実現</li>
+    <li>活用ポイント：セキュアな検証環境での自動スクレイピングやコード実行エージェントの運用</li>
+  </ul>
+  <p>【詳細】Grok Botの代替を目指して設計されたオープンソースプロジェクトです。ボット専用の仮想マシン（VM）環境が統合されており、AIが自律的にコマンド実行やブラウザ操作、コード検証を隔離環境で行えます。ホスト環境を汚さずに危険な操作や複雑なリサーチ作業を完全自律化できる点が魅力です。（145字）</p>
+  <p><a href="https://github.com/milind-soni/OpenMausBot">⭐ GitHubで見る（総スター: 13,410 / 今週: 5,580）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#8</div>
+  <div class="repo-header">
+    <a href="https://github.com/obra/superpowers" target="_blank" rel="noopener" class="repo-name">obra/superpowers</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#89e051"></span>Shell</span>
+      <span class="stars">⭐ 313,041</span>
+      <span class="weekly">📈 5,131 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">An agentic skills framework & software development methodology that works.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#8 obra/superpowers — 確実な成果を出すエージェント指向開発フレームワーク</strong></summary>
+  <ul>
+    <li>何ができるか：AIエージェントに実用的な開発手法・ルールを規約として組み込むスキル集</li>
+    <li>なぜ注目：単なるおもちゃではない、実際のソフトウェア開発現場で機能する実践的アプローチ</li>
+    <li>活用ポイント：開発チームでのエージェント運用ルールの標準化や受託開発の品質安定化</li>
+  </ul>
+  <p>【詳細】AIエージェントを現実のソフトウェア開発サイクルに適合させるための開発メソドロジーおよびスキルフレームワークです。シェルスクリプトや規約ベースで構成され、エージェントが暴走せず仕様書に沿ったテスト駆動開発やリファクタリングを遂行できるよう導き、実務投入時の信頼性を飛躍的に高めます。（146字）</p>
+  <p><a href="https://github.com/obra/superpowers">⭐ GitHubで見る（総スター: 313,041 / 今週: 5,131）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#9</div>
+  <div class="repo-header">
+    <a href="https://github.com/pbakaus/impeccable" target="_blank" rel="noopener" class="repo-name">pbakaus/impeccable</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#dea584"></span>Rust</span>
+      <span class="stars">⭐ 103,983</span>
+      <span class="weekly">📈 9,303 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">The design vocabulary for your coding agent. Steer with polish and bolder, review with critique and audit, catch AI slop before it ships.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#9 pbakaus/impeccable — AIのUI品質を監査・研磨するデザイン言語ガイド</strong></summary>
+  <ul>
+    <li>何ができるか：コーディングエージェントに対し厳密なデザイン語彙を与え、UIレビューと改善を指示</li>
+    <li>なぜ注目：リリース前にAI特有の粗雑なデザインを監査（Audit）し、洗練（Polish）可能</li>
+    <li>活用ポイント：フロントエンドのコードレビュー自動化、デザインシステムの厳格な遵守チェック</li>
+  </ul>
+  <p>【詳細】AIコーディングエージェントのための「デザイン語彙集」です。「より大胆に」「磨きをかけて」といった曖昧な要望を具体的なCSS/UIルールに翻訳し、AI自身に監査と自己批評を行わせます。プロのデザイナー目線のフィードバックループを自動化し、商用品質に耐えうるUIを効率的に生成します。（146字）</p>
+  <p><a href="https://github.com/pbakaus/impeccable">⭐ GitHubで見る（総スター: 103,983 / 今週: 9,303）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#10</div>
+  <div class="repo-header">
+    <a href="https://github.com/hyprwm/Hyprland" target="_blank" rel="noopener" class="repo-name">hyprwm/Hyprland</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#f34b7d"></span>C++</span>
+      <span class="stars">⭐ 40,370</span>
+      <span class="weekly">📈 1,371 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Hyprland is an independent, highly customizable, dynamic tiling Wayland compositor that doesn't sacrifice on its looks.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#10 hyprwm/Hyprland — 流麗なアニメーションを誇るWaylandタイル型WM</strong></summary>
+  <ul>
+    <li>何ができるか：高機能なウィンドウ自動配置と滑らかな視覚エフェクトを提供するLinuxデスクトップ環境</li>
+    <li>なぜ注目：高いカスタマイズ性とグラフィカルな美しさを妥協なく両立したモダンな実装</li>
+    <li>活用ポイント：マルチモニタ開発環境の最適化、キーボード完結による開発効率の極大化</li>
+  </ul>
+  <p>【詳細】Wayland上で動作する、美しさと操作性を極めた動的タイル型ウィンドウマネージャです。C++で開発され、GPUアクセラレーションを活かした滑らかな角丸・アニメーション効果を低負荷で実現。画面領域を効率的に使えるため、ターミナルやエディタを多用する開発者から熱烈な支持を受けています。（145字）</p>
+  <p><a href="https://github.com/hyprwm/Hyprland">⭐ GitHubで見る（総スター: 40,370 / 今週: 1,371）</a></p>
+</details></div>
+</div>
+</main>
+</body>
+</html>
