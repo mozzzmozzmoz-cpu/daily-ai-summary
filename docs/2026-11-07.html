@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Digest — 2026-11-07</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg:#0c0c0c; --sur:#141414; --rule:#232323;
+  --txt:#f0f0f0; --txt2:#888; --txt3:#444;
+  --lime:#ccff00; --lime2:#1a2200;
+  --c-3dai:#ff4444; --c-image:#bf5af2; --c-biz:#ff9f0a;
+  --c-japan:#0a84ff; --c-llm:#30d158; --c-news:#636366;
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme=dark]){
+    --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+    --txt:#111; --txt2:#666; --txt3:#aaa;
+    --lime:#5c7a00; --lime2:#edf5c0;
+  }
+}
+:root[data-theme=light]{
+  --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+  --txt:#111; --txt2:#666; --txt3:#aaa;
+  --lime:#5c7a00; --lime2:#edf5c0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+a{color:var(--lime);text-decoration:none}
+a:hover{text-decoration:underline}
+ 
+/* header */
+header{background:var(--bg);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:100}
+.hdr-top{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:12px 20px;max-width:1200px;margin:0 auto}
+.wordmark{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;letter-spacing:-.01em;text-transform:uppercase;color:var(--txt)}
+.wordmark span{color:var(--lime)}
+.hdr-meta{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase}
+.theme-btn{background:transparent;border:1px solid var(--rule);color:var(--txt2);border-radius:4px;padding:5px 10px;font-size:.72rem;cursor:pointer}
+.theme-btn:hover{border-color:var(--txt2)}
+.filter-row{border-top:1px solid var(--rule);overflow-x:auto;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-inner{display:flex;max-width:1200px;margin:0 auto;padding:0 20px}
+.ftab{flex-shrink:0;padding:9px 14px;font-size:.75rem;font-weight:500;color:var(--txt2);border-bottom:2px solid transparent;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;user-select:none}
+.ftab:hover{color:var(--txt)}
+.ftab.active{color:var(--txt);border-bottom-color:var(--lime)}
+ 
+/* page */
+.page{max-width:1200px;margin:0 auto;padding:0 20px 60px}
+.dateline{padding:28px 0 20px;display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--rule)}
+.dl-main{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.6rem;text-transform:uppercase;letter-spacing:-.01em;line-height:1;color:var(--txt)}
+.dl-sub{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase}
+.back-lnk{margin-left:auto;font-size:.78rem;color:var(--txt2);display:flex;align-items:center;gap:5px;flex-shrink:0}
+.back-lnk:hover{color:var(--lime);text-decoration:none}
+ 
+/* grid */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-top:1px}
+.card{background:var(--bg);transition:background .15s}
+.card:hover{background:var(--sur)}
+.card.filtered{display:none}
+ 
+/* magazine sizing */
+.card[data-size=large]{grid-column:span 2;grid-row:span 2}
+.card[data-size=large] .card-img{aspect-ratio:4/3}
+.card[data-size=wide]{grid-column:span 2}
+.card[data-size=wide] .card-img{aspect-ratio:21/9}
+.card[data-size=small] .card-img{aspect-ratio:16/9}
+ 
+/* details / summary */
+details{height:100%;display:flex;flex-direction:column}
+details summary{list-style:none;cursor:pointer;height:100%;display:flex;flex-direction:column}
+details summary::-webkit-details-marker{display:none}
+ 
+/* card image */
+.card-img{width:100%;overflow:hidden;flex-shrink:0;position:relative}
+.card-real-img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+ 
+/* category gradients (fallback when no real image) */
+.card[data-cat=3dai]  .card-img{background:radial-gradient(ellipse 80% 80% at 30% 40%,#3d0a0a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 60% at 72% 65%,#6b1212 0%,transparent 50%)}
+.card[data-cat=image] .card-img{background:radial-gradient(ellipse 90% 70% at 20% 30%,#2d0d4f 0%,#0c0c0c 55%),radial-gradient(ellipse 50% 80% at 78% 60%,#4a1272 0%,transparent 50%)}
+.card[data-cat=biz]   .card-img{background:radial-gradient(ellipse 80% 80% at 40% 40%,#3d2200 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 50% at 75% 65%,#6b3d00 0%,transparent 50%)}
+.card[data-cat=japan] .card-img{background:radial-gradient(ellipse 80% 70% at 30% 35%,#001a3d 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 70%,#003b7a 0%,transparent 45%)}
+.card[data-cat=llm]   .card-img{background:radial-gradient(ellipse 80% 80% at 25% 35%,#062610 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 65%,#0d4820 0%,transparent 50%)}
+.card[data-cat=news]  .card-img{background:radial-gradient(ellipse 80% 70% at 35% 40%,#1a1a1a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 50% at 70% 65%,#2e2e2e 0%,transparent 50%)}
+.card-img::after{content:'';position:absolute;width:40%;height:40%;top:20%;left:15%;border-radius:50%;filter:blur(28px);opacity:.5}
+.card[data-cat=3dai]  .card-img::after{background:#ff4444}
+.card[data-cat=image] .card-img::after{background:#bf5af2}
+.card[data-cat=biz]   .card-img::after{background:#ff9f0a}
+.card[data-cat=japan] .card-img::after{background:#0a84ff}
+.card[data-cat=llm]   .card-img::after{background:#30d158}
+.card[data-cat=news]  .card-img::after{background:#888}
+ 
+/* light mode gradients */
+:root[data-theme=light] .card[data-cat=3dai]  .card-img,
+:root[data-theme=light] .card[data-cat=image] .card-img,
+:root[data-theme=light] .card[data-cat=biz]   .card-img,
+:root[data-theme=light] .card[data-cat=japan] .card-img,
+:root[data-theme=light] .card[data-cat=llm]   .card-img,
+:root[data-theme=light] .card[data-cat=news]  .card-img{filter:brightness(2.5) saturate(.5)}
+ 
+/* card body (text section) */
+.card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:6px}
+.card[data-size=large] .card-body{padding:18px 20px 20px}
+.cat-tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.card[data-cat=3dai]  .cat-tag{color:var(--c-3dai)}
+.card[data-cat=image] .cat-tag{color:var(--c-image)}
+.card[data-cat=biz]   .cat-tag{color:var(--c-biz)}
+.card[data-cat=japan] .cat-tag{color:var(--c-japan)}
+.card[data-cat=llm]   .cat-tag{color:var(--c-llm)}
+.card[data-cat=news]  .cat-tag{color:var(--c-news)}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.15rem;line-height:1.2;color:var(--txt);text-wrap:balance}
+.card[data-size=large] .card-title{font-size:1.9rem;line-height:1.1}
+.card[data-size=wide]  .card-title{font-size:1.4rem}
+.card:hover .card-title{color:var(--lime)}
+.expand-hint{margin-top:auto;font-size:.72rem;color:var(--txt3);display:flex;align-items:center;gap:3px}
+.chev{transition:transform .2s;display:inline-block}
+details[open] .chev{transform:rotate(90deg)}
+ 
+/* expanded body */
+.expand-body{border-top:1px solid var(--rule);padding:18px 16px 20px;background:var(--sur)}
+.card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{padding:20px 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.expand-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.expand-body li{display:flex;gap:8px;font-size:.85rem;line-height:1.55;color:var(--txt)}
+.expand-body li::before{content:counter(li);counter-increment:li;font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:500;color:var(--lime);flex-shrink:0;margin-top:2px;min-width:14px}
+.expand-body ul{counter-reset:li}
+.expand-body p{font-size:.85rem;line-height:1.65;color:var(--txt2);margin-bottom:12px}
+.expand-body a{color:var(--lime);font-weight:500;font-size:.82rem}
+.expand-body a:hover{text-decoration:underline}
+ 
+/* footer */
+.page-foot{font-size:.72rem;color:var(--txt3);margin-top:32px;text-align:center;font-family:'IBM Plex Mono',monospace}
+ 
+/* responsive */
+@media(max-width:900px){
+  .news-grid{grid-template-columns:repeat(2,1fr)}
+  .card[data-size=large]{grid-column:span 2}
+  .card[data-size=wide]{grid-column:span 2}
+  .card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .news-grid{grid-template-columns:1fr}
+  .card[data-size=large],.card[data-size=wide]{grid-column:span 1;grid-row:span 1}
+  .dl-main{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr-top">
+    <div class="wordmark">AI<span>.</span>DIGEST</div>
+    <div class="hdr-meta">毎朝 07:00 JST 自動配信</div>
+    <button class="theme-btn" onclick="(function(){var r=document.documentElement;r.setAttribute('data-theme',r.getAttribute('data-theme')==='light'?'dark':'light')})()">☀ / ☾</button>
+  </div>
+  <div class="filter-row">
+    <div class="filter-inner" id="fb">
+      <div class="ftab active" data-f="all">すべて</div>
+      <div class="ftab" data-f="3dai">🔴 3大AI</div>
+      <div class="ftab" data-f="image">🎨 画像・動画</div>
+      <div class="ftab" data-f="biz">💼 実務・副業</div>
+      <div class="ftab" data-f="japan">🇯🇵 日本のAI</div>
+      <div class="ftab" data-f="llm">🧠 LLM技術</div>
+      <div class="ftab" data-f="news">📰 一般ニュース</div>
+    </div>
+  </div>
+</header>
+<div class="page">
+  <div class="dateline">
+    <div><div class="dl-sub">2026-11-07</div><div class="dl-main">今日のAIニュース</div></div>
+    <div class="dl-sub" style="align-self:flex-end;margin-bottom:5px">9件</div>
+    <a href="index.html" class="back-lnk">‹ 一覧</a>
+  </div>
+  <div class="news-grid" id="grid">
+<article class="card" data-cat="news" data-size="large">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title"></div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <details>
+  <summary><strong>📰 一般AIニュース OpenAI評価額が1.25兆ドルに急騰、資金調達を加速</strong>
+  <ul>
+    <li>要点1：Bloomberg等によると、OpenAIは110億ドルを新規調達し企業評価額が1.25兆ドルに到達</li>
+    <li>要点2：ライバルのAnthropicがIPOに迫る中、AI覇権争いに向けた巨額資金確保の動きが加速</li>
+    <li>要点3：テック業界全体の株式評価やAIインフラ投資への波及効果が極めて大きい</li>
+  </ul>
+  <p>【詳細】OpenAIは評価額8,520億ドルで1,220億ドルを調達した直後にもかかわらず、今回のラウンドで時価総額1.25兆ドル規模という歴史的水準に達しました。競合Anthropicの上場準備が進む中、先端モデル開発やデータセンター拡張に伴う莫大な資本需要に応える狙いがあります。生成AIの商業化競争は民間資金調達の枠を超え、世界最大規模のメガキャップ企業に匹敵する資本戦へ突入しています。</p>
+  <p><a href="https://www.theverge.com/ai-artificial-intelligence/1029380/openai-1-25-trillion-investment-valuation">📎 詳細を見る（出典：AI | The Verge）</a></p>
+</details>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title"></div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <details>
+  <summary><strong>📰 一般AIニュース 中国当局がエヌビディアCEO標的のスパイを画策か</strong>
+  <ul>
+    <li>要点1：中国国家安全部がMegaspeed幹部をリクルートし米AI半導体情報の収集を試みたと報道</li>
+    <li>要点2：ジェンスン・ファンCEOへの接近や高性能AIチップ規制緩和の働きかけが狙いとされる</li>
+    <li>要点3：米中ハイテク摩擦激化に伴い半導体サプライチェーンの地政学リスクが再認識される</li>
+  </ul>
+  <p>【詳細】ニューヨーク・タイムズの報道によると、中国の情報機関がAI関連企業幹部を通じ、米国の最先端AIチップ情報取得やエヌビディア首脳陣への影響力行使を画策していた疑いが浮上しました。米政府による厳しい輸出規制が敷かれる中、軍事・産業競争力に直結する次世代GPU技術を巡る諜報活動が激化しています。AI半導体に関わるグローバル企業にとって、技術流出防止や人事管理のセキュリティ強化が急務となっています。</p>
+  <p><a href="https://www.theverge.com/tech/1029338/nvidia-ceo-jensen-huang-china-spy">📎 詳細を見る（出典：AI | The Verge）</a></p>
+</details>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title"></div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <details>
+  <summary><strong>📰 一般AIニュース AIデータセンター急増で電力供給網と環境への負荷深刻化</strong>
+  <ul>
+    <li>要点1：生成AI処理を支えるメガデータセンター建設ラッシュが送電網や電気代に深刻な影響</li>
+    <li>要点2：地域社会との軋轢や環境負荷増大が政治課題化し、建設計画への反対運動も頻発</li>
+    <li>要点3：エネルギー調達力や省電力アーキテクチャがAI事業継続性の成否を握る重要指標に</li>
+  </ul>
+  <p>【詳細】ハイパースケーラー各社によるサーバー増設競争により、データセンターの電力消費量が急増しています。米国の地方送電網の逼迫や一般家庭の電気料金上昇を招き、超党派の政治的論争に発展する事例が増加しました。安定電源としての原子力発電再稼働や次世代冷却技術の採用など、各社は電力確保を模索していますが、持続可能性とスケーリング要請のバランス維持がAI業界全体の成長上限を規定し始めています。</p>
+  <p><a href="https://www.theverge.com/ai-artificial-intelligence/902546/data-centers-ai-energy-power-grids-controversy">📎 詳細を見る（出典：AI | The Verge）</a></p>
+</details>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title"></div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <details>
+  <summary><strong>🔴 3大AI OpenAI、Hacktronと提携し脆弱性検知を強化</strong>
+  <ul>
+    <li>要点1：セキュリティ企業Hacktronと連携し、フロンティアAIによる自社システム防衛を推進</li>
+    <li>要点2：サードパーティ連携機能の脆弱性検証を自動化し、セキュアなAI運用基準を確立</li>
+    <li>要点3：APIやプラグインを外部連携するエンタープライズ開発における安全対策の参考に</li>
+  </ul>
+  <p>【詳細】OpenAIは最先端AIモデルを活用したプロアクティブなサイバー防御体制の構築に向け、Hacktronとのパートナーシップを発表しました。外部サービスとの複雑な連携ポイントに潜む未知の脆弱性を洗い出し、悪意あるエクスプロイトを未然に防ぐことが目的です。エージェント機能の普及に伴い外部ツール連携のリスクが高まる中、AIモデル自身を防衛機構として組み込む新たなセキュリティパラダイムの実装が進んでいます。</p>
+  <p><a href="https://openai.com/index/partnering-with-hacktron">📎 詳細を見る（出典：OpenAI News）</a></p>
+</details>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/image1-12.jpg" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title"></div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <details>
+  <summary><strong>🔴 3大AI 生物実験データを評価するベンチマークをOpenAIが発表</strong>
+  <ul>
+    <li>要点1：AIエージェントの生データ解釈力を測定する100課題の「BioBasicsBench」公開</li>
+    <li>要点2：ウェットラボにおける日常的な実験データの分析・推論能力を定量評価可能に</li>
+    <li>要点3：バイオインフォマティクスや創薬支援AIエージェントの開発精度向上に直結</li>
+  </ul>
+  <p>【詳細】OpenAIが公開したBioBasicsBenchは、研究室で得られる未加工の実験結果をAIが正しく理解し、科学的推論を行えるかを検証するテストスイートです。従来の言語ベースの知識テストとは異なり、実験ノイズを含む複雑な生物学データの解釈実務に焦点を当てています。製薬やライフサイエンス分野での自律型リサーチエージェント実用化に向け、モデルの真の実力を測る客観的な評価指標として貢献が期待されます。</p>
+  <p><a href="https://openai.com/index/measuring-how-ai-agents-handle-wet-lab-science">📎 詳細を見る（出典：OpenAI News）</a></p>
+</details>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/awan_give_ai_agent_memory_2.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title"></div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <details>
+  <summary><strong>🔴 3大AI ロボット学習・評価向け仮想環境「ToyBlocks」公開</strong>
+  <ul>
+    <li>要点1：AllenAIがロボットの行動学習と汎化性能評価を行う制御シミュレーションを開発</li>
+    <li>要点2：ブロック操作を通じた物理的相互作用の精密なベンチマーク環境を提供</li>
+    <li>要点3：物理AI・エンボディドAI開発の学習コスト削減とアルゴリズム検証を大幅に加速</li>
+  </ul>
+  <p>【詳細】Hugging Faceブログで紹介されたToyBlocksは、ロボットの強化学習や模倣学習を効率化するために設計された制御シミュレーション環境です。物理環境の不確実性やオブジェクト操作のタスクを統制された条件下で再現でき、モデルの汎化能力を厳密に比較評価できます。実機検証に多大なコストがかかるエンボディドAI分野において、開発サイクルの迅速化とオープンなモデル評価を後押しする基盤として注目されます。</p>
+  <p><a href="https://huggingface.co/blog/allenai/toyblocks">📎 詳細を見る（出典：Hugging Face - Blog）</a></p>
+</details>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title"></div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <details>
+  <summary><strong>💼 実務・副業・トレンド OpenAI SDKとMem0でAIエージェントに長期記憶を実装</strong>
+  <ul>
+    <li>要点1：OpenAI Agents SDK、Mem0、MCPを活用したセッション横断記憶の構築手法を解説</li>
+    <li>要点2：ユーザーの過去の嗜好や対話履歴を保持し、パーソナライズされた応答を実現</li>
+    <li>要点3：社内業務アシスタントや継続的カスタマーサポート開発の実装工数を削減可能</li>
+  </ul>
+  <p>【詳細】単発のプロンプト処理を超え、複数セッションにわたって文脈を保持する自律型エージェントの構築テクニックが公開されました。オープンソースのメモリレイヤーMem0とModel Context Protocol（MCP）を組み合わせることで、対話ごとのコンテキスト破綻を防止します。実務において顧客対応ボットの個別最適化や複雑なプロジェクト管理AIを実装するエンジニアにとって、即座に活用できる実践的ノウハウです。</p>
+  <p><a href="https://www.kdnuggets.com/how-to-give-your-ai-agent-memory">📎 詳細を見る（出典：KDnuggets）</a></p>
+</details>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title"></div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <details>
+  <summary><strong>💼 実務・副業・トレンド 365 Data Scienceが全134講座を期間限定で無料開放</strong>
+  <ul>
+    <li>要点1：11月20日までAI・データサイエンス全134講座と修了証が完全無料で利用可能</li>
+    <li>要点2：実践的なハンズオンプロジェクトを含む専門カリキュラムでスキルアップを支援</li>
+    <li>要点3：AI関連のリスキリングや副業・転職に向けた実績ポートフォリオ作りに最適</li>
+  </ul>
+  <p>【詳細】365 Data Scienceが提供する包括的な教育プラットフォームが、期間限定で無制限アクセスを無償提供しています。Pythonプログラミング、機械学習、データ分析から生成AI活用まで幅広いコースが揃っており、受講修了時には認定資格も取得可能です。急激に需要が高まるAIデータ人材を目指すエンジニアやビジネスパーソンにとって、費用をかけずに体系的なスキルを習得する絶好の機会となっています。</p>
+  <p><a href="https://www.kdnuggets.com/2026/10/365careers/free-ai-and-data-courses-with-365-data-science-100-unlimited-access-until-nov-20">📎 詳細を見る（出典：KDnuggets）</a></p>
+</details>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title"></div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <details>
+  <summary><strong>💼 実務・副業・トレンド 美容トレンド「フェリチン顔」がSNSで拡散、内面重視へ</strong>
+  <ul>
+    <li>要点1：TikTok等で鉄分不足が肌に及ぼす影響を指す「ferritin face」がバイラル化</li>
+    <li>要点2：外側のスキンケアだけでなく、体内の栄養状態や血液検査に基づくアプローチが台頭</li>
+    <li>要点3：ヘルスケアテックやパーソナライズドサプリメント市場への関心喚起に寄与</li>
+  </ul>
+  <p>【詳細】SNS上で話題となっている「フェリチン顔」は、貯蔵鉄である血清フェリチンの低下が引き起こす肌のくすみや疲労感に着目したトレンドです。表面的な化粧品による対処療法から、血液検査やインナーケアを通じた根本的改善へと消費者の関心が移行しています。健康データ解析や個別化ヘルスケアソリューションに対する一般ユーザーの需要拡大を示しており、ウェルネス領域のマーケティングにも影響を与えています。</p>
+  <p><a href="https://news.google.com/rss/articles/CBMiU0FVX3lxTE5yLWtwVkxFTUNnZVNvN1BHNlUyUDU4YVk4NzVMVDBnUTVpSkhDU1hRbkZiak9QRmhPSkpJY3lvZ2NQWGpDd3NEejRpVlpLSVZJSzJZ?oc=5">📎 詳細を見る（出典："AI trend viral new tool launched" - Google News）</a></p>
+</details>
+    </div>
+  </details>
+</article>
+  </div>
+  <p class="page-foot">自動生成 by Gemini + GitHub Actions</p>
+</div>
+<script>
+document.getElementById('fb').addEventListener('click',function(e){
+  var t=e.target.closest('[data-f]');if(!t)return;
+  var f=t.dataset.f;
+  document.querySelectorAll('.ftab').forEach(function(x){x.classList.remove('active')});
+  t.classList.add('active');
+  document.querySelectorAll('.card').forEach(function(c){
+    c.classList.toggle('filtered',f!=='all'&&c.dataset.cat!==f);
+  });
+});
+</script>
+</body>
+</html>
