@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Digest — 2026-11-10</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg:#0c0c0c; --sur:#141414; --rule:#232323;
+  --txt:#f0f0f0; --txt2:#888; --txt3:#444;
+  --lime:#ccff00; --lime2:#1a2200;
+  --c-3dai:#ff4444; --c-image:#bf5af2; --c-biz:#ff9f0a;
+  --c-japan:#0a84ff; --c-llm:#30d158; --c-news:#636366;
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme=dark]){
+    --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+    --txt:#111; --txt2:#666; --txt3:#aaa;
+    --lime:#5c7a00; --lime2:#edf5c0;
+  }
+}
+:root[data-theme=light]{
+  --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+  --txt:#111; --txt2:#666; --txt3:#aaa;
+  --lime:#5c7a00; --lime2:#edf5c0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+a{color:var(--lime);text-decoration:none}
+a:hover{text-decoration:underline}
+ 
+/* header */
+header{background:var(--bg);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:100}
+.hdr-top{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:12px 20px;max-width:1200px;margin:0 auto}
+.wordmark{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;letter-spacing:-.01em;text-transform:uppercase;color:var(--txt)}
+.wordmark span{color:var(--lime)}
+.hdr-meta{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase}
+.theme-btn{background:transparent;border:1px solid var(--rule);color:var(--txt2);border-radius:4px;padding:5px 10px;font-size:.72rem;cursor:pointer}
+.theme-btn:hover{border-color:var(--txt2)}
+.filter-row{border-top:1px solid var(--rule);overflow-x:auto;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-inner{display:flex;max-width:1200px;margin:0 auto;padding:0 20px}
+.ftab{flex-shrink:0;padding:9px 14px;font-size:.75rem;font-weight:500;color:var(--txt2);border-bottom:2px solid transparent;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;user-select:none}
+.ftab:hover{color:var(--txt)}
+.ftab.active{color:var(--txt);border-bottom-color:var(--lime)}
+ 
+/* page */
+.page{max-width:1200px;margin:0 auto;padding:0 20px 60px}
+.dateline{padding:28px 0 20px;display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--rule)}
+.dl-main{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.6rem;text-transform:uppercase;letter-spacing:-.01em;line-height:1;color:var(--txt)}
+.dl-sub{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase}
+.back-lnk{margin-left:auto;font-size:.78rem;color:var(--txt2);display:flex;align-items:center;gap:5px;flex-shrink:0}
+.back-lnk:hover{color:var(--lime);text-decoration:none}
+ 
+/* grid */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-top:1px}
+.card{background:var(--bg);transition:background .15s}
+.card:hover{background:var(--sur)}
+.card.filtered{display:none}
+ 
+/* magazine sizing */
+.card[data-size=large]{grid-column:span 2;grid-row:span 2}
+.card[data-size=large] .card-img{aspect-ratio:4/3}
+.card[data-size=wide]{grid-column:span 2}
+.card[data-size=wide] .card-img{aspect-ratio:21/9}
+.card[data-size=small] .card-img{aspect-ratio:16/9}
+ 
+/* details / summary */
+details{height:100%;display:flex;flex-direction:column}
+details summary{list-style:none;cursor:pointer;height:100%;display:flex;flex-direction:column}
+details summary::-webkit-details-marker{display:none}
+ 
+/* card image */
+.card-img{width:100%;overflow:hidden;flex-shrink:0;position:relative}
+.card-real-img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+ 
+/* category gradients (fallback when no real image) */
+.card[data-cat=3dai]  .card-img{background:radial-gradient(ellipse 80% 80% at 30% 40%,#3d0a0a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 60% at 72% 65%,#6b1212 0%,transparent 50%)}
+.card[data-cat=image] .card-img{background:radial-gradient(ellipse 90% 70% at 20% 30%,#2d0d4f 0%,#0c0c0c 55%),radial-gradient(ellipse 50% 80% at 78% 60%,#4a1272 0%,transparent 50%)}
+.card[data-cat=biz]   .card-img{background:radial-gradient(ellipse 80% 80% at 40% 40%,#3d2200 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 50% at 75% 65%,#6b3d00 0%,transparent 50%)}
+.card[data-cat=japan] .card-img{background:radial-gradient(ellipse 80% 70% at 30% 35%,#001a3d 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 70%,#003b7a 0%,transparent 45%)}
+.card[data-cat=llm]   .card-img{background:radial-gradient(ellipse 80% 80% at 25% 35%,#062610 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 65%,#0d4820 0%,transparent 50%)}
+.card[data-cat=news]  .card-img{background:radial-gradient(ellipse 80% 70% at 35% 40%,#1a1a1a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 50% at 70% 65%,#2e2e2e 0%,transparent 50%)}
+.card-img::after{content:'';position:absolute;width:40%;height:40%;top:20%;left:15%;border-radius:50%;filter:blur(28px);opacity:.5}
+.card[data-cat=3dai]  .card-img::after{background:#ff4444}
+.card[data-cat=image] .card-img::after{background:#bf5af2}
+.card[data-cat=biz]   .card-img::after{background:#ff9f0a}
+.card[data-cat=japan] .card-img::after{background:#0a84ff}
+.card[data-cat=llm]   .card-img::after{background:#30d158}
+.card[data-cat=news]  .card-img::after{background:#888}
+ 
+/* light mode gradients */
+:root[data-theme=light] .card[data-cat=3dai]  .card-img,
+:root[data-theme=light] .card[data-cat=image] .card-img,
+:root[data-theme=light] .card[data-cat=biz]   .card-img,
+:root[data-theme=light] .card[data-cat=japan] .card-img,
+:root[data-theme=light] .card[data-cat=llm]   .card-img,
+:root[data-theme=light] .card[data-cat=news]  .card-img{filter:brightness(2.5) saturate(.5)}
+ 
+/* card body (text section) */
+.card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:6px}
+.card[data-size=large] .card-body{padding:18px 20px 20px}
+.cat-tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.card[data-cat=3dai]  .cat-tag{color:var(--c-3dai)}
+.card[data-cat=image] .cat-tag{color:var(--c-image)}
+.card[data-cat=biz]   .cat-tag{color:var(--c-biz)}
+.card[data-cat=japan] .cat-tag{color:var(--c-japan)}
+.card[data-cat=llm]   .cat-tag{color:var(--c-llm)}
+.card[data-cat=news]  .cat-tag{color:var(--c-news)}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.15rem;line-height:1.2;color:var(--txt);text-wrap:balance}
+.card[data-size=large] .card-title{font-size:1.9rem;line-height:1.1}
+.card[data-size=wide]  .card-title{font-size:1.4rem}
+.card:hover .card-title{color:var(--lime)}
+.expand-hint{margin-top:auto;font-size:.72rem;color:var(--txt3);display:flex;align-items:center;gap:3px}
+.chev{transition:transform .2s;display:inline-block}
+details[open] .chev{transform:rotate(90deg)}
+ 
+/* expanded body */
+.expand-body{border-top:1px solid var(--rule);padding:18px 16px 20px;background:var(--sur)}
+.card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{padding:20px 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.expand-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.expand-body li{display:flex;gap:8px;font-size:.85rem;line-height:1.55;color:var(--txt)}
+.expand-body li::before{content:counter(li);counter-increment:li;font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:500;color:var(--lime);flex-shrink:0;margin-top:2px;min-width:14px}
+.expand-body ul{counter-reset:li}
+.expand-body p{font-size:.85rem;line-height:1.65;color:var(--txt2);margin-bottom:12px}
+.expand-body a{color:var(--lime);font-weight:500;font-size:.82rem}
+.expand-body a:hover{text-decoration:underline}
+ 
+/* footer */
+.page-foot{font-size:.72rem;color:var(--txt3);margin-top:32px;text-align:center;font-family:'IBM Plex Mono',monospace}
+ 
+/* responsive */
+@media(max-width:900px){
+  .news-grid{grid-template-columns:repeat(2,1fr)}
+  .card[data-size=large]{grid-column:span 2}
+  .card[data-size=wide]{grid-column:span 2}
+  .card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .news-grid{grid-template-columns:1fr}
+  .card[data-size=large],.card[data-size=wide]{grid-column:span 1;grid-row:span 1}
+  .dl-main{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr-top">
+    <div class="wordmark">AI<span>.</span>DIGEST</div>
+    <div class="hdr-meta">毎朝 07:00 JST 自動配信</div>
+    <button class="theme-btn" onclick="(function(){var r=document.documentElement;r.setAttribute('data-theme',r.getAttribute('data-theme')==='light'?'dark':'light')})()">☀ / ☾</button>
+  </div>
+  <div class="filter-row">
+    <div class="filter-inner" id="fb">
+      <div class="ftab active" data-f="all">すべて</div>
+      <div class="ftab" data-f="3dai">🔴 3大AI</div>
+      <div class="ftab" data-f="image">🎨 画像・動画</div>
+      <div class="ftab" data-f="biz">💼 実務・副業</div>
+      <div class="ftab" data-f="japan">🇯🇵 日本のAI</div>
+      <div class="ftab" data-f="llm">🧠 LLM技術</div>
+      <div class="ftab" data-f="news">📰 一般ニュース</div>
+    </div>
+  </div>
+</header>
+<div class="page">
+  <div class="dateline">
+    <div><div class="dl-sub">2026-11-10</div><div class="dl-main">今日のAIニュース</div></div>
+    <div class="dl-sub" style="align-self:flex-end;margin-bottom:5px">9件</div>
+    <a href="index.html" class="back-lnk">‹ 一覧</a>
+  </div>
+  <div class="news-grid" id="grid">
+<article class="card" data-cat="news" data-size="large">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">トランプ氏、NVIDIAフアンCEOの報道に言及</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：トランプ大統領が会見で、NVIDIAのフアンCEOに関する疑惑報道への認識を表明</li>
+    <li>要点2：世界最大のAI半導体企業の首脳動静が米中摩擦や企業統治リスクとして浮上</li>
+    <li>要点3：投資家は同社ガバナンスの動向や対中規制に伴う株価変動リスクに警戒が必要</li>
+  </ul>
+  <p>【詳細】ホワイトハウスの記者会見で、トランプ大統領はNVIDIAのジェンスン・フアンCEOに関する報道について質問を受けました。フアン氏は自身の不貞行為を認め、同社内部でも調査が進められていると報じられています。AIチップの絶対的な覇権を握り米国先端インフラの屋台骨となっている同社トップの動向だけに、政界や市場全体を巻き込む重大な関心事へ発展しています。（172字）</p>
+  <p><a href="https://www.theverge.com/tech/1030446/trump-jensen-huang-press-conference">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">ChatGPT EnterpriseがAWSで提供開始</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：ChatGPT Enterpriseが「AWS Marketplace」を通じて調達・導入可能に</li>
+    <li>要点2：既存のAWS請求基盤と一元化され、エンタープライズ企業の導入障壁が大幅に低減</li>
+    <li>要点3：自社のAWS利用枠やコミットメント予算を活用した生成AI導入の最適化が可能</li>
+  </ul>
+  <p>【詳細】OpenAIは、法人向け最上位プラン「ChatGPT Enterprise」をAWS Marketplaceに出品したと発表しました。従来は個別の契約手続きが必要でしたが、世界中のAWS利用企業は既存の購入契約や請求ルートをそのまま利用して迅速にライセンス調達が可能となります。大企業におけるAIガバナンス構築と調達プロセスの簡素化が同時に進み、企業現場への普及が一段と加速します。（180字）</p>
+  <p><a href="https://openai.com/index/chatgpt-enterprise-aws-marketplace">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">米中ハイテク摩擦とNVIDIAのAI半導体覇権</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：NVIDIAチップが米AIインフラの基盤となる一方、中国側の獲得需要が継続</li>
+    <li>要点2：先端GPUの供給制限が米中半導体覇権争いの最大の焦点であり続けている事実</li>
+    <li>要点3：輸出規制強化やサプライチェーン再編に伴うハイテク株の地政学リスクを注視</li>
+  </ul>
+  <p>【詳細】AIブームの中心にあるNVIDIA製GPUは、米国での開発基盤を支える一方、長年需要が供給を上回り続けています。米政府の厳格な輸出規制にもかかわらず、中国市場は高度な演算能力を激しく求めており、フアンCEOの手腕と同社のエコシステムが世界情勢に直結しています。新興AI企業への大規模出資も展開する同社の影響力は、もはや単なる半導体企業を超え国際政治の結節点となっています。（179字）</p>
+  <p><a href="https://www.theverge.com/ai-artificial-intelligence/1030328/what-could-china-get-from-jensen-huang">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">OpenAI、モデル緊急停止システムを公開</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：研究インフラ全体のモデルワークロードを追跡・即座に遮断するシステムを開発</li>
+    <li>要点2：安全性やセキュリティ上の重大リスク発生時に強制介入できる防衛網を構築</li>
+    <li>要点3：大規模AI運用の監視体制として企業向けセーフティ設計の参考基準に</li>
+  </ul>
+  <p>【詳細】OpenAIは、研究開発インフラ上で稼働する全モデルのワークロードをリアルタイムで監視・統括する中央管理システム「Control Room」の詳細を公表しました。安全面や機密保持上の懸念が検知された場合、プロセスを迅速に停止させることが可能です。自律型エージェントや次世代フロンティアモデルの開発加速に伴い、破滅的リスクや逸脱動作を物理的に防ぐセーフガードとして機能します。（177字）</p>
+  <p><a href="https://openai.com/index/control-room">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/Rosidi-Can-AI-Spot-Data-Leakage-1.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">パラマウントCEO、AIは最大の創造性解放と主張</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Paramount SkydanceのエリソンCEOが決算でAIはCGI以上の衝撃と発言</li>
+    <li>要点2：映画・映像制作のワークフローが根本から再定義され制作費と効率が激変</li>
+    <li>要点3：映像・アニメ制作関連の投資判断やクリエイティブツールの刷新動向に注目</li>
+  </ul>
+  <p>【詳細】Paramount Skydanceのデヴィッド・エリソンCEOは最新の決算説明会で、AI技術が映像産業にもたらす変革はかつてのCGI登場をはるかに凌駕すると語りました。制作工程全体の俯瞰において、AIは「近代史上最大のクリエイティブな解放」をもたらすポテンシャルを秘めていると強調。ハリウッド大手による生成AIへの積極姿勢が鮮明になり、コンテンツ制作現場の自動化が加速します。（179字）</p>
+  <p><a href="https://www.theverge.com/entertainment/1030510/paramount-skydance-david-ellison-ai">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/KDn-Bala-5-Useful-Python-Automation-Scripts.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">CodeRabbit、AI活用でソフト出荷量を20倍に</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：OpenAIモデルとCodexを活用し、開発チームのソフトウェア出荷量を20倍へ拡大</li>
+    <li>要点2：AI生成コードの統制と信頼性検証を自動化しエージェント型開発をスケール</li>
+    <li>要点3：自社開発チームの人員を増やさず劇的な生産性向上を達成する先行事例</li>
+  </ul>
+  <p>【詳細】AIコードレビュープラットフォームのCodeRabbitは、OpenAIの技術基盤を統合することで、エンジニアの組織規模を維持したまま出荷ソフト量を20倍にスケールさせたと発表しました。単にコードを自動生成するだけでなく、生成されたコードのガバナンスと検証をエージェント型アプローチで自動処理します。品質保証と爆発的な開発スピードを両立する実践的な開発モデルとして注目されます。（180字）</p>
+  <p><a href="https://openai.com/index/coderabbit-codex-daybreak">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">Instagram、AIストーリーズ効果ビルダー提供</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Instagramが独自のエフェクトを生成できるAIフィルタービルダーを公開</li>
+    <li>要点2：高度な制作スキルなしに直感的な操作でオリジナルAR体験の自作が可能に</li>
+    <li>要点3：SNSマーケティングや個人クリエイターのエンゲージメント向上に直結</li>
+  </ul>
+  <p>【詳細】Instagramは、ストーリーズ向けのカスタムエフェクトを誰でも簡単に自作できる新しいAIフィルター作成機能をローンチしました。これまで専門知識や専用ソフトが必要だったエフェクト開発が、AI支援により手軽に行えるようになります。クリエイターエコノミーの活性化を狙うとともに、ショート動画やストーリーズを活用する企業のブランド訴求やファン獲得施策にも有効なツールとなります。（177字）</p>
+  <p><a href="https://news.google.com/rss/articles/CBMinAFBVV95cUxOTnZkWmFLV2xOLU0xaWk0bTdnVFl4Q0NXckw2RXVIZzNkQVY2S2tJb2FvNEcySnRzSWNHVW0tcmRab2xQNlZkajgxQU5Fcmk3UDNyV3BJX1dRckh5ZjN3MlY3bkc3UnR2Mkp6VWx6Nkh2Yno0RjBhdmhHUUN4R0k1M09WT3BUVGIzQk9vQW8wUWtyLURKNi1hQzM0OW0?oc=5">📎 詳細を見る（出典："AI trend viral new tool launched" - Google News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">AIによる学習データの情報漏洩の事前検知</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：実データに埋め込んだ4種の典型的リークを4つのモデルでブラインド検証</li>
+    <li>要点2：精度99%の偽装高精度に騙されず訓練前のデータ漏洩を見抜く検証法を提示</li>
+    <li>要点3：機械学習実務における過学習や本番導入後の予期せぬ精度劣化を防止</li>
+  </ul>
+  <p>【詳細】機械学習モデルが訓練時にテストデータを参照してしまう「データリーク」は、겉見かけの精度だけが異常に高くなる重大な不具合です。KDnuggetsの記事では、実際のデータセットに意図的に4つの典型的な漏洩を仕込み、4種類のモデルが事態を検知できるかを冷厳に検証しています。本番運用で破綻する無価値なモデルのデプロイを防ぐため、データサイエンティスト必須のチェック手法を学べます。（180字）</p>
+  <p><a href="https://www.kdnuggets.com/can-ai-spot-data-leakage-before-your-model-hits-99-accuracy">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">初心者向けPython業務自動化スクリプト5選</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：ファイル整理、画像処理、ルーチン業務を省力化する5つのスクリプトを解説</li>
+    <li>要点2：プログラミング初学者でも短時間で日々のPC作業を自動化できる構成</li>
+    <li>要点3：副業での事務代行や日常のデータ処理業務を効率化して工数を削減</li>
+  </ul>
+  <p>【詳細】KDnuggetsが、プログラミング初心者向けに実用的な5つのPython自動化スクリプトを公開しました。散らかったフォルダ内のファイル自動分類、画像の一括リサイズやフォーマット変換など、手作業で行うと膨大な時間がかかる定型タスクを数行のコードで解決します。特別な環境構築を最小限に抑え、日々のデスクワークの時短や副業実務での即戦力スキルとして幅広く活用できます。（175字）</p>
+  <p><a href="https://www.kdnuggets.com/5-useful-python-automation-scripts-for-beginners">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+  </div>
+  <p class="page-foot">自動生成 by Gemini + GitHub Actions</p>
+</div>
+<script>
+document.getElementById('fb').addEventListener('click',function(e){
+  var t=e.target.closest('[data-f]');if(!t)return;
+  var f=t.dataset.f;
+  document.querySelectorAll('.ftab').forEach(function(x){x.classList.remove('active')});
+  t.classList.add('active');
+  document.querySelectorAll('.card').forEach(function(c){
+    c.classList.toggle('filtered',f!=='all'&&c.dataset.cat!==f);
+  });
+});
+</script>
+</body>
+</html>
