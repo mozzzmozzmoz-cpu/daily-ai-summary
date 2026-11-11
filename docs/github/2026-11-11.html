@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GitHub Top 10 — 11月11日</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a; --surface: #141414; --border: #2a2a2a;
+    --text: #e8e8e8; --muted: #888; --accent: #ff4444;
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #f5f5f5; --surface: #fff; --border: #e0e0e0; --text: #111; --muted: #666; }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', system-ui, sans-serif; }
+  header {
+    border-bottom: 3px solid var(--accent); padding: 16px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  header h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em;
+  }
+  header h1 span { color: var(--accent); }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .date-badge {
+    font-size: 0.75rem; color: var(--muted);
+    padding: 4px 10px; border: 1px solid var(--border); border-radius: 4px;
+  }
+  .back-link { color: var(--muted); font-size: 0.85rem; text-decoration: none; }
+  .back-link:hover { color: var(--text); }
+  main { max-width: 800px; margin: 0 auto; padding: 24px; }
+  .repo-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px; margin-bottom: 16px;
+    transition: border-color 0.15s;
+  }
+  .repo-card:hover { border-color: var(--accent); }
+  .rank {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2.2rem; font-weight: 800; color: var(--accent);
+    line-height: 1; margin-bottom: 6px;
+  }
+  .repo-name {
+    font-size: 1.1rem; font-weight: 700;
+    color: var(--text); text-decoration: none;
+  }
+  .repo-name:hover { color: var(--accent); }
+  .repo-meta {
+    display: flex; gap: 14px; margin-top: 6px;
+    font-size: 0.8rem; color: var(--muted); align-items: center; flex-wrap: wrap;
+  }
+  .lang { display: flex; align-items: center; gap: 4px; }
+  .lang-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .stars { color: #f1c40f; }
+  .weekly { color: #2ecc71; font-weight: 600; }
+  .repo-desc { margin: 10px 0 0; font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
+  .summary-block { margin-top: 14px; }
+  .summary-block details {}
+  .summary-block summary {
+    cursor: pointer; font-weight: 600; font-size: 0.9rem;
+    list-style: none; padding: 8px 0; display: flex; align-items: flex-start; gap: 6px;
+  }
+  .summary-block summary::-webkit-details-marker { display: none; }
+  .summary-block summary::before { content: "▶"; color: var(--accent); font-size: 0.65rem; margin-top: 3px; flex-shrink: 0; }
+  .summary-block details[open] summary::before { content: "▼"; }
+  .summary-block ul { margin: 8px 0 8px 20px; font-size: 0.87rem; line-height: 1.75; }
+  .summary-block ul li { margin-bottom: 4px; }
+  .summary-block p { font-size: 0.87rem; line-height: 1.7; margin-top: 8px; color: var(--muted); }
+  .summary-block a { color: var(--accent); text-decoration: none; }
+  .summary-block a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<header>
+  <h1>⭐ GitHub <span>Top 10</span></h1>
+  <div class="header-right">
+    <span class="date-badge">11月11日 週間</span>
+    <a href="../index.html" class="back-link">← Archive</a>
+  </div>
+</header>
+<main>
+
+<div class="repo-card">
+  <div class="rank">#1</div>
+  <div class="repo-header">
+    <a href="https://github.com/NVIDIA/auto-ontology" target="_blank" rel="noopener" class="repo-name">NVIDIA/auto-ontology</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+      <span class="stars">⭐ 11,472</span>
+      <span class="weekly">📈 9,621 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Auto Ontology is a Python framework for building semantic, graph-based reasoning layers over data. It enables deterministic query generation, better context retrieval, and more explainable AI for LLM and agent workflows.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#1 NVIDIA/auto-ontology — データから意味論的グラフ層を構築する推論基盤</strong></summary>
+  <ul>
+    <li>何ができるか：非構造化・構造化データからオントロジー（概念関係図）を自動抽出しグラフ化</li>
+    <li>なぜ注目：LLMが決定論的なクエリ生成を行えるようになりハルシネーションを大幅抑制</li>
+    <li>活用ポイント：社内文書や独自DBに接続し、高精度な社内向け推論・検索エージェントを構築</li>
+  </ul>
+  <p>【詳細】NVIDIAが公開したLLMワークフロー向けのセマンティック推論フレームワークです。データを単なるベクトルとして扱うのではなく、概念関係を定義したグラフ構造へ自動変換します。これにより説明可能性の高いコンテキスト取得や確実なクエリ生成が可能となり、業務特化型AIの信頼性向上に寄与します。（148字）</p>
+  <p><a href="https://github.com/NVIDIA/auto-ontology">⭐ GitHubで見る（総スター: 11,472 / 今週: 9,621 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#2</div>
+  <div class="repo-header">
+    <a href="https://github.com/vercel-labs/agent-desktop" target="_blank" rel="noopener" class="repo-name">vercel-labs/agent-desktop</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#dea584"></span>Rust</span>
+      <span class="stars">⭐ 21,415</span>
+      <span class="weekly">📈 9,502 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Computer use CLI for AI agents</p>
+  <div class="summary-block"><details>
+  <summary><strong>#2 vercel-labs/agent-desktop — AIエージェント向け高速PC操作CLIツール</strong></summary>
+  <ul>
+    <li>何ができるか：画面認識やキーボード・マウス操作をコマンドライン経由でAIに提供</li>
+    <li>なぜ注目：VercelがRustで開発した「Computer Use」特化の高速かつ堅牢な実装</li>
+    <li>活用ポイント：デスクトップアプリの手動テストや定型データ入力タスクの完全自動化</li>
+  </ul>
+  <p>【詳細】AIエージェントがデスクトップ環境をGUIレベルで直接操作するための基盤CLIです。軽量・高速なRust実装により、レイテンシを抑えた画面キャプチャやポインタ操作を実現します。ブラウザ外のデスクトップソフトウェアを連携させた複雑なタスク自動化パイプラインの構築に威力を発揮します。（145字）</p>
+  <p><a href="https://github.com/vercel-labs/agent-desktop">⭐ GitHubで見る（総スター: 21,415 / 今週: 9,502 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#3</div>
+  <div class="repo-header">
+    <a href="https://github.com/anthropics/skills" target="_blank" rel="noopener" class="repo-name">anthropics/skills</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+      <span class="stars">⭐ 192,362</span>
+      <span class="weekly">📈 5,014 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Public repository for Agent Skills</p>
+  <div class="summary-block"><details>
+  <summary><strong>#3 anthropics/skills — Anthropic公式のAIエージェント拡張スキル集</strong></summary>
+  <ul>
+    <li>何ができるか：Claude等にWeb検索やファイル操作、API連携などの実行能力を追加</li>
+    <li>なぜ注目：Anthropic自らがベストプラクティスとして保守・公開する標準スキル群</li>
+    <li>活用ポイント：Claudeベースの自作エージェントや業務Botに即座に高度なツール利用能力を付与</li>
+  </ul>
+  <p>【詳細】AIエージェントの自律的なタスク遂行に不可欠な「スキル（ツール呼び出し定義）」の公式リポジトリです。プロンプト設計やエラーハンドリングの標準が示されており、開発者は車輪の再発明を避けてセキュアかつ堅牢なツール実行環境を迅速に自社エージェントへ統合できます。（135字）</p>
+  <p><a href="https://github.com/anthropics/skills">⭐ GitHubで見る（総スター: 192,362 / 今週: 5,014 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#4</div>
+  <div class="repo-header">
+    <a href="https://github.com/milind-soni/OpenMausBot" target="_blank" rel="noopener" class="repo-name">milind-soni/OpenMausBot</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 20,656</span>
+      <span class="weekly">📈 8,951 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Open-source Grok Bot alternative with a virtual machine that bots can use</p>
+  <div class="summary-block"><details>
+  <summary><strong>#4 milind-soni/OpenMausBot — 仮想マシン連携を備えたOSS版Grokボット</strong></summary>
+  <ul>
+    <li>何ができるか：安全なサンドボックスVM内でコード実行やブラウジングを行うAIボット</li>
+    <li>なぜ注目：xAIのGrokに類似した自律的環境操作をOSSかつセルフホストで再現</li>
+    <li>活用ポイント：ホスト環境を汚さずに危険なスクリプト検証やWebデータ収集を自動化</li>
+  </ul>
+  <p>【詳細】隔離された仮想マシンを活用して自律的なタスク検証を行うオープンソースBotです。エージェントがコードのコンパイルやWebブラウジングを安全に試行錯誤できる環境を提供します。自己完結型の自動検証システムをセキュアに構築したいエンジニアにとって有力な選択肢となります。（138字）</p>
+  <p><a href="https://github.com/milind-soni/OpenMausBot">⭐ GitHubで見る（総スター: 20,656 / 今週: 8,951 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#5</div>
+  <div class="repo-header">
+    <a href="https://github.com/max-sixty/worktrunk" target="_blank" rel="noopener" class="repo-name">max-sixty/worktrunk</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#dea584"></span>Rust</span>
+      <span class="stars">⭐ 12,401</span>
+      <span class="weekly">📈 2,093 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Worktrunk is a CLI for Git worktree management, designed for parallel AI agent workflows</p>
+  <div class="summary-block"><details>
+  <summary><strong>#5 max-sixty/worktrunk — 複数AI並行開発向けのGitワークツリー管理CLI</strong></summary>
+  <ul>
+    <li>何ができるか：Gitワークツリーの作成・切替・破棄をシンプルなコマンドで高速化</li>
+    <li>なぜ注目：複数のコーディングエージェントが同時並行で別ブランチを編集するユースケースに特化</li>
+    <li>活用ポイント：AIエージェントに並列でタスクを投げ、手元のリポジトリ競合を防ぎ開発速度を倍増</li>
+  </ul>
+  <p>【詳細】複数のAIコーディングエージェントを同時に走らせる現代の開発スタイルに最適化されたRust製CLIです。通常のGitワークツリー操作を簡潔にまとめ、エージェントごとのブランチ分離と破棄を安全・迅速に行えます。並列開発のコンテキスト衝突問題をスマートに解決します。（141字）</p>
+  <p><a href="https://github.com/max-sixty/worktrunk">⭐ GitHubで見る（総スター: 12,401 / 今週: 2,093 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#6</div>
+  <div class="repo-header">
+    <a href="https://github.com/vercel-labs/agent-browser" target="_blank" rel="noopener" class="repo-name">vercel-labs/agent-browser</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#dea584"></span>Rust</span>
+      <span class="stars">⭐ 49,241</span>
+      <span class="weekly">📈 3,606 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Browser automation CLI for AI agents</p>
+  <div class="summary-block"><details>
+  <summary><strong>#6 vercel-labs/agent-browser — AIエージェントに特化した高速ブラウザ自動化CLI</strong></summary>
+  <ul>
+    <li>何ができるか：AI主導のDOM操作・スクリーンショット取得・SPA操作をコマンドラインから実行</li>
+    <li>なぜ注目：LLMが解釈しやすい形式でのWeb情報抽出に特化し、VercelがRustで構築</li>
+    <li>活用ポイント：Webスクレイピングの保守コスト削減やWebフォームの自動入力フロー構築</li>
+  </ul>
+  <p>【詳細】AIエージェントがWebページを自律操作するために設計された軽量CLIツールです。トークン消費を抑えつつページ構造をエージェントに伝える最適化が施されており、従来の重厚なE2Eテストツールと比べて素早く安価にブラウザ自動化スクリプトや情報収集タスクを構築できます。（139字）</p>
+  <p><a href="https://github.com/vercel-labs/agent-browser">⭐ GitHubで見る（総スター: 49,241 / 今週: 3,606 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#7</div>
+  <div class="repo-header">
+    <a href="https://github.com/Donchitos/Claude-Code-Game-Studios" target="_blank" rel="noopener" class="repo-name">Donchitos/Claude-Code-Game-Studios</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#89e051"></span>Shell</span>
+      <span class="stars">⭐ 38,077</span>
+      <span class="weekly">📈 3,730 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Turn Claude Code into a full game dev studio — 49 AI agents, 72 workflow skills, and a complete coordination system mirroring real studio hierarchy.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#7 Donchitos/Claude-Code-Game-Studios — Claude Codeを仮想ゲームスタジオ化するエージェント群</strong></summary>
+  <ul>
+    <li>何ができるか：49の特化AI役職と72のスキルで企画から実装までゲーム開発を完全分業</li>
+    <li>なぜ注目：ディレクター・プログラマー・QAなど実スタジオの階層構造をプロンプトで精緻に模倣</li>
+    <li>活用ポイント：個人でのインディーゲーム開発や大規模プロトタイプ作成の全行程を爆速化</li>
+  </ul>
+  <p>【詳細】Claude Code上に現実のゲーム開発スタジオ体制を丸ごと構築する異色のオーケストレーション基盤です。企画、アートディレクション、ロジック実装、バグ検証まで各役割のエージェントが自律連携します。個人の副業ゲーム開発や新規企画のPoC作成を圧倒的なスピードで前進させます。（143字）</p>
+  <p><a href="https://github.com/Donchitos/Claude-Code-Game-Studios">⭐ GitHubで見る（総スター: 38,077 / 今週: 3,730 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#8</div>
+  <div class="repo-header">
+    <a href="https://github.com/mattpocock/skills" target="_blank" rel="noopener" class="repo-name">mattpocock/skills</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#89e051"></span>Shell</span>
+      <span class="stars">⭐ 320,960</span>
+      <span class="weekly">📈 9,872 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Skills for Real Engineers. Straight from my .agents directory.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#8 mattpocock/skills — 実務開発を劇的加速する厳選コーディングエージェントスキル</strong></summary>
+  <ul>
+    <li>何ができるか：TypeScriptの型推論最適化やリファクタリングなど実務直結スキルを提供</li>
+    <li>なぜ注目：TypeScript著名教育者Matt Pocock氏が本番開発で日常利用する設定をそのまま公開</li>
+    <li>活用ポイント：自作のエージェント環境（`.agents`）に取り込み、日々の実装・レビュー効率を底上げ</li>
+  </ul>
+  <p>【詳細】現場の一流エンジニアが日常的に使っているエージェント用カスタムスキル集です。実務に即した具体的なコマンドやプロンプト定義がまとめられており、エージェントのコード生成精度や既存コードベースの解析精度を即座にプロレベルへと引き上げることが可能です。（131字）</p>
+  <p><a href="https://github.com/mattpocock/skills">⭐ GitHubで見る（総スター: 320,960 / 今週: 9,872 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#9</div>
+  <div class="repo-header">
+    <a href="https://github.com/cloudflare/security-audit-skill" target="_blank" rel="noopener" class="repo-name">cloudflare/security-audit-skill</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#f1e05a"></span>JavaScript</span>
+      <span class="stars">⭐ 69,369</span>
+      <span class="weekly">📈 10,967 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">A coding-agent skill for multi-phase security audits with independently verified, machine-readable findings</p>
+  <div class="summary-block"><details>
+  <summary><strong>#9 cloudflare/security-audit-skill — Cloudflare製AIエージェント向け多段階監査スキル</strong></summary>
+  <ul>
+    <li>何ができるか：コードベースの静的解析と動的推論を組み合わせた多段階のセキュリティ脆弱性診断</li>
+    <li>なぜ注目：Cloudflareの知見を元に、機械可読形式で検証可能な結果を出力する高品質設計</li>
+    <li>活用ポイント：CI/CDやAIコーディング時のプリコミットフックに組み込み、脆弱性の混入を未然に防止</li>
+  </ul>
+  <p>【詳細】コーディングエージェントに本格的な多段階セキュリティ監査能力を授けるスキルです。ハルシネーションによる誤検知を減らし、客観的に検証された脆弱性レポートを構造化データとして出力します。セキュアなコード開発を自動化したいエンタープライズや受託開発に最適です。（138字）</p>
+  <p><a href="https://github.com/cloudflare/security-audit-skill">⭐ GitHubで見る（総スター: 69,369 / 今週: 10,967 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#10</div>
+  <div class="repo-header">
+    <a href="https://github.com/The-PR-Agent/pr-agent" target="_blank" rel="noopener" class="repo-name">The-PR-Agent/pr-agent</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+      <span class="stars">⭐ 15,884</span>
+      <span class="weekly">📈 1,591 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">🚀 PR Agent: The Original Open-Source PR Reviewer. This project is not the Qodo free tier.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#10 The-PR-Agent/pr-agent — PRレビューを自動化・効率化するオープンソース基盤</strong></summary>
+  <ul>
+    <li>何ができるか：GitHub/GitLabなどのPRに対して自動要約・コードレビュー・改善提案コメントを投稿</li>
+    <li>なぜ注目：商用SaaSに依存せずセルフホスト可能な、実績多数の元祖オープンソースPRレビュアー</li>
+    <li>活用ポイント：チーム開発におけるレビュー負荷の軽減や、個人開発でのコミット前セルフチェックに活用</li>
+  </ul>
+  <p>【詳細】Pull Requestのコード差分をLLMで解析し、変更の要約、コードの問題点指摘、テスト生成までを自動実行するツールです。オンプレミス環境やプライベートリポジトリでも安全に運用できるため、開発チーム全体のレビューサイクルを劇的に短縮する自動化基盤として広く支持されています。（144字）</p>
+  <p><a href="https://github.com/The-PR-Agent/pr-agent">⭐ GitHubで見る（総スター: 15,884 / 今週: 1,591 stars this week）</a></p>
+</details></div>
+</div>
+</main>
+</body>
+</html>
