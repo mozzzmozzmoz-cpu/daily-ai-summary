@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GitHub Top 10 — 11月16日</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a; --surface: #141414; --border: #2a2a2a;
+    --text: #e8e8e8; --muted: #888; --accent: #ff4444;
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #f5f5f5; --surface: #fff; --border: #e0e0e0; --text: #111; --muted: #666; }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', system-ui, sans-serif; }
+  header {
+    border-bottom: 3px solid var(--accent); padding: 16px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  header h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em;
+  }
+  header h1 span { color: var(--accent); }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .date-badge {
+    font-size: 0.75rem; color: var(--muted);
+    padding: 4px 10px; border: 1px solid var(--border); border-radius: 4px;
+  }
+  .back-link { color: var(--muted); font-size: 0.85rem; text-decoration: none; }
+  .back-link:hover { color: var(--text); }
+  main { max-width: 800px; margin: 0 auto; padding: 24px; }
+  .repo-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px; margin-bottom: 16px;
+    transition: border-color 0.15s;
+  }
+  .repo-card:hover { border-color: var(--accent); }
+  .rank {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2.2rem; font-weight: 800; color: var(--accent);
+    line-height: 1; margin-bottom: 6px;
+  }
+  .repo-name {
+    font-size: 1.1rem; font-weight: 700;
+    color: var(--text); text-decoration: none;
+  }
+  .repo-name:hover { color: var(--accent); }
+  .repo-meta {
+    display: flex; gap: 14px; margin-top: 6px;
+    font-size: 0.8rem; color: var(--muted); align-items: center; flex-wrap: wrap;
+  }
+  .lang { display: flex; align-items: center; gap: 4px; }
+  .lang-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .stars { color: #f1c40f; }
+  .weekly { color: #2ecc71; font-weight: 600; }
+  .repo-desc { margin: 10px 0 0; font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
+  .summary-block { margin-top: 14px; }
+  .summary-block details {}
+  .summary-block summary {
+    cursor: pointer; font-weight: 600; font-size: 0.9rem;
+    list-style: none; padding: 8px 0; display: flex; align-items: flex-start; gap: 6px;
+  }
+  .summary-block summary::-webkit-details-marker { display: none; }
+  .summary-block summary::before { content: "▶"; color: var(--accent); font-size: 0.65rem; margin-top: 3px; flex-shrink: 0; }
+  .summary-block details[open] summary::before { content: "▼"; }
+  .summary-block ul { margin: 8px 0 8px 20px; font-size: 0.87rem; line-height: 1.75; }
+  .summary-block ul li { margin-bottom: 4px; }
+  .summary-block p { font-size: 0.87rem; line-height: 1.7; margin-top: 8px; color: var(--muted); }
+  .summary-block a { color: var(--accent); text-decoration: none; }
+  .summary-block a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<header>
+  <h1>⭐ GitHub <span>Top 10</span></h1>
+  <div class="header-right">
+    <span class="date-badge">11月16日 週間</span>
+    <a href="../index.html" class="back-link">← Archive</a>
+  </div>
+</header>
+<main>
+
+<div class="repo-card">
+  <div class="rank">#1</div>
+  <div class="repo-header">
+    <a href="https://github.com/meta/astryx" target="_blank" rel="noopener" class="repo-name">meta/astryx</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 28,896</span>
+      <span class="weekly">📈 13,501 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">An open source design system that's fully customizable and agent ready</p>
+  <div class="summary-block"><details>
+  <summary><strong>#1 meta/astryx — AIエージェント対応の拡張型デザインシステム</strong></summary>
+  <ul>
+    <li>何ができるか：AIエージェントが操作・解釈しやすいUIコンポーネントとトークンの提供</li>
+    <li>なぜ注目：Meta社製、高度なカスタマイズ性とLLM連携を意識した設計思想</li>
+    <li>活用ポイント：エージェントによるフロントエンド自動生成やUIシステム統一基盤に</li>
+  </ul>
+  <p>【詳細】Metaが開発したAgent-readyな次世代デザインシステム。UIの見た目だけでなく、LLMなどの自律エージェントがUIコンポーネント構造を理解し操作・生成できるよう設計されています。動的なUI構築やAI主導のプロトタイピングを大幅に加速させる注目のTypeScript基盤です。</p>
+  <p><a href="https://github.com/meta/astryx">⭐ GitHubで見る（総スター: 28,896 / 今週: 13,501 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#2</div>
+  <div class="repo-header">
+    <a href="https://github.com/anthropics/skills" target="_blank" rel="noopener" class="repo-name">anthropics/skills</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+      <span class="stars">⭐ 195,380</span>
+      <span class="weekly">📈 6,077 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Public repository for Agent Skills</p>
+  <div class="summary-block"><details>
+  <summary><strong>#2 anthropics/skills — Anthropic公式のClaude向けエージェント機能集</strong></summary>
+  <ul>
+    <li>何ができるか：Claude等のLLMエージェントに組み込める標準化されたスキル群の利用</li>
+    <li>なぜ注目：Anthropic公式リポジトリであり、エージェント機能拡張の標準仕様を提示</li>
+    <li>活用ポイント：自社AIチャットや自動化スクリプトへの高度なタスク実行機能の迅速な組み込み</li>
+  </ul>
+  <p>【詳細】Anthropic社が公開したAIエージェント用スキルライブラリ。計算、外部API連携、ファイル操作など、エージェントが自律的に実行可能なモジュールを標準化。Claudeをコアにした業務自動化ワークフローや高度なアシスタント開発において、車輪の再発明を防ぎ安全なツール実行基盤を構築できます。</p>
+  <p><a href="https://github.com/anthropics/skills">⭐ GitHubで見る（総スター: 195,380 / 今週: 6,077 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#3</div>
+  <div class="repo-header">
+    <a href="https://github.com/sherlock-project/sherlock" target="_blank" rel="noopener" class="repo-name">sherlock-project/sherlock</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+      <span class="stars">⭐ 112,501</span>
+      <span class="weekly">📈 10,412 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Hunt down social media accounts by username across social networks</p>
+  <div class="summary-block"><details>
+  <summary><strong>#3 sherlock-project/sherlock — ユーザー名からSNSアカウントを一括追跡</strong></summary>
+  <ul>
+    <li>何ができるか：指定したユーザー名が使われている世界中のSNSやWebサービスを横断探索</li>
+    <li>なぜ注目：400以上の主要プラットフォームに対応した高速な並行探索アルゴリズム</li>
+    <li>活用ポイント：OSINT調査、セキュリティ監査、個人ブランディング時の名前被り調査</li>
+  </ul>
+  <p>【詳細】単一のユーザー名を入力するだけで、数百に及ぶソーシャルネットワーク上の登録状況を並列処理で瞬時に割り出すOSINTツール。Pythonで軽量に動作し、CLIや自動化パイプラインに簡単に組み込めます。セキュリティ診断やアカウント流出調査、新規サービス開発時のID重複確認に極めて実用的です。</p>
+  <p><a href="https://github.com/sherlock-project/sherlock">⭐ GitHubで見る（総スター: 112,501 / 今週: 10,412 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#4</div>
+  <div class="repo-header">
+    <a href="https://github.com/backnotprop/plannotator" target="_blank" rel="noopener" class="repo-name">backnotprop/plannotator</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 11,863</span>
+      <span class="weekly">📈 1,719 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">The workspace to stay in the loop and on top of agents - shape, decide, plan, annotate, review code, share with team, and send all feedback to agents with one click.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#4 backnotprop/plannotator — AIエージェントとの協調開発・指示管理基盤</strong></summary>
+  <ul>
+    <li>何ができるか：エージェントのタスク計画・コードレビュー・注釈付けとワンクリックFB</li>
+    <li>なぜ注目：人間がエージェントのループに入り直感的に軌道修正できる共同作業UI</li>
+    <li>活用ポイント：開発自動化におけるAIのハルシネーション抑制とチーム連携の円滑化</li>
+  </ul>
+  <p>【詳細】自律型コーディングエージェントとの協働に特化したワークスペースツール。エージェントが提示する計画やコード変更に対し、開発者が注釈や指示を直感的に付与して一括フィードバックできます。AI任せのブラックボックス化を防ぎ、品質担保と開発速度の向上を両立させたいチームに最適です。</p>
+  <p><a href="https://github.com/backnotprop/plannotator">⭐ GitHubで見る（総スター: 11,863 / 今週: 1,719 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#5</div>
+  <div class="repo-header">
+    <a href="https://github.com/vercel-labs/agent-browser" target="_blank" rel="noopener" class="repo-name">vercel-labs/agent-browser</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#dea584"></span>Rust</span>
+      <span class="stars">⭐ 51,641</span>
+      <span class="weekly">📈 4,217 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Browser automation CLI for AI agents</p>
+  <div class="summary-block"><details>
+  <summary><strong>#5 vercel-labs/agent-browser — AIエージェント向けRust製ブラウザ自動化CLI</strong></summary>
+  <ul>
+    <li>何ができるか：CLI経由でAIエージェントがWebブラウザを直接操作・自動巡回</li>
+    <li>なぜ注目：Vercel Labs製。Rust採用による圧倒的な高速起動と軽量なリソース消費</li>
+    <li>活用ポイント：Webクローリング、E2Eテスト自動化、自律型リサーチエージェント構築</li>
+  </ul>
+  <p>【詳細】Vercel Labsが手掛けるAIエージェント特化のブラウザ自動化CLIツール。Rust製ならではの極めて高速な動作と堅牢なリソース制御を実現し、LLMがWebページのナビゲーション、フォーム入力、データ抽出を安全に行えます。自律型Webスクレイピングやテスト自動化基盤の構築に最適です。</p>
+  <p><a href="https://github.com/vercel-labs/agent-browser">⭐ GitHubで見る（総スター: 51,641 / 今週: 4,217 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#6</div>
+  <div class="repo-header">
+    <a href="https://github.com/ZhuLinsen/daily_stock_analysis" target="_blank" rel="noopener" class="repo-name">ZhuLinsen/daily_stock_analysis</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+      <span class="stars">⭐ 72,517</span>
+      <span class="weekly">📈 4,548 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。 LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#6 ZhuLinsen/daily_stock_analysis — LLM駆動の株式市場インテリジェント自動分析基盤</strong></summary>
+  <ul>
+    <li>何ができるか：株価・市況ニュースの多角的LLM分析、ダッシュボード表示、自動通知</li>
+    <li>なぜ注目：GitHub Actions等を活用し完全無料・定期自動実行で運用可能</li>
+    <li>活用ポイント：個人投資の自動化、副業トレーダー向け情報収集パイプライン構築</li>
+  </ul>
+  <p>【詳細】複数市場の株価データとリアルタイムニュースをLLMで要約・分析し、売買判断に役立つレポートを自動配信するシステム。GitHub Actionsなどを活用することで完全無料かつメンテナンスフリーで日次運用が可能です。株式投資の情報収集コストを削減し、データ駆動型の意思決定を支援します。</p>
+  <p><a href="https://github.com/ZhuLinsen/daily_stock_analysis">⭐ GitHubで見る（総スター: 72,517 / 今週: 4,548 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#7</div>
+  <div class="repo-header">
+    <a href="https://github.com/we-promise/sure" target="_blank" rel="noopener" class="repo-name">we-promise/sure</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#701516"></span>Ruby</span>
+      <span class="stars">⭐ 15,720</span>
+      <span class="weekly">📈 4,556 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">The personal finance app for everyone (by everyone)</p>
+  <div class="summary-block"><details>
+  <summary><strong>#7 we-promise/sure — 全員のためのオープンソース個人資産管理アプリ</strong></summary>
+  <ul>
+    <li>何ができるか：収支管理、資産推移の可視化、オープンなコミュニティ主導の家計管理</li>
+    <li>なぜ注目：Ruby on Rails製でセルフホスト可能、プライバシー重視のオープン開発</li>
+    <li>活用ポイント：独自家計簿サーバー構築、FinTech系個人開発のベースコード利用</li>
+  </ul>
+  <p>【詳細】プライバシーを重視するユーザーのために開発されたオープンソースの個人財務管理アプリケーション。外部サービスに金融データを渡すことなく、セルフホスト環境で収支や資産を一元管理できます。Ruby on Railsによる拡張しやすい設計で、独自の自動仕訳や連携機能の追加にも適しています。</p>
+  <p><a href="https://github.com/we-promise/sure">⭐ GitHubで見る（総スター: 15,720 / 今週: 4,556 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#8</div>
+  <div class="repo-header">
+    <a href="https://github.com/milind-soni/OpenMausBot" target="_blank" rel="noopener" class="repo-name">milind-soni/OpenMausBot</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 23,436</span>
+      <span class="weekly">📈 5,463 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Open-source Grok Bot alternative with a virtual machine that bots can use</p>
+  <div class="summary-block"><details>
+  <summary><strong>#8 milind-soni/OpenMausBot — 仮想マシン環境を内蔵したGrok代替ボット基盤</strong></summary>
+  <ul>
+    <li>何ができるか：ボットが分離された仮想マシン環境を利用したコード実行やタスク処理</li>
+    <li>なぜ注目：xAIのGrok対話ボットを模しつつ、VM内サンドボックス実行環境を統合</li>
+    <li>活用ポイント：安全なAIコード実行環境の構築、高機能チャットボットのセルフホスト</li>
+  </ul>
+  <p>【詳細】Grok Botに触発されて作られたオープンソースのAIボット基盤。最大の特徴は、ボットが安全にコードを実行・検証できる仮想マシン環境（VM）を内部に備えている点です。Web検索や動的コード生成を安全な隔離環境で行えるため、高度な自律的プログラミング支援アシスタントを自前運用できます。</p>
+  <p><a href="https://github.com/milind-soni/OpenMausBot">⭐ GitHubで見る（総スター: 23,436 / 今週: 5,463 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#9</div>
+  <div class="repo-header">
+    <a href="https://github.com/google/elephant-goldfish-model" target="_blank" rel="noopener" class="repo-name">google/elephant-goldfish-model</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+      <span class="stars">⭐ 19,793</span>
+      <span class="weekly">📈 5,060 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Open-source plugin for designing and reviewing software with agents</p>
+  <div class="summary-block"><details>
+  <summary><strong>#9 google/elephant-goldfish-model — エージェントによる設計・コードレビュー支援</strong></summary>
+  <ul>
+    <li>何ができるか：LLMエージェントを活用したアーキテクチャ設計およびコードレビュー支援</li>
+    <li>なぜ注目：Google発。長期記憶と短期記憶を模した独自のコンテキスト制御モデル</li>
+    <li>活用ポイント：大規模コードベースの設計整合性チェック、開発レビューの自動化</li>
+  </ul>
+  <p>【詳細】Googleが公開した、AIエージェントを用いたソフトウェア設計・レビュー支援プラグイン。長期的な設計方針と短期的な実装コードを巧みに制御するアーキテクチャを採用し、大規模なコードベースでも破綻なくレビューを実行。設計標準の遵守確認やリファクタリング提案の自動化に強力なツールです。</p>
+  <p><a href="https://github.com/google/elephant-goldfish-model">⭐ GitHubで見る（総スター: 19,793 / 今週: 5,060 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#10</div>
+  <div class="repo-header">
+    <a href="https://github.com/google-deepmind/mujoco" target="_blank" rel="noopener" class="repo-name">google-deepmind/mujoco</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#f34b7d"></span>C++</span>
+      <span class="stars">⭐ 18,075</span>
+      <span class="weekly">📈 1,922 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Multi-Joint dynamics with Contact. A general purpose physics simulator.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#10 google-deepmind/mujoco — DeepMindが牽引する高精度汎用物理エンジン</strong></summary>
+  <ul>
+    <li>何ができるか：接触を含むマルチボディダイナミクスの超高速・高精度な物理シミュレーション</li>
+    <li>なぜ注目：ロボティクスや強化学習研究のデファクトスタンダード、DeepMind製</li>
+    <li>活用ポイント：ロボット制御アルゴリズムの検証、強化学習モデルの仮想環境訓練</li>
+  </ul>
+  <p>【詳細】Google DeepMindが主導する、関節結合と接触力学を高度に解く汎用物理シミュレータ。ロボット工学や強化学習の分野で事実上の標準となっており、計算速度と物理精度のバランスが極めて優秀です。C++コアによる高速演算と豊富なPythonラッパーにより、ロボット自動制御研究に不可欠な基盤です。</p>
+  <p><a href="https://github.com/google-deepmind/mujoco">⭐ GitHubで見る（総スター: 18,075 / 今週: 1,922 stars this week）</a></p>
+</details></div>
+</div>
+</main>
+</body>
+</html>
