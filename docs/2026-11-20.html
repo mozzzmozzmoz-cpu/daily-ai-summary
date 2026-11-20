@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Digest — 2026-11-20</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg:#0c0c0c; --sur:#141414; --rule:#232323;
+  --txt:#f0f0f0; --txt2:#888; --txt3:#444;
+  --lime:#ccff00; --lime2:#1a2200;
+  --c-3dai:#ff4444; --c-image:#bf5af2; --c-biz:#ff9f0a;
+  --c-japan:#0a84ff; --c-llm:#30d158; --c-news:#636366;
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme=dark]){
+    --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+    --txt:#111; --txt2:#666; --txt3:#aaa;
+    --lime:#5c7a00; --lime2:#edf5c0;
+  }
+}
+:root[data-theme=light]{
+  --bg:#f0f0ee; --sur:#fff; --rule:#d8d8d5;
+  --txt:#111; --txt2:#666; --txt3:#aaa;
+  --lime:#5c7a00; --lime2:#edf5c0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+a{color:var(--lime);text-decoration:none}
+a:hover{text-decoration:underline}
+ 
+/* header */
+header{background:var(--bg);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:100}
+.hdr-top{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:12px 20px;max-width:1200px;margin:0 auto}
+.wordmark{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;letter-spacing:-.01em;text-transform:uppercase;color:var(--txt)}
+.wordmark span{color:var(--lime)}
+.hdr-meta{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase}
+.theme-btn{background:transparent;border:1px solid var(--rule);color:var(--txt2);border-radius:4px;padding:5px 10px;font-size:.72rem;cursor:pointer}
+.theme-btn:hover{border-color:var(--txt2)}
+.filter-row{border-top:1px solid var(--rule);overflow-x:auto;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-inner{display:flex;max-width:1200px;margin:0 auto;padding:0 20px}
+.ftab{flex-shrink:0;padding:9px 14px;font-size:.75rem;font-weight:500;color:var(--txt2);border-bottom:2px solid transparent;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;user-select:none}
+.ftab:hover{color:var(--txt)}
+.ftab.active{color:var(--txt);border-bottom-color:var(--lime)}
+ 
+/* page */
+.page{max-width:1200px;margin:0 auto;padding:0 20px 60px}
+.dateline{padding:28px 0 20px;display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--rule)}
+.dl-main{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.6rem;text-transform:uppercase;letter-spacing:-.01em;line-height:1;color:var(--txt)}
+.dl-sub{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase}
+.back-lnk{margin-left:auto;font-size:.78rem;color:var(--txt2);display:flex;align-items:center;gap:5px;flex-shrink:0}
+.back-lnk:hover{color:var(--lime);text-decoration:none}
+ 
+/* grid */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-top:1px}
+.card{background:var(--bg);transition:background .15s}
+.card:hover{background:var(--sur)}
+.card.filtered{display:none}
+ 
+/* magazine sizing */
+.card[data-size=large]{grid-column:span 2;grid-row:span 2}
+.card[data-size=large] .card-img{aspect-ratio:4/3}
+.card[data-size=wide]{grid-column:span 2}
+.card[data-size=wide] .card-img{aspect-ratio:21/9}
+.card[data-size=small] .card-img{aspect-ratio:16/9}
+ 
+/* details / summary */
+details{height:100%;display:flex;flex-direction:column}
+details summary{list-style:none;cursor:pointer;height:100%;display:flex;flex-direction:column}
+details summary::-webkit-details-marker{display:none}
+ 
+/* card image */
+.card-img{width:100%;overflow:hidden;flex-shrink:0;position:relative}
+.card-real-img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+ 
+/* category gradients (fallback when no real image) */
+.card[data-cat=3dai]  .card-img{background:radial-gradient(ellipse 80% 80% at 30% 40%,#3d0a0a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 60% at 72% 65%,#6b1212 0%,transparent 50%)}
+.card[data-cat=image] .card-img{background:radial-gradient(ellipse 90% 70% at 20% 30%,#2d0d4f 0%,#0c0c0c 55%),radial-gradient(ellipse 50% 80% at 78% 60%,#4a1272 0%,transparent 50%)}
+.card[data-cat=biz]   .card-img{background:radial-gradient(ellipse 80% 80% at 40% 40%,#3d2200 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 50% at 75% 65%,#6b3d00 0%,transparent 50%)}
+.card[data-cat=japan] .card-img{background:radial-gradient(ellipse 80% 70% at 30% 35%,#001a3d 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 70%,#003b7a 0%,transparent 45%)}
+.card[data-cat=llm]   .card-img{background:radial-gradient(ellipse 80% 80% at 25% 35%,#062610 0%,#0c0c0c 60%),radial-gradient(ellipse 60% 60% at 72% 65%,#0d4820 0%,transparent 50%)}
+.card[data-cat=news]  .card-img{background:radial-gradient(ellipse 80% 70% at 35% 40%,#1a1a1a 0%,#0c0c0c 60%),radial-gradient(ellipse 50% 50% at 70% 65%,#2e2e2e 0%,transparent 50%)}
+.card-img::after{content:'';position:absolute;width:40%;height:40%;top:20%;left:15%;border-radius:50%;filter:blur(28px);opacity:.5}
+.card[data-cat=3dai]  .card-img::after{background:#ff4444}
+.card[data-cat=image] .card-img::after{background:#bf5af2}
+.card[data-cat=biz]   .card-img::after{background:#ff9f0a}
+.card[data-cat=japan] .card-img::after{background:#0a84ff}
+.card[data-cat=llm]   .card-img::after{background:#30d158}
+.card[data-cat=news]  .card-img::after{background:#888}
+ 
+/* light mode gradients */
+:root[data-theme=light] .card[data-cat=3dai]  .card-img,
+:root[data-theme=light] .card[data-cat=image] .card-img,
+:root[data-theme=light] .card[data-cat=biz]   .card-img,
+:root[data-theme=light] .card[data-cat=japan] .card-img,
+:root[data-theme=light] .card[data-cat=llm]   .card-img,
+:root[data-theme=light] .card[data-cat=news]  .card-img{filter:brightness(2.5) saturate(.5)}
+ 
+/* card body (text section) */
+.card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:6px}
+.card[data-size=large] .card-body{padding:18px 20px 20px}
+.cat-tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.card[data-cat=3dai]  .cat-tag{color:var(--c-3dai)}
+.card[data-cat=image] .cat-tag{color:var(--c-image)}
+.card[data-cat=biz]   .cat-tag{color:var(--c-biz)}
+.card[data-cat=japan] .cat-tag{color:var(--c-japan)}
+.card[data-cat=llm]   .cat-tag{color:var(--c-llm)}
+.card[data-cat=news]  .cat-tag{color:var(--c-news)}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.15rem;line-height:1.2;color:var(--txt);text-wrap:balance}
+.card[data-size=large] .card-title{font-size:1.9rem;line-height:1.1}
+.card[data-size=wide]  .card-title{font-size:1.4rem}
+.card:hover .card-title{color:var(--lime)}
+.expand-hint{margin-top:auto;font-size:.72rem;color:var(--txt3);display:flex;align-items:center;gap:3px}
+.chev{transition:transform .2s;display:inline-block}
+details[open] .chev{transform:rotate(90deg)}
+ 
+/* expanded body */
+.expand-body{border-top:1px solid var(--rule);padding:18px 16px 20px;background:var(--sur)}
+.card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{padding:20px 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.expand-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.expand-body li{display:flex;gap:8px;font-size:.85rem;line-height:1.55;color:var(--txt)}
+.expand-body li::before{content:counter(li);counter-increment:li;font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:500;color:var(--lime);flex-shrink:0;margin-top:2px;min-width:14px}
+.expand-body ul{counter-reset:li}
+.expand-body p{font-size:.85rem;line-height:1.65;color:var(--txt2);margin-bottom:12px}
+.expand-body a{color:var(--lime);font-weight:500;font-size:.82rem}
+.expand-body a:hover{text-decoration:underline}
+ 
+/* footer */
+.page-foot{font-size:.72rem;color:var(--txt3);margin-top:32px;text-align:center;font-family:'IBM Plex Mono',monospace}
+ 
+/* responsive */
+@media(max-width:900px){
+  .news-grid{grid-template-columns:repeat(2,1fr)}
+  .card[data-size=large]{grid-column:span 2}
+  .card[data-size=wide]{grid-column:span 2}
+  .card[data-size=large] .expand-body,.card[data-size=wide] .expand-body{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .news-grid{grid-template-columns:1fr}
+  .card[data-size=large],.card[data-size=wide]{grid-column:span 1;grid-row:span 1}
+  .dl-main{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr-top">
+    <div class="wordmark">AI<span>.</span>DIGEST</div>
+    <div class="hdr-meta">毎朝 07:00 JST 自動配信</div>
+    <button class="theme-btn" onclick="(function(){var r=document.documentElement;r.setAttribute('data-theme',r.getAttribute('data-theme')==='light'?'dark':'light')})()">☀ / ☾</button>
+  </div>
+  <div class="filter-row">
+    <div class="filter-inner" id="fb">
+      <div class="ftab active" data-f="all">すべて</div>
+      <div class="ftab" data-f="3dai">🔴 3大AI</div>
+      <div class="ftab" data-f="image">🎨 画像・動画</div>
+      <div class="ftab" data-f="biz">💼 実務・副業</div>
+      <div class="ftab" data-f="japan">🇯🇵 日本のAI</div>
+      <div class="ftab" data-f="llm">🧠 LLM技術</div>
+      <div class="ftab" data-f="news">📰 一般ニュース</div>
+    </div>
+  </div>
+</header>
+<div class="page">
+  <div class="dateline">
+    <div><div class="dl-sub">2026-11-20</div><div class="dl-main">今日のAIニュース</div></div>
+    <div class="dl-sub" style="align-self:flex-end;margin-bottom:5px">10件</div>
+    <a href="index.html" class="back-lnk">‹ 一覧</a>
+  </div>
+  <div class="news-grid" id="grid">
+<article class="card" data-cat="news" data-size="large">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">Appleが独自AIエージェント開発へ求人開始</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Web閲覧、複数アプリ横断操作、コーディング、外部サービス連携を自律実行するAIエージェント開発者を募集</li>
+    <li>要点2：Apple Intelligenceの次世代進化を示唆し、OS統合型自律エージェント市場で他社追撃を本格化</li>
+    <li>要点3：iOS/macOSエコシステムでの自動化開発や、アプリ連携を見据えたAPI設計への注目が急務</li>
+  </ul>
+  <p>【詳細】Bloombergが確認した求人情報によると、Appleは複数アプリや外部サービスを横断して自律的にタスクを完了する「Agentic AI」の開発を主導するエンジニアの採用を開始しました。従来のSiriのような質疑応答型から脱却し、ユーザーの指示でWeb検索からコード作成まで実行する汎用エージェントの構築を目指しており、次世代iOSへの標準統合を見据えたプラットフォーム競争が激化しています。</p>
+  <p><a href="https://www.theverge.com/tech/1038227/apple-ai-agent-engineer-job-listing">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">OpenAI、ChatGPT高速化を担う自動化基盤公開</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：Codexを活用したワークフロー「Performance Factory」で性能低下を自動検知・修正</li>
+    <li>要点2：大規模LLMサービスにおけるCI/CDと性能監視の完全自動化モデルを提示</li>
+    <li>要点3：AIプロダクト開発におけるレイテンシ短縮や運用コスト削減の設計指針として実務に直結</li>
+  </ul>
+  <p>【詳細】OpenAIは、ChatGPTの大規模トラフィック下でも低遅延を維持するための内部システム「Performance Factory」の構造を明かしました。Codexを活用した自動ワークフローがソースコード内のボトルネックを特定し、修正パッチの適用までを半自律的に実施します。LLM運用の課題である推論速度の低下をソフトウェア工学的に解消する先進事例として、生成AIアプリ運用現場での再現が期待されます。</p>
+  <p><a href="https://openai.com/index/how-openai-performance-factory-keeps-chatgpt-fast">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">NVIDIA株が最高値から40％急落、市場に動揺</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：第3四半期決算発表後に株価が約150ドルへ低迷し、10月6日の過去最高値から約40%下落</li>
+    <li>要点2：AI向け半導体需要の持続性に対する投資家の警戒感とマクロ市場の調整圧力が浮き彫りに</li>
+    <li>要点3：GPU関連サプライチェーンやAIスタートアップの資金調達環境に波及する可能性を注視</li>
+  </ul>
+  <p>【詳細】NVIDIAの暫定CEOコレット・クレス氏が決算説明会で事業への自信を示したものの、株価は一時150ドル台へと急落し、直近の高値から約4割を消失する乱高下を記録しました。四半期業績自体は底堅いものの、生成AIインフラ投資に対する過熱感の反動やハイテク株全体の利確売りが先行しており、半導体業界全体のバリュエーション見直しの契機となるかが投資家から注視されています。</p>
+  <p><a href="https://www.theverge.com/ai-artificial-intelligence/1038063/nvidia-stock-market-price-earnings">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="news" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">📰 一般AIニュース</div>
+        <div class="card-title">Meta、AI端末「Muse Charm」を300ドルで投入か</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：画面付き専用AI端末「Muse Charm」を約300ドルでホリデーシーズンに向けて投入計画</li>
+    <li>要点2：対話型AIエージェントの専用ハードウェア市場へMetaが本格参入し、スマホ依存脱却を図る</li>
+    <li>要点3：個人向けAIアシスタントの常時接続デバイスとして、ハードウェア関連市場の商機が拡大</li>
+  </ul>
+  <p>【詳細】Metaが独自のMuse AIエージェントと対話できるディスプレイ搭載小型ガジェット「Muse Charm」を約300ドル（約4万5,000円）で発売する計画であると報じられました。マーク・ザッカーバーグCEOが年内に向けて予告していたデバイスで、スマートフォンを開かずに日常業務や問い合わせを支援する専用端末として、AIピンやスマートグラスに続く新カテゴリを開拓する狙いがあります。</p>
+  <p><a href="https://www.theverge.com/tech/1038087/meta-muse-charm-ai-price">📎 詳細を見る（出典：AI | The Verge）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">OpenAI、監視型セキュリティ基盤「Daybreak Red」公開</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：安全制御・監視機能を組み込んだ調査用リファレンスアーキテクチャ「Daybreak Red」を提示</li>
+    <li>要点2：自律型AIにセキュリティ調査を委任する際のガバナンスとリスク管理の標準基盤を確立</li>
+    <li>要点3：企業のセキュリティ運用（SOC）自動化やインシデント初動調査の効率化に直結</li>
+  </ul>
+  <p>【詳細】OpenAIは、自律型モデルを活用してセキュリティインシデントの調査を監督下で実行するためのリファレンス構成「Daybreak Red」を発表しました。厳格なアクセス制御やログ監視、人間による承認プロセスを統合しており、AIエージェントが不正アクセスや脆弱性の調査を安全に代行できる仕組みを実証しています。企業IT部門におけるセキュリティ運用の省力化に大きく貢献します。</p>
+  <p><a href="https://openai.com/business/learn/deploying-daybreak-red">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="3dai" data-size="wide">
+  <details>
+    <summary>
+      <div class="card-img"><img class="card-real-img" src="https://www.kdnuggets.com/wp-content/uploads/kdn-bala-kaggle-google-agentic-ai-course.png" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="cat-tag">🔴 3大AI</div>
+        <div class="card-title">OpenAI、PR自動スキャンツールの実動デモを公開</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：GitHub等のプルリクエスト（PR）内で動作するAIセキュリティ・品質スキャンを実演</li>
+    <li>要点2：開発パイプライン（CI/CD）への生成AI組み込みにより、コードレビューの精度と速度を向上</li>
+    <li>要点3：エンジニアの開発工数削減と脆弱性混入の未然防止により実務の開発サイクルを加速</li>
+  </ul>
+  <p>【詳細】OpenAIは、ソフトウェア開発のプルリクエスト上で動作する「PR scans」の実動デモを公開しました。開発者が提出したコード差分をAIが自動解析し、潜在的なバグやセキュリティリスクを指摘して修正案を提示します。レビュアーの負担を大幅に軽減しながら品質基準を保つことができ、開発組織全体のデプロイスピード向上とDevSecOpsの高度化を強力に後押しします。</p>
+  <p><a href="https://openai.com/business/learn/pr-scans-demo">📎 詳細を見る（出典：OpenAI News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">Google、アプリ監視・改善を行う新AIツール発表</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：稼働中アプリケーションの性能監視と改善提案を自律的に行う新AIツールを公開</li>
+    <li>要点2：オブザーバビリティ（可観測性）領域へAIを本格適用し、障害対応の迅速化を実現</li>
+    <li>要点3：システム保守運用のダウンタイム削減やインフラ保守コストの最適化に直結</li>
+  </ul>
+  <p>【詳細】Googleは、稼働中の各種アプリケーションを常時モニタリングし、パフォーマンス低下の要因分析や改善策の提案を自動で行う新しいAIツールを発表しました。従来はエンジニアがログやメトリクスを目視確認していた障害検知プロセスをAIが代替・支援することで、システムのダウンタイムを最小限に抑え、エンタープライズ規模の運用効率を大幅に引き上げます。</p>
+  <p><a href="https://news.google.com/rss/articles/CBMiWkFVX3lxTFBxNU9wUnlWZ1JqeHRRUlNjYzJtU19jel82eDJmd0UwSlc0ek9sMzVVWUFGYUcxYTN3QXRVYVh4OGFlclpfb3k4enBZZV8wak43b29iYUkyeWhIQQ?oc=5">📎 詳細を見る（出典："AI trend viral new tool launched" - Google News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">KaggleとGoogle、無料のAIエージェント講座を開講</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：GeminiとGoogle Agent Development Kit（ADK）を使った無料学習コースを提供</li>
+    <li>要点2：ツール利用・長期記憶・評価・デプロイまで、マルチステップAIエージェント構築技術を網羅</li>
+    <li>要点3：自律型AIアプリの開発スキル習得により、副業や新規ビジネス立ち上げに直結</li>
+  </ul>
+  <p>【詳細】KaggleとGoogleは、実践的なAIエージェント構築を体系的に学べる無料コースを開講しました。GeminiモデルとGoogle ADKを用い、外部ツールの呼び出し、メモリ管理、動作評価、本番デプロイといったマルチステップ推論エージェントに必要な必須要素をハンズオン形式で学習可能です。先端AI開発スキルを短期間で習得したいエンジニアにとって最適な教材となっています。</p>
+  <p><a href="https://www.kdnuggets.com/what-i-learned-from-kaggle-googles-free-agentic-ai-course">📎 詳細を見る（出典：KDnuggets）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="biz" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">💼 実務・副業・トレンド</div>
+        <div class="card-title">Snap、AI活用のブランド提携基盤と広告ツール拡充</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：クリエイター向け広告ツールを拡充し、ブランド提携を促進するAIマッチング基盤を公開</li>
+    <li>要点2：ソーシャルメディア上のインフルエンサーマーケティングと広告運用の自動化を加速</li>
+    <li>要点3：クリエイターの収益多角化や、企業のSNS広告運用の費用対効果向上に貢献</li>
+  </ul>
+  <p>【詳細】Snapchatを展開するSnapは、クリエイター向け広告ツールを大幅にアップデートし、AI駆動型のブランドパートナーシップ基盤をローンチしました。クリエイターのフォロワー特性やコンテンツ傾向をAIが分析し、最適な企業案件を自動マッチングすることで、広告主のキャンペーンROI向上とクリエイターエコノミーの活性化を同時に促進します。</p>
+  <p><a href="https://news.google.com/rss/articles/CBMi5gFBVV95cUxOUTNWNHlldUlacGVGWjBLQmhRZlkyTGt5THBDcWtHMFFmQmRFQXd4ZGNHcl9PNlZoS19UOGtMRnhWZldZMkQ0cERCSnRVakxqOVl4SkpIb3pwclZtMTJTMU9kTE81SHlPcXhyckNlNlRWajA2VkI3Q1NNR2hvRE1CeGJFRU9UNDVCalRwWEt2aURQYVU3eGtZbFlVZlozUVFEbTNMVWhaTU8zdlhCb294U2V3N2tLMDZYcWpnTlo0eHQ2U2JZZ2dIMFZmVFZnMzhvQnR4c2dlbUFaaVVDS09sUFU1WVFvZ9IB6wFBVV95cUxQVEdya3doZkxxVFJ6d2hWYzd6Wjh1OTUxQ2JNQzZoNVdxSHlZbGpnbl9aZ3RTMlNTalhJVHlGajAyeHliMC1pY2FuMWE1MlU4Qmg0SVdCWkxZdGtsTzJ6YW5rckxYWDdnQldBVldZRlZMeV9DbjZ0TzA4c0tlQkYyd2oycU05Y3lCZjhkMlVnU25sZWVLbHRtckc3LTgtM1pjeWFNc3piZTJsZzd6SGIydFJ1S1AxVk1uMGNDNmt4Mm1SbUNwWDJMUkN3ZWkxR2lMcWNXNnpDTEJIejBINlc0WGxwdm85M1Z2STc0?oc=5">📎 詳細を見る（出典："AI trend viral new tool launched" - Google News）</a></p>
+    </div>
+  </details>
+</article>
+<article class="card" data-cat="llm" data-size="small">
+  <details>
+    <summary>
+      <div class="card-img"></div>
+      <div class="card-body">
+        <div class="cat-tag">🧠 LLM・モデル技術</div>
+        <div class="card-title">openEuler、AIエージェント向けOS基盤の進化発表</div>
+        <div class="expand-hint">詳細 <span class="chev">›</span></div>
+      </div>
+    </summary>
+    <div class="expand-body">
+      <ul>
+    <li>要点1：サミットにてAgentic AIインフラに最適化したオープンソースOS機能の刷新を発表</li>
+    <li>要点2：推論・エージェント実行の低遅延化に向けたカーネル・OSレベルの最適化を推進</li>
+    <li>要点3：自社データセンターやエッジ環境でのAI推論基盤構築時のOS選定に影響</li>
+  </ul>
+  <p>【詳細】OpenEuler Summitにて、自律型AIエージェントの処理に最適化されたオープンソースOS機能の進展が公表されました。AIワークロード特有のメモリアクセスや並列処理を効率化するインフラレベルの改良が施されており、グローバルなオープンソース連携を通じて、次世代の大規模エージェント稼働を支える基盤ソフトウェアとしての地位確立を目指しています。</p>
+  <p><a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxPclhGX0g1eUxzT08xTGV5M3oxUldBM1JSbUFfSGc3UU5ibFM1LUwzcFZtUGMwOUo1Z2txRDhVN05ZRkZjVEMwMlR1RkprR1pCRnhWbnkwSWdtU3FxN25KZHFnc05XQWdFNXBCd3hNUWxDMjdNODV4SWFxdWpRRUFEVWhjeVBMS2ZSNW1pNDBDbHJtalZiWERJNDhBR2FhTEJCRWNXaGNYTXpsaDlBeUg1bGZTNFZHWEJzUG53S2Fn?oc=5">📎 詳細を見る（出典："AI agent reasoning agentic multi-step tool use 2026" - Google News）</a></p>
+    </div>
+  </details>
+</article>
+  </div>
+  <p class="page-foot">自動生成 by Gemini + GitHub Actions</p>
+</div>
+<script>
+document.getElementById('fb').addEventListener('click',function(e){
+  var t=e.target.closest('[data-f]');if(!t)return;
+  var f=t.dataset.f;
+  document.querySelectorAll('.ftab').forEach(function(x){x.classList.remove('active')});
+  t.classList.add('active');
+  document.querySelectorAll('.card').forEach(function(c){
+    c.classList.toggle('filtered',f!=='all'&&c.dataset.cat!==f);
+  });
+});
+</script>
+</body>
+</html>
