@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GitHub Top 10 — 11月22日</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a; --surface: #141414; --border: #2a2a2a;
+    --text: #e8e8e8; --muted: #888; --accent: #ff4444;
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #f5f5f5; --surface: #fff; --border: #e0e0e0; --text: #111; --muted: #666; }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', system-ui, sans-serif; }
+  header {
+    border-bottom: 3px solid var(--accent); padding: 16px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  header h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em;
+  }
+  header h1 span { color: var(--accent); }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .date-badge {
+    font-size: 0.75rem; color: var(--muted);
+    padding: 4px 10px; border: 1px solid var(--border); border-radius: 4px;
+  }
+  .back-link { color: var(--muted); font-size: 0.85rem; text-decoration: none; }
+  .back-link:hover { color: var(--text); }
+  main { max-width: 800px; margin: 0 auto; padding: 24px; }
+  .repo-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px; margin-bottom: 16px;
+    transition: border-color 0.15s;
+  }
+  .repo-card:hover { border-color: var(--accent); }
+  .rank {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2.2rem; font-weight: 800; color: var(--accent);
+    line-height: 1; margin-bottom: 6px;
+  }
+  .repo-name {
+    font-size: 1.1rem; font-weight: 700;
+    color: var(--text); text-decoration: none;
+  }
+  .repo-name:hover { color: var(--accent); }
+  .repo-meta {
+    display: flex; gap: 14px; margin-top: 6px;
+    font-size: 0.8rem; color: var(--muted); align-items: center; flex-wrap: wrap;
+  }
+  .lang { display: flex; align-items: center; gap: 4px; }
+  .lang-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .stars { color: #f1c40f; }
+  .weekly { color: #2ecc71; font-weight: 600; }
+  .repo-desc { margin: 10px 0 0; font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
+  .summary-block { margin-top: 14px; }
+  .summary-block details {}
+  .summary-block summary {
+    cursor: pointer; font-weight: 600; font-size: 0.9rem;
+    list-style: none; padding: 8px 0; display: flex; align-items: flex-start; gap: 6px;
+  }
+  .summary-block summary::-webkit-details-marker { display: none; }
+  .summary-block summary::before { content: "▶"; color: var(--accent); font-size: 0.65rem; margin-top: 3px; flex-shrink: 0; }
+  .summary-block details[open] summary::before { content: "▼"; }
+  .summary-block ul { margin: 8px 0 8px 20px; font-size: 0.87rem; line-height: 1.75; }
+  .summary-block ul li { margin-bottom: 4px; }
+  .summary-block p { font-size: 0.87rem; line-height: 1.7; margin-top: 8px; color: var(--muted); }
+  .summary-block a { color: var(--accent); text-decoration: none; }
+  .summary-block a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<header>
+  <h1>⭐ GitHub <span>Top 10</span></h1>
+  <div class="header-right">
+    <span class="date-badge">11月22日 週間</span>
+    <a href="../index.html" class="back-link">← Archive</a>
+  </div>
+</header>
+<main>
+
+<div class="repo-card">
+  <div class="rank">#1</div>
+  <div class="repo-header">
+    <a href="https://github.com/backnotprop/plannotator" target="_blank" rel="noopener" class="repo-name">backnotprop/plannotator</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 14,178</span>
+      <span class="weekly">📈 3,396 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">The workspace to stay in the loop and on top of agents - shape, decide, plan, annotate, review code, share with team, and send all feedback to agents with one click.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#1 backnotprop/plannotator — AIエージェントと人間を繋ぐ協調ワークスペース</strong>
+  <ul>
+    <li>何ができるか：AIエージェントの作業計画策定、コードレビュー、注釈付け、チーム共有、ワンクリックでの指示伝達</li>
+    <li>なぜ注目：自律型エージェントに任せきりにせず、人間がレビュー・介入する「Human-in-the-loop」を直感的なUIで実現</li>
+    <li>活用ポイント：CursorやClaude等のコーディングAIとの連携ワークフローをチーム開発で安全かつ効率的に運用可能</li>
+  </ul>
+  <p>【詳細】エージェントが暴走したり意図しない実装を行ったりするのを防ぐため、計画段階から人間のフィードバックをシームレスに組み込めるワークスペースです。チームメンバー間でのレビュー共有にも対応し、AI駆動開発の品質管理と可視化を強力に後押しします。（124字）</p>
+  <p><a href="https://github.com/backnotprop/plannotator">⭐ GitHubで見る（総スター: 14,178 / 今週: 3,396 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#2</div>
+  <div class="repo-header">
+    <a href="https://github.com/google-labs-code/stitch-skills" target="_blank" rel="noopener" class="repo-name">google-labs-code/stitch-skills</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 11,459</span>
+      <span class="weekly">📈 2,431 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">A library of Agent Skills designed to work with the Stitch MCP server. Each skill follows the Agent Skills open standard, for compatibility with coding agents such as Antigravity, Gemini CLI, Claude Code, Cursor.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#2 google-labs-code/stitch-skills — Google発のMCP対応AIエージェントスキル集</strong>
+  <ul>
+    <li>何ができるか：Stitch MCPサーバー経由で各種AIエージェント（Cursor、Claude Code等）に拡張機能を付与</li>
+    <li>なぜ注目：Agent Skillsのオープン標準に準拠し、Google公式の多彩なコーディングツール群をプラグイン化</li>
+    <li>活用ポイント：開発環境のMCP設定に追加するだけで、複数エージェントを横断した共通スキルセットを容易に構築可能</li>
+  </ul>
+  <p>【詳細】Google Labsが公開したAgent Skills準拠の拡張ライブラリです。Stitch MCPサーバーと連携し、Claude CodeやGemini CLI、Cursorなどのコーディングエージェントへ統一されたインターフェースで高度な機能を追加できます。（122字）</p>
+  <p><a href="https://github.com/google-labs-code/stitch-skills">⭐ GitHubで見る（総スター: 11,459 / 今週: 2,431 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#3</div>
+  <div class="repo-header">
+    <a href="https://github.com/GoogleChrome/modern-web-guidance-src" target="_blank" rel="noopener" class="repo-name">GoogleChrome/modern-web-guidance-src</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 9,911</span>
+      <span class="weekly">📈 4,400 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Keep your coding agent up to date with the latest web best practices</p>
+  <div class="summary-block"><details>
+  <summary><strong>#3 GoogleChrome/modern-web-guidance-src — AIに最新Web標準を学ばせるChrome公式指針</strong>
+  <ul>
+    <li>何ができるか：コーディングAIエージェントへ最新のモダンWeb標準・ベストプラクティスをプロンプト等で注入</li>
+    <li>なぜ注目：Google Chromeチーム公式による、陳腐化しがちなLLMのWeb知識を常に最新に保つためのナレッジソース</li>
+    <li>活用ポイント：CursorやLLMのシステムプロンプト・ルールファイルに組み込み、古い記法や非推奨APIの生成を防止</li>
+  </ul>
+  <p>【詳細】学習データに含まれる古いWeb記法をAIが出力する課題を解決するため、Google Chromeチームが策定した最新のWebガイダンスです。パフォーマンス、アクセシビリティ、最新CSS/JS仕様の知識をエージェントに直接同期できます。（123字）</p>
+  <p><a href="https://github.com/GoogleChrome/modern-web-guidance-src">⭐ GitHubで見る（総スター: 9,911 / 今週: 4,400 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#4</div>
+  <div class="repo-header">
+    <a href="https://github.com/alibaba/open-code-review" target="_blank" rel="noopener" class="repo-name">alibaba/open-code-review</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#00ADD8"></span>Go</span>
+      <span class="stars">⭐ 55,123</span>
+      <span class="weekly">📈 4,032 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Secure, fast, efficient, battle-tested at Alibaba's scale. Hybrid architecture code review tool: deterministic pipelines + LLM Agent, precise line-level comments, built-in multi-language ruleset (NPE, thread-safety, XSS, SQL injection), OpenAI & Anthropic compatible.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#4 alibaba/open-code-review — アリババ実績の静的解析×LLMコードレビュー基盤</strong>
+  <ul>
+    <li>何ができるか：確定型パイプラインとLLMエージェントを融合した高精度・高速な行単位コードレビューと脆弱性検知</li>
+    <li>なぜ注目：アリババの大規模環境で実証済み。NPE、スレッドセーフ、XSS、SQLi等の多言語ルールセットを標準内蔵</li>
+    <li>活用ポイント：CI/CDパイプラインに組み込むことで、レビュー負担の劇的削減とセキュリティ担保を自動化</li>
+  </ul>
+  <p>【詳細】従来の静的解析ルールによる確実な検知と、LLMによる文脈理解をハイブリッド構成で実現したコードレビューツールです。OpenAIやAnthropicモデルに対応し、誤検知を抑えつつ具体的な行単位の改善提案を自動出力します。（119字）</p>
+  <p><a href="https://github.com/alibaba/open-code-review">⭐ GitHubで見る（総スター: 55,123 / 今週: 4,032 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#5</div>
+  <div class="repo-header">
+    <a href="https://github.com/mvanhorn/last30days-skill" target="_blank" rel="noopener" class="repo-name">mvanhorn/last30days-skill</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+      <span class="stars">⭐ 72,022</span>
+      <span class="weekly">📈 4,198 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">AI agent skill that researches any topic across Reddit, X, YouTube, HN, Polymarket, and the web - then synthesizes a grounded summary</p>
+  <div class="summary-block"><details>
+  <summary><strong>#5 mvanhorn/last30days-skill — 直近30日のSNS・Web横断リサーチスキル</strong>
+  <ul>
+    <li>何ができるか：Reddit、X、YouTube、HN、Polymarket、Webから指定テーマの最新30日間情報を集約・要約</li>
+    <li>なぜ注目：複数プラットフォームのリアルタイムな一次情報を横断収集し、根拠に基づいた信頼性の高いまとめを自動生成</li>
+    <li>活用ポイント：トレンド調査、市場分析、競合リサーチ、副業ブログのネタ集めなどの情報収集業務を完全自動化</li>
+  </ul>
+  <p>【詳細】AIエージェントに「直近30日の動向」を瞬時に調査させるPython製スキルです。SNS上の生の声から予測市場まで多角的にデータを取得し、ハルシネーションを抑えたグラウンディング付きのサマリーを一括生成します。（113字）</p>
+  <p><a href="https://github.com/mvanhorn/last30days-skill">⭐ GitHubで見る（総スター: 72,022 / 今週: 4,198 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#6</div>
+  <div class="repo-header">
+    <a href="https://github.com/ChromeDevTools/chrome-devtools-mcp" target="_blank" rel="noopener" class="repo-name">ChromeDevTools/chrome-devtools-mcp</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 58,699</span>
+      <span class="weekly">📈 2,795 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Chrome DevTools for coding agents</p>
+  <div class="summary-block"><details>
+  <summary><strong>#6 ChromeDevTools/chrome-devtools-mcp — Chrome開発者ツールをAIが直接操作するMCP</strong>
+  <ul>
+    <li>何ができるか：AIコーディングエージェントにChrome DevToolsの制御・検査権限を付与し、ブラウザ内で直接デバッグ</li>
+    <li>なぜ注目：DevTools公式がMCPに対応。コンソールエラーの取得、ネットワーク監視、DOMツリー解析をAIが直接実行</li>
+    <li>活用ポイント：フロントエンド実装時の「動かして確認・修正」のサイクルをAIエージェントに完全自動委託可能</li>
+  </ul>
+  <p>【詳細】Chrome DevToolsをModel Context Protocol経由でエージェントに接続するツールです。AIがブラウザのランタイム状態やレンダリング結果を直接確認しながらコード修正を行えるため、UI開発のデバッグ精度が跳ね上がります。（124字）</p>
+  <p><a href="https://github.com/ChromeDevTools/chrome-devtools-mcp">⭐ GitHubで見る（総スター: 58,699 / 今週: 2,795 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#7</div>
+  <div class="repo-header">
+    <a href="https://github.com/tradermonty/claude-trading-skills" target="_blank" rel="noopener" class="repo-name">tradermonty/claude-trading-skills</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+      <span class="stars">⭐ 7,634</span>
+      <span class="weekly">📈 3,113 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Claude Code skills for equity investors and traders — market analysis, technical charting, economic calendars, screeners, and trading strategy development.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#7 tradermonty/claude-trading-skills — Claude Code専用の株式・投資トレードスキル集</strong>
+  <ul>
+    <li>何ができるか：市場データ分析、テクニカルチャート生成、経済指標カレンダー参照、銘柄スクリーニング、戦略立案</li>
+    <li>なぜ注目：Claude Codeに金融ドメイン特化のスキルを追加し、対話型で高度なクオンツ・市場分析環境を即座に構築</li>
+    <li>活用ポイント：株式投資や暗号資産運用のバックテスト、独自スクリーナーの自動化、日々の市況レポート作成に活用</li>
+  </ul>
+  <p>【詳細】株式投資家やトレーダー向けに設計されたClaude Code拡張機能群です。自然言語の指示でテクニカル指標の可視化やファンダメンタルズ分析を実行し、投資戦略の検証からポートフォリオ分析までをエージェント上で完結できます。（118字）</p>
+  <p><a href="https://github.com/tradermonty/claude-trading-skills">⭐ GitHubで見る（総スター: 7,634 / 今週: 3,113 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#8</div>
+  <div class="repo-header">
+    <a href="https://github.com/ag-ui-protocol/ag-ui" target="_blank" rel="noopener" class="repo-name">ag-ui-protocol/ag-ui</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 21,025</span>
+      <span class="weekly">📈 3,792 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">AG-UI: the Agent-User Interaction Protocol. Bring Agents into Frontend Applications.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#8 ag-ui-protocol/ag-ui — WebアプリにAIエージェントを組み込むUI規約</strong>
+  <ul>
+    <li>何ができるか：Webフロントエンド上でAIエージェントとユーザーが対話・協調動作するための標準プロトコルとUI基盤</li>
+    <li>なぜ注目：単なるチャットUIを超え、画面操作や状態変化を双方向で同期する「Agent-User Interaction」を標準化</li>
+    <li>活用ポイント：自社WebサービスやSaaSに自律型アシスタントUIを組み込み、高度なAIネイティブ機能を迅速実装</li>
+  </ul>
+  <p>【詳細】AIエージェントとユーザーがフロントエンド上でシームレスにインタラクションするための標準プロトコル（AG-UI）です。UIコンポーネントの操作権限や進行状態の可視化をスマートに扱い、次世代Webアプリの構築を支援します。（118字）</p>
+  <p><a href="https://github.com/ag-ui-protocol/ag-ui">⭐ GitHubで見る（総スター: 21,025 / 今週: 3,792 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#9</div>
+  <div class="repo-header">
+    <a href="https://github.com/meta/astryx" target="_blank" rel="noopener" class="repo-name">meta/astryx</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 31,821</span>
+      <span class="weekly">📈 3,967 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">An open source design system that's fully customizable and agent ready</p>
+  <div class="summary-block"><details>
+  <summary><strong>#9 meta/astryx — Meta発のAI親和性を備えた新デザインシステム</strong>
+  <ul>
+    <li>何ができるか：フルカスタマイズ可能なオープンソースデザインシステムの構築と、AIエージェントによるコード生成</li>
+    <li>なぜ注目：Metaが公開。「Agent-ready」を標榜し、AIがコンポーネント構造やトークンを正確に解釈・出力できるよう設計</li>
+    <li>活用ポイント：デザインシステムとコーディングAIを統合し、Figmaからの自動コンポーネント生成や保守を効率化</li>
+  </ul>
+  <p>【詳細】AIが理解しやすいセマンティクスと構造化メタデータを標準備えた、Metaによる新世代デザインシステムです。開発者自身の手による自由なテーマ設定と、AIエージェントによるUI自動実装の双方で高い生産性を発揮します。（114字）</p>
+  <p><a href="https://github.com/meta/astryx">⭐ GitHubで見る（総スター: 31,821 / 今週: 3,967 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#10</div>
+  <div class="repo-header">
+    <a href="https://github.com/pookjw/HermesEnabler" target="_blank" rel="noopener" class="repo-name">pookjw/HermesEnabler</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#888888"></span>Objective-C</span>
+      <span class="stars">⭐ 2,353</span>
+      <span class="weekly">📈 524 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Enable Hermès Watch Faces on any Apple Watch devices</p>
+  <div class="summary-block"><details>
+  <summary><strong>#10 pookjw/HermesEnabler — Apple Watchでエルメス文字盤を解放するツール</strong>
+  <ul>
+    <li>何ができるか：通常はHermèsモデル限定である専用文字盤を、標準のApple Watchデバイス上で利用可能にする</li>
+    <li>なぜ注目：watchOSの内部構成にアプローチし、ハードウェア制限をバイパスして限定ウォッチフェイスを有効化</li>
+    <li>活用ポイント：Apple Watch内部仕様のハック・研究、Objective-Cを用いたシステム設定変更の挙動学習</li>
+  </ul>
+  <p>【詳細】非Hermès版のApple Watchに対して、限定提供されているエルメス仕様のウォッチフェイスを強制有効化するオープンソースツールです。watchOS内部のフラグや設定構造を書き換えるアプローチが開発者コミュニティで話題を呼んでいます。（121字）</p>
+  <p><a href="https://github.com/pookjw/HermesEnabler">⭐ GitHubで見る（総スター: 2,353 / 今週: 524 stars this week）</a></p>
+</details></div>
+</div>
+</main>
+</body>
+</html>
