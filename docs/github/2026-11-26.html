@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GitHub Top 10 — 11月26日</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a; --surface: #141414; --border: #2a2a2a;
+    --text: #e8e8e8; --muted: #888; --accent: #ff4444;
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #f5f5f5; --surface: #fff; --border: #e0e0e0; --text: #111; --muted: #666; }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', system-ui, sans-serif; }
+  header {
+    border-bottom: 3px solid var(--accent); padding: 16px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  header h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em;
+  }
+  header h1 span { color: var(--accent); }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .date-badge {
+    font-size: 0.75rem; color: var(--muted);
+    padding: 4px 10px; border: 1px solid var(--border); border-radius: 4px;
+  }
+  .back-link { color: var(--muted); font-size: 0.85rem; text-decoration: none; }
+  .back-link:hover { color: var(--text); }
+  main { max-width: 800px; margin: 0 auto; padding: 24px; }
+  .repo-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px; margin-bottom: 16px;
+    transition: border-color 0.15s;
+  }
+  .repo-card:hover { border-color: var(--accent); }
+  .rank {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2.2rem; font-weight: 800; color: var(--accent);
+    line-height: 1; margin-bottom: 6px;
+  }
+  .repo-name {
+    font-size: 1.1rem; font-weight: 700;
+    color: var(--text); text-decoration: none;
+  }
+  .repo-name:hover { color: var(--accent); }
+  .repo-meta {
+    display: flex; gap: 14px; margin-top: 6px;
+    font-size: 0.8rem; color: var(--muted); align-items: center; flex-wrap: wrap;
+  }
+  .lang { display: flex; align-items: center; gap: 4px; }
+  .lang-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .stars { color: #f1c40f; }
+  .weekly { color: #2ecc71; font-weight: 600; }
+  .repo-desc { margin: 10px 0 0; font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
+  .summary-block { margin-top: 14px; }
+  .summary-block details {}
+  .summary-block summary {
+    cursor: pointer; font-weight: 600; font-size: 0.9rem;
+    list-style: none; padding: 8px 0; display: flex; align-items: flex-start; gap: 6px;
+  }
+  .summary-block summary::-webkit-details-marker { display: none; }
+  .summary-block summary::before { content: "▶"; color: var(--accent); font-size: 0.65rem; margin-top: 3px; flex-shrink: 0; }
+  .summary-block details[open] summary::before { content: "▼"; }
+  .summary-block ul { margin: 8px 0 8px 20px; font-size: 0.87rem; line-height: 1.75; }
+  .summary-block ul li { margin-bottom: 4px; }
+  .summary-block p { font-size: 0.87rem; line-height: 1.7; margin-top: 8px; color: var(--muted); }
+  .summary-block a { color: var(--accent); text-decoration: none; }
+  .summary-block a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<header>
+  <h1>⭐ GitHub <span>Top 10</span></h1>
+  <div class="header-right">
+    <span class="date-badge">11月26日 週間</span>
+    <a href="../index.html" class="back-link">← Archive</a>
+  </div>
+</header>
+<main>
+
+<div class="repo-card">
+  <div class="rank">#1</div>
+  <div class="repo-header">
+    <a href="https://github.com/backnotprop/plannotator" target="_blank" rel="noopener" class="repo-name">backnotprop/plannotator</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 15,108</span>
+      <span class="weekly">📈 1,764 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">The workspace to stay in the loop and on top of agents - shape, decide, plan, annotate, review code, share with team, and send all feedback to agents with one click.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#1 backnotprop/plannotator — AIとの協調・計画・指示を一元管理する開発基盤</strong>
+  <ul>
+    <li>何ができるか：AIエージェントへの指示計画、コードレビュー、修正フィードバックの一括送信</li>
+    <li>なぜ注目：人間がエージェントの手綱を握りつつ効率的に共同作業できるワークスペース設計</li>
+    <li>活用ポイント：自律エージェントの暴走を防ぐタスク管理やチームレビューの自動化</li>
+  </ul>
+  <p>【詳細】AIエージェントの自律稼働が進む中、人間の意図から外れた実装を防ぐための協調ワークスペースです。仕様の策定からコード差分へのインラインコメント、タスク再指示までをワンクリックで実行可能。チーム内でのレビュー共有にも対応し、AIとの共同開発プロセスを整理・可視化します。</p>
+  <p><a href="https://github.com/backnotprop/plannotator">⭐ GitHubで見る（総スター: 15,108 / 今週: 1,764 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#2</div>
+  <div class="repo-header">
+    <a href="https://github.com/google-labs-code/stitch-skills" target="_blank" rel="noopener" class="repo-name">google-labs-code/stitch-skills</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 13,022</span>
+      <span class="weekly">📈 2,616 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">A library of Agent Skills designed to work with the Stitch MCP server. Each skill follows the Agent Skills open standard, for compatibility with coding agents such as Antigravity, Gemini CLI, Claude Code, Cursor.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#2 google-labs-code/stitch-skills — Stitch MCP対応の標準エージェントスキル群</strong>
+  <ul>
+    <li>何ができるか：CursorやClaude Code等に導入できる拡張機能・スキルの提供</li>
+    <li>なぜ注目：Google Labs主導のオープン標準仕様に準拠したスキルライブラリ</li>
+    <li>活用ポイント：開発エージェントの機能拡張や独自MCPサーバー構築のテンプレート</li>
+  </ul>
+  <p>【詳細】Google Labsが主導するStitch MCPサーバー向けの拡張スキルライブラリです。Agent Skillsオープン標準に準拠しており、Claude CodeやCursorなど主要コーディングエージェントに横断的にツール群を供給可能。エージェントエコシステムの共通基盤として急注目されています。</p>
+  <p><a href="https://github.com/google-labs-code/stitch-skills">⭐ GitHubで見る（総スター: 13,022 / 今週: 2,616 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#3</div>
+  <div class="repo-header">
+    <a href="https://github.com/GoogleChrome/modern-web-guidance-src" target="_blank" rel="noopener" class="repo-name">GoogleChrome/modern-web-guidance-src</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 11,083</span>
+      <span class="weekly">📈 2,309 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Keep your coding agent up to date with the latest web best practices</p>
+  <div class="summary-block"><details>
+  <summary><strong>#3 GoogleChrome/modern-web-guidance-src — AIに最新Web標準を授けるChrome公式指針</strong>
+  <ul>
+    <li>何ができるか：コーディングエージェントに最新のWeb標準や実装規範をインプット</li>
+    <li>なぜ注目：LLMが学習しきれていない最新WebプラクティスをGoogle公式が体系化</li>
+    <li>活用ポイント：プロンプトやシステム仕様書へ組み込み、高品質なフロントコードを自動生成</li>
+  </ul>
+  <p>【詳細】Google Chromeチームが公式提供する、AIコーディング支援ツール向けの最新Web標準ガイドライン集です。LLMが古いAPIや非推奨パターンを提案する課題を解消し、Core Web Vitalsや最新Web APIに基づいた高品質なフロントエンド実装を自動で定着させることができます。</p>
+  <p><a href="https://github.com/GoogleChrome/modern-web-guidance-src">⭐ GitHubで見る（総スター: 11,083 / 今週: 2,309 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#4</div>
+  <div class="repo-header">
+    <a href="https://github.com/n8n-io/nod" target="_blank" rel="noopener" class="repo-name">n8n-io/nod</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 3,609</span>
+      <span class="weekly">📈 1,008 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Open source personal agent with its own computer. It chases invoices, preps your calls and cancels trials on real websites, and asks before it acts. Runs on your machine with the model you choose. By n8n.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#4 n8n-io/nod — 実ブラウザ操作で請求回収も代行する自律AI</strong>
+  <ul>
+    <li>何ができるか：請求書催促、試用プラン解約、アポ準備などの実Web操作の自動代行</li>
+    <li>なぜ注目：n8n発、ローカルで自由なモデルを選択でき重要操作前に確認を挟む安全設計</li>
+    <li>活用ポイント：日々の煩雑なバックオフィス業務や個人タスクの完全自律化</li>
+  </ul>
+  <p>【詳細】n8n発のオープンソース個人用エージェント。独自環境上でブラウザを実際に操作し、未払い請求書の催促やサブスク解約、会議準備などの煩雑な日常タスクを代行します。実行前に人間へ確認を求める安全設計で、好みのLLMモデルをローカルやクラウドから接続して安全に利用可能です。</p>
+  <p><a href="https://github.com/n8n-io/nod">⭐ GitHubで見る（総スター: 3,609 / 今週: 1,008 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#5</div>
+  <div class="repo-header">
+    <a href="https://github.com/alibaba/open-code-review" target="_blank" rel="noopener" class="repo-name">alibaba/open-code-review</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#00ADD8"></span>Go</span>
+      <span class="stars">⭐ 56,408</span>
+      <span class="weekly">📈 2,259 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Secure, fast, efficient, battle-tested at Alibaba's scale. Hybrid architecture code review tool: deterministic pipelines + LLM Agent, precise line-level comments, built-in multi-language ruleset (NPE, thread-safety, XSS, SQL injection), OpenAI & Anthropic compatible.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#5 alibaba/open-code-review — アリババ実績の大規模ハイブリッド自動レビュー</strong>
+  <ul>
+    <li>何ができるか：静的解析とLLMを組み合わせた行単位の精密なコードレビュー</li>
+    <li>なぜ注目：NPEやXSS、SQLiなどの決定論的検知と文脈理解を高速・安全に両立</li>
+    <li>活用ポイント：CI/CDに組み込み、セキュリティ担保と開発者のレビュー工数削減</li>
+  </ul>
+  <p>【詳細】Alibabaの大規模実稼働環境で鍛え上げられたハイブリッド型コードレビュー基盤です。静的解析によるNullポインタやSQLi・XSSなどの確定的ルール検出と、LLMエージェントによる文脈を汲んだ行単位の的確な指摘を両立。CI/CDへの統合でレビュー工数を大幅に圧縮します。</p>
+  <p><a href="https://github.com/alibaba/open-code-review">⭐ GitHubで見る（総スター: 56,408 / 今週: 2,259 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#6</div>
+  <div class="repo-header">
+    <a href="https://github.com/mvanhorn/last30days-skill" target="_blank" rel="noopener" class="repo-name">mvanhorn/last30days-skill</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+      <span class="stars">⭐ 75,209</span>
+      <span class="weekly">📈 5,302 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">AI agent skill that researches any topic across Reddit, X, YouTube, HN, Polymarket, and the web - then synthesizes a grounded summary</p>
+  <div class="summary-block"><details>
+  <summary><strong>#6 mvanhorn/last30days-skill — SNS・Webから直近30日の動向をAI要約</strong>
+  <ul>
+    <li>何ができるか：X、Reddit、YouTube、HN、Polymarket横断の直近動向リサーチ</li>
+    <li>なぜ注目：予測市場や複数SNSの一次ソースに基づき根拠のある要約を生成</li>
+    <li>活用ポイント：新技術の市場反応調査、副業での競合分析やコンテンツネタ収集の自動化</li>
+  </ul>
+  <p>【詳細】Reddit、X、YouTube、HN、Polymarket、Web全体を横断検索し、直近1ヶ月のトレンドや議論を多角的に分析・要約するスキルです。各プラットフォームの生の声や予測市場のデータを根拠（グラウンディング）として統合するため、偏りのない一次情報ベースの市場調査を即座に行えます。</p>
+  <p><a href="https://github.com/mvanhorn/last30days-skill">⭐ GitHubで見る（総スター: 75,209 / 今週: 5,302 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#7</div>
+  <div class="repo-header">
+    <a href="https://github.com/ChromeDevTools/chrome-devtools-mcp" target="_blank" rel="noopener" class="repo-name">ChromeDevTools/chrome-devtools-mcp</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 59,381</span>
+      <span class="weekly">📈 1,203 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Chrome DevTools for coding agents</p>
+  <div class="summary-block"><details>
+  <summary><strong>#7 ChromeDevTools/chrome-devtools-mcp — AIがChrome DevToolsを直接操作できるMCP</strong>
+  <ul>
+    <li>何ができるか：エージェントによるコンソール監視、DOM走査、ネットワーク分析</li>
+    <li>なぜ注目：Chrome公式開発。LLMがブラウザ内部状態を直接診断・操作可能</li>
+    <li>活用ポイント：E2Eテストの自律修復やWebデバッグ・UI不具合調査の完全自動化</li>
+  </ul>
+  <p>【詳細】Google公式のChrome DevTools用MCPサーバーです。コーディングエージェントがブラウザのコンソールログ、DOM構造、ネットワーク要求、パフォーマンスプロファイルを直接取得・制御できます。Webアプリのバグ再現から修正、検証までの自律ループを大幅に加速させます。</p>
+  <p><a href="https://github.com/ChromeDevTools/chrome-devtools-mcp">⭐ GitHubで見る（総スター: 59,381 / 今週: 1,203 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#8</div>
+  <div class="repo-header">
+    <a href="https://github.com/tradermonty/claude-trading-skills" target="_blank" rel="noopener" class="repo-name">tradermonty/claude-trading-skills</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+      <span class="stars">⭐ 8,476</span>
+      <span class="weekly">📈 1,422 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">Claude Code skills for equity investors and traders — market analysis, technical charting, economic calendars, screeners, and trading strategy development.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#8 tradermonty/claude-trading-skills — Claude Code用株式投資・トレード分析集</strong>
+  <ul>
+    <li>何ができるか：株式スクリーニング、テクニカル分析、経済指標確認、戦略バックテスト</li>
+    <li>なぜ注目：Claude Codeの対話型環境で直接クエリ・描画・検証ができる特化型スキル群</li>
+    <li>活用ポイント：個人投資分析の自動化、アルゴリズム取引のアイデア検証やスクリプト開発</li>
+  </ul>
+  <p>【詳細】Claude Codeを金融トレーダーのアシスタントへと拡張するスキル集。株価データの取得、テクニカル指標の可視化、経済指標カレンダーの照会、スクリーニング、売買戦略のバックテストなどを自然言語指示で実行可能です。個人投資家の調査自動化や戦略検証を強力に支援します。</p>
+  <p><a href="https://github.com/tradermonty/claude-trading-skills">⭐ GitHubで見る（総スター: 8,476 / 今週: 1,422 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#9</div>
+  <div class="repo-header">
+    <a href="https://github.com/ag-ui-protocol/ag-ui" target="_blank" rel="noopener" class="repo-name">ag-ui-protocol/ag-ui</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 21,746</span>
+      <span class="weekly">📈 1,421 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">AG-UI: the Agent-User Interaction Protocol. Bring Agents into Frontend Applications.</p>
+  <div class="summary-block"><details>
+  <summary><strong>#9 ag-ui-protocol/ag-ui — エージェントとUIをシームレスにつなぐ新通信規格</strong>
+  <ul>
+    <li>何ができるか：Webフロントエンドと自律エージェント間の状態同期と対話制御</li>
+    <li>なぜ注目：従来の単なるチャットUIを超えた次世代Agentic UIを構築するためのプロトコル</li>
+    <li>活用ポイント：自社Webサービスへのエージェント機能組込みや双方向AIインターフェース開発</li>
+  </ul>
+  <p>【詳細】フロントエンドアプリとAIエージェント間の対話・状態共有を標準化するオープンプロトコルです。エージェントのアクションを直感的なUIコンポーネントとしてリアルタイムレンダリングでき、チャットUIにとどまらない高度なAgentic UIアプリケーションを容易に構築できます。</p>
+  <p><a href="https://github.com/ag-ui-protocol/ag-ui">⭐ GitHubで見る（総スター: 21,746 / 今週: 1,421 stars this week）</a></p>
+</details></div>
+</div>
+<div class="repo-card">
+  <div class="rank">#10</div>
+  <div class="repo-header">
+    <a href="https://github.com/meta/astryx" target="_blank" rel="noopener" class="repo-name">meta/astryx</a>
+    <div class="repo-meta">
+      <span class="lang"><span class="lang-dot" style="background:#2b7489"></span>TypeScript</span>
+      <span class="stars">⭐ 33,169</span>
+      <span class="weekly">📈 2,635 stars this week</span>
+    </div>
+  </div>
+  <p class="repo-desc">An open source design system that's fully customizable and agent ready</p>
+  <div class="summary-block"><details>
+  <summary><strong>#10 meta/astryx — AIエージェント連携を前提に設計されたUI基盤</strong>
+  <ul>
+    <li>何ができるか：フルカスタマイズ可能なデザインシステムとコンポーネントの実装</li>
+    <li>なぜ注目：Metaが公開。AIエージェントがコンポーネントを正確に解釈・操作可能</li>
+    <li>活用ポイント：デザインと実装の整合性自動チェック、AIによるUI自動構築の精度向上</li>
+  </ul>
+  <p>【詳細】Metaが公開した、次世代UI開発のためのオープンソースデザインシステムです。高いカスタマイズ性に加え「Agent Ready」を掲げており、AIエージェントがコンポーネント構造やデザイン定義を正確に解釈・コード生成できるようメタデータが最適化されている点が特徴です。</p>
+  <p><a href="https://github.com/meta/astryx">⭐ GitHubで見る（総スター: 33,169 / 今週: 2,635 stars this week）</a></p>
+</details></div>
+</div>
+</main>
+</body>
+</html>
